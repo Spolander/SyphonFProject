@@ -46,9 +46,17 @@ public class IKController : MonoBehaviour {
     [SerializeField]
     private float baseAimingHeight = 1;
 
+    [SerializeField]
+    private float closeAimingHeight = 1.7f;
+
+    private float closeAimingDistance = 4;
+
+    private float currentAimingHeight;
+
     Camera mainCam;
     private void Start()
     {
+        currentAimingHeight = baseAimingHeight;
         mainCam = Camera.main;
         anim = GetComponent<Animator>();
         chest = anim.GetBoneTransform(HumanBodyBones.Chest);
@@ -87,7 +95,7 @@ public class IKController : MonoBehaviour {
                 lookPoint = target.position;
                 float y = lookPoint.y;
 
-                lookPoint = transform.position + (lookPoint - transform.position).normalized * aimingDistance*Mathf.Lerp(0.6f, 2, Mathf.Abs(anim.GetFloat("Forward")));
+                lookPoint = transform.position + (lookPoint - transform.position).normalized *Mathf.Lerp(aimingDistance, 2, -anim.GetFloat("Forward"));
                 lookPoint.y = y;
                 currentLookAtWeight = Mathf.MoveTowards(currentLookAtWeight, lookAtWeight, Time.deltaTime*3);
 
@@ -110,7 +118,16 @@ public class IKController : MonoBehaviour {
             anim.SetIKPosition(AvatarIKGoal.LeftHand, lookPoint + mainCam.transform.right * -aimingSpread);
             anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, currentLookAtWeight*handPositionWeight);
 
-            Quaternion look = Quaternion.LookRotation(aimingPoint-transform.TransformPoint(0,baseAimingHeight,0));
+            if (Vector3.Distance(transform.position, aimingPoint) < closeAimingDistance)
+            {
+                currentAimingHeight = Mathf.MoveTowards(currentAimingHeight, closeAimingHeight, Time.deltaTime * 5);
+            }
+            else
+            {
+                currentAimingHeight = Mathf.MoveTowards(currentAimingHeight, baseAimingHeight, Time.deltaTime * 5);
+            }
+
+            Quaternion look = Quaternion.LookRotation(aimingPoint-transform.TransformPoint(0,currentAimingHeight,0));
             anim.SetIKRotation(AvatarIKGoal.RightHand, look*Quaternion.AngleAxis(-90,Vector3.forward));
             anim.SetIKRotationWeight(AvatarIKGoal.RightHand, currentLookAtWeight);
 
@@ -119,6 +136,8 @@ public class IKController : MonoBehaviour {
 
             anim.SetIKHintPosition(AvatarIKHint.RightElbow, transform.TransformPoint(hintPosition.x, hintPosition.y, 0));
             anim.SetIKHintPositionWeight(AvatarIKHint.RightElbow, currentLookAtWeight);
+
+           
         }
         
     }

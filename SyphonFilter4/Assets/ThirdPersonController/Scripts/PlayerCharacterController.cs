@@ -30,6 +30,10 @@ public class PlayerCharacterController : MonoBehaviour {
 
     IKController ikc;
 
+
+    Vector3 groundNormal = Vector3.up;
+
+    private bool isJumping = false;
 	// Use this for initialization
 	void Start () {
         ikc = GetComponent<IKController>();
@@ -43,6 +47,15 @@ public class PlayerCharacterController : MonoBehaviour {
 
         if (canControl)
             Move();
+
+        if (controller.isGrounded)
+        {
+            gravity = 1;
+        }
+        else if(isJumping == false)
+        {
+            gravity = Mathf.MoveTowards(gravity, gravityTarget, Time.deltaTime * 10);
+        }
 	}
 
     private void Move()
@@ -53,11 +66,15 @@ public class PlayerCharacterController : MonoBehaviour {
         camForward.Normalize();
 
         moveVector = mainCam.transform.right * inputVector.x + camForward * inputVector.y;
-        moveVector.y = gravity;
+        moveVector.y = 0f;
 
-       
-            anim.SetFloat("Forward", transform.InverseTransformDirection(moveVector).z, 0.05f, Time.deltaTime);
-            anim.SetFloat("Horizontal", transform.InverseTransformDirection(moveVector).x);
+        anim.SetFloat("Forward", transform.InverseTransformDirection(moveVector).z, 0.05f, Time.deltaTime);
+        anim.SetFloat("Horizontal", transform.InverseTransformDirection(moveVector).x);
+
+        if (moveVector.magnitude > 1)
+            moveVector.Normalize();
+
+         
 
        
         if (inputVector.magnitude > 0.1f)
@@ -84,16 +101,32 @@ public class PlayerCharacterController : MonoBehaviour {
 
         }
 
-        Vector3 v = moveVector*Time.deltaTime*moveSpeed;
-        v.y = gravity * Time.deltaTime;
+        Vector3 v = moveVector * moveSpeed;
 
-        controller.Move(v);
+        if(inputVector.magnitude > 0.1f)
+        {
+            v = Vector3.ProjectOnPlane(v, groundNormal);
+            v = v.normalized * moveVector.magnitude*moveSpeed;
+        }
+
+        Debug.DrawRay(transform.TransformPoint(0, 1, 0), v,Color.red);
+        v.y = gravity * -1;
+
+        controller.Move(v*Time.deltaTime);
+
+       
 
     }
 
     private void OnAnimatorMove()
     {
-        Vector3 v = anim.deltaPosition;
-      
+        
+    }
+
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.normal.y > 0.7f)
+            groundNormal = hit.normal;
     }
 }
