@@ -18,8 +18,10 @@ public class PlayerCharacterController : MonoBehaviour {
 
  
 
-    float gravityTarget = 20;
+    float gravityTarget = 30;
     float gravity = 0;
+    [SerializeField]
+    private float gravityAcceleration = 30;
 
     bool canControl = true;
 
@@ -34,6 +36,20 @@ public class PlayerCharacterController : MonoBehaviour {
     Vector3 groundNormal = Vector3.up;
 
     private bool isJumping = false;
+
+    [SerializeField]
+    private LayerMask whatIsGround;
+
+
+    [SerializeField]
+    private float jumpingForce = 20;
+
+    [SerializeField]
+    private float jumpingDuration = 0.2f;
+ 
+
+
+    private float lastJumpTime;
 	// Use this for initialization
 	void Start () {
         ikc = GetComponent<IKController>();
@@ -44,22 +60,48 @@ public class PlayerCharacterController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        if (Time.time > lastJumpTime + 0.2f)
+        anim.SetBool("grounded", controller.isGrounded);
         if (canControl)
             Move();
 
-        if (controller.isGrounded)
+
+        if (isJumping)
         {
-            gravity = 1;
+            gravity = -jumpingForce;
         }
-        else if(isJumping == false)
+        else
         {
-            gravity = Mathf.MoveTowards(gravity, gravityTarget, Time.deltaTime * 10);
+            if (controller.isGrounded)
+            {
+                gravity = 1;
+
+                if (isJumping == false && Input.GetKeyDown(KeyCode.Space))
+                    StartCoroutine(jumpingAnimation());
+            }
+            else if (isJumping == false)
+            {
+                gravity = Mathf.MoveTowards(gravity, gravityTarget, Time.deltaTime * gravityAcceleration);
+            }
         }
+       
+       
 	}
+
+    IEnumerator jumpingAnimation()
+    {
+        lastJumpTime = Time.time;
+        anim.SetBool("grounded", false);
+        isJumping = true;
+        anim.CrossFadeInFixedTime("jump", 0.1f);
+        yield return new WaitForSeconds(jumpingDuration);
+        isJumping = false;
+    }
 
     private void Move()
     {
+        groundNormal = getGroundNormal();
+
         Vector2 inputVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         Vector3 camForward = mainCam.transform.forward;
         camForward.y = 0;
@@ -124,9 +166,20 @@ public class PlayerCharacterController : MonoBehaviour {
     }
 
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+   
+
+    Vector3 getGroundNormal()
     {
-        if (hit.normal.y > 0.7f)
-            groundNormal = hit.normal;
+        RaycastHit hit;
+
+        Ray ray = new Ray(transform.TransformPoint(0f, 0.1f, 0f), Vector3.down);
+
+        if (Physics.Raycast(ray, out hit, 0.5f, whatIsGround))
+        {
+            if(hit.normal.y > 0.7f)
+            return hit.normal;
+        }
+
+        return Vector3.up;
     }
 }
