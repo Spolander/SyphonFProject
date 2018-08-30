@@ -50,6 +50,8 @@ public class PlayerCharacterController : MonoBehaviour {
 
 
     private float lastJumpTime;
+
+    public static PlayerCharacterController player;
 	// Use this for initialization
 	void Start () {
         ikc = GetComponent<IKController>();
@@ -57,9 +59,12 @@ public class PlayerCharacterController : MonoBehaviour {
         controller = GetComponent<CharacterController>();
         mainCam = Camera.main;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+    private void Awake()
+    {
+        player = this;
+    }
+    // Update is called once per frame
+    void Update () {
         if (Time.time > lastJumpTime + 0.2f)
         anim.SetBool("grounded", controller.isGrounded);
         if (canControl)
@@ -121,7 +126,7 @@ public class PlayerCharacterController : MonoBehaviour {
        
         if (inputVector.magnitude > 0.1f)
         {
-            if (ikc.Target == null)
+            if (ikc.LockedOn == false)
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Vector3.Scale(new Vector3(1, 0, 1), moveVector)), Time.deltaTime * rotateSpeed);
             else
             {
@@ -133,7 +138,7 @@ public class PlayerCharacterController : MonoBehaviour {
         }
         else
         {
-            if (ikc.Target)
+            if (ikc.LockedOn)
             {
                 Vector3 dir = ikc.Target.position - transform.position;
                 dir.y = 0;

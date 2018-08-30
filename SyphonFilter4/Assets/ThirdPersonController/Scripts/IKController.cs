@@ -7,12 +7,13 @@ public class IKController : MonoBehaviour {
     Transform target;
     public Transform Target { set { target = value; } get { return target; } }
 
-
+    //point for the IK look position
     Vector3 lookPoint;
 
 
     Animator anim;
 
+    //multiplier 0-1 for the ik weights
     [SerializeField]
     float lookAtWeight = 1;
 
@@ -28,11 +29,11 @@ public class IKController : MonoBehaviour {
     [SerializeField]
     private float clampWeight = 1;
 
+
+    //look at weight that is moved between 0 and lookAtWeight for smooth lookat transitioning
     private float currentLookAtWeight = 0;
-    public Transform testTarget;
 
-    Transform chest;
-
+    //how far the hands reach from the player towards the aiming target
     [SerializeField]
     private float aimingDistance = 0.6f;
 
@@ -43,67 +44,62 @@ public class IKController : MonoBehaviour {
     [SerializeField]
     private float aimingSpread = 0.39f;
 
+
     [SerializeField]
     private float baseAimingHeight = 1;
+
+    [SerializeField]
+    private float lookAtPointYOffset = 1.5f;
 
     [SerializeField]
     private float closeAimingHeight = 1.7f;
 
     private float closeAimingDistance = 4;
 
+
+    //aiming height for smoothing aiming height between close and far
     private float currentAimingHeight;
 
+    bool shooting = false;
+    public bool Shooting { set { shooting = value; } get { return shooting; } }
+
+    bool lockedOn = false;
+    public bool LockedOn { get { return lockedOn; }set { lockedOn = value; } }
     Camera mainCam;
     private void Start()
     {
         currentAimingHeight = baseAimingHeight;
         mainCam = Camera.main;
         anim = GetComponent<Animator>();
-        chest = anim.GetBoneTransform(HumanBodyBones.Chest);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            if (target)
-            {
-                target = null;
-                anim.SetBool("lockon", false);
-                CameraFollow.playerCam.RotationAngleY = mainCam.transform.eulerAngles.y-180;
-                CameraFollow.playerCam.LockOnTarget = null;
-            }
-               
-            else
-            {
-                anim.SetBool("lockon", true);
-                target = testTarget;
-                CameraFollow.playerCam.LockOnTarget = target;
-            }
-              
-        }
-    }
     private void OnAnimatorIK(int layerIndex)
     {
-
+        //default aiming point is the player forward direction
         Vector3 aimingPoint = transform.TransformPoint(0f, 2, 10);
+
         if (layerIndex == 1)
         {
             if (target)
             {
-                aimingPoint = target.position;
+                aimingPoint = target.position+Vector3.up*lookAtPointYOffset;
                 lookPoint = target.position;
                 float y = lookPoint.y;
 
-                lookPoint = transform.position + (lookPoint - transform.position).normalized *Mathf.Lerp(aimingDistance, 2, -anim.GetFloat("Forward"));
+                lookPoint = Vector3.MoveTowards(lookPoint, transform.position + (lookPoint - transform.position).normalized * Mathf.Lerp(aimingDistance, 2, -anim.GetFloat("Forward")), Time.deltaTime * 35);
                 lookPoint.y = y;
-                currentLookAtWeight = Mathf.MoveTowards(currentLookAtWeight, lookAtWeight, Time.deltaTime*3);
+                currentLookAtWeight = Mathf.MoveTowards(currentLookAtWeight, lookAtWeight, Time.deltaTime * 3);
 
+            }
+            else if (shooting)
+            {
+                currentLookAtWeight = Mathf.MoveTowards(currentLookAtWeight, lookAtWeight, Time.deltaTime * 5);
+                lookPoint = Vector3.MoveTowards(lookPoint, transform.TransformPoint(0f, 2, 10), Time.deltaTime*50);
             }
             else
             {
                 currentLookAtWeight = Mathf.MoveTowards(currentLookAtWeight, 0, Time.deltaTime * 5);
-                lookPoint = transform.TransformPoint(0f, 2, 10);
+                lookPoint = Vector3.MoveTowards(lookPoint, transform.TransformPoint(0f, 2, 10), Time.deltaTime*50);
             }
                
 
@@ -142,10 +138,7 @@ public class IKController : MonoBehaviour {
         
     }
 
-    private void LateUpdate()
-    {
-      //  chest.transform.eulerAngles = new Vector3(chest.transform.eulerAngles.x, ClampAngle(chest.transform.eulerAngles.y, transform.eulerAngles.y-90, transform.eulerAngles.y+90f), chest.transform.eulerAngles.z);
-    }
+  
 
 
 }
