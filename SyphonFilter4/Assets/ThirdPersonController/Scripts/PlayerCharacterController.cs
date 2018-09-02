@@ -167,8 +167,12 @@ public class PlayerCharacterController : MonoBehaviour {
       
             if (slopeNormal.y <= 0.7f)
             {
-                v = -Vector3.up * gravity;
+                v.y = gravity*-1;
                 v = Vector3.ProjectOnPlane(v, -slopeNormal);
+
+                if(moveVector.magnitude > 0.15)
+                v = v.normalized * moveVector.magnitude * moveSpeed;
+            
             }
             else
             {
