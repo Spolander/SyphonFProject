@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour {
     private Transform lockOntarget;
     public Transform LockOnTarget { get { return lockOntarget; } set { lockOntarget = value; } }
 
-    public Transform player;
+    private Transform player;
 
     public float defaultDistance;
     public float lockOnDistance;
@@ -35,6 +35,10 @@ public class CameraFollow : MonoBehaviour {
     {
         playerCam = this;
         rotationAngleY = transform.eulerAngles.y;
+    }
+    private void Start()
+    {
+        player = PlayerCharacterController.player.transform;
     }
     // Update is called once per frame
     void LateUpdate () {
