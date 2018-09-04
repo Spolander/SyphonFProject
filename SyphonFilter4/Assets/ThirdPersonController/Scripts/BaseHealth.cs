@@ -19,6 +19,7 @@ public class BaseHealth : MonoBehaviour {
 
     public void takeDamage(int amount) {
         Health = Health - amount;
+        Debug.Log(Health);
         if (Health <= 0)
         {
             death();
