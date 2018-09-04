@@ -790,6 +790,10 @@ Prefab:
       propertyPath: EnemyLayerMask.m_Bits
       value: 4294966783
       objectReference: {fileID: 0}
+    - target: {fileID: 1361015852339538, guid: ecc34089c19a0cc419b737dcea6ade7d, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 64448988019810306, guid: ecc34089c19a0cc419b737dcea6ade7d, type: 2}
     - {fileID: 64825136908418022, guid: ecc34089c19a0cc419b737dcea6ade7d, type: 2}
