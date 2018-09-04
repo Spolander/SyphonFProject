@@ -8,6 +8,18 @@ public class playerCombat : MonoBehaviour {
     Animator anim;
     Camera mainCam;
 
+    BaseHealth EnemyHealth;             // damage testiä varten
+    int damage = 50;                    // damage testiä varten
+    RaycastHit ShootRaycastHit;
+    [SerializeField]
+    float GunFireRate =0.5f;
+    bool damageDone = false;
+    float damageTimer=0;
+
+    [SerializeField]
+    LayerMask EnemyLayerMask = 10;
+   
+
     [SerializeField]
     private float maxFreeAimShootingAngle = 60f;
 
@@ -22,7 +34,6 @@ public class playerCombat : MonoBehaviour {
 
 
     float lastFreeAimScan;
-
     float freeAimScanInterval = 0.2f;
 
     [SerializeField]
@@ -36,10 +47,20 @@ public class playerCombat : MonoBehaviour {
         mainCam = Camera.main;
         anim = GetComponent<Animator>();
         ikc = GetComponent<IKController>();
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (damageDone == true)
+        {
+            damageTimer += Time.deltaTime;
+        }
+        if (damageTimer > GunFireRate && damageDone == true)
+        {
+            damageDone = false;
+        }
+
 
         if (canControl == false)
             return;
@@ -68,6 +89,23 @@ public class playerCombat : MonoBehaviour {
             if (ikc.LockedOn)
             {
                 //shoot towards target
+                
+                if (Physics.Raycast(transform.TransformPoint(0f,1.5f,0f), ikc.Target.transform.TransformPoint(0f,1.5f,0f)- transform.TransformPoint(0f, 1.5f, 0f), out ShootRaycastHit, maxShootingDistance,EnemyLayerMask))
+                {
+                    if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
+                    {
+                        Debug.DrawRay(transform.TransformPoint(0f, 1.5f, 0f), ikc.Target.transform.TransformPoint(0f, 1.5f, 0f) - transform.TransformPoint(0f, 1.5f, 0f) * ShootRaycastHit.distance, Color.red);
+                        EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
+                        if (damageDone == false)
+                        {
+                            EnemyHealth.takeDamage(damage);
+                            damageDone = true;
+                        }
+                    }
+                }
+
+               
+     
             }
             else
             {
