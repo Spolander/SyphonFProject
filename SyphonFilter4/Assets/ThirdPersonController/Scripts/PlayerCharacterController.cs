@@ -179,12 +179,16 @@ public class PlayerCharacterController : MonoBehaviour {
                
                 v = Vector3.ProjectOnPlane(v, groundNormal);
                 v = v.normalized * moveVector.magnitude * moveSpeed;
+            
             }
         
 
 
         if (!grounded || groundNormal == Vector3.up)
+        {
             v.y = gravity * -1;
+        }
+           
 
         Debug.DrawRay(transform.TransformPoint(0, 1, 0), v,Color.red);
 
@@ -232,6 +236,7 @@ public class PlayerCharacterController : MonoBehaviour {
             {
                 if (hit.normal.y > 0.7f)
                 {
+                    groundNormal = hit.normal;
                     grounded = true;
                     lastGroundedTime = Time.time;
                     return;

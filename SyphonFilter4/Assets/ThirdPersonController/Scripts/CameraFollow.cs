@@ -35,6 +35,9 @@ public class CameraFollow : MonoBehaviour {
     {
         playerCam = this;
         rotationAngleY = transform.eulerAngles.y;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     private void Start()
     {
