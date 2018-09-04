@@ -243,6 +243,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1115700755b24a04d822240366f23e6f, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &792218641 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1514622900037982, guid: 1115700755b24a04d822240366f23e6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 584340184}
+--- !u!114 &792218642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 792218641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7a47e4df29b64a4a8d55fafcabe74fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
 --- !u!1 &792556992
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,6 +1049,11 @@ Prefab:
         type: 2}
       propertyPath: m_StepOffset
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114731069807999394, guid: ecc34089c19a0cc419b737dcea6ade7d,
+        type: 2}
+      propertyPath: EnemyLayerMask.m_Bits
+      value: 4294966783
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 64448988019810306, guid: ecc34089c19a0cc419b737dcea6ade7d, type: 2}

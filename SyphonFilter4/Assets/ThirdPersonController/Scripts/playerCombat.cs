@@ -91,6 +91,7 @@ public class playerCombat : MonoBehaviour {
             {
                 //shoot towards target
                 
+                if(ikc.CurrentLookAtWeight > 0.8f)
                 if (Physics.Raycast(transform.TransformPoint(0f,1.5f,0f), ikc.Target.transform.TransformPoint(0f,1.5f,0f)- transform.TransformPoint(0f, 1.5f, 0f), out ShootRaycastHit, maxShootingDistance,EnemyLayerMask))
                 {
                     if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
@@ -123,6 +124,7 @@ public class playerCombat : MonoBehaviour {
                 }
             }
 
+            if(ikc.CurrentLookAtWeight > 0.8f)
             muzzles.Animate();
         }
         else
