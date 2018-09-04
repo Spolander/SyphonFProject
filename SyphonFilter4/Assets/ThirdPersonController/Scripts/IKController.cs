@@ -64,7 +64,7 @@ public class IKController : MonoBehaviour {
     public bool Shooting { set { shooting = value; } get { return shooting; } }
 
     bool lockedOn = false;
-    public bool LockedOn { get { return lockedOn; }set { lockedOn = value; } }
+    public bool LockedOn { get { if (target == null) return false; else return lockedOn; }set { lockedOn = value; } }
     Camera mainCam;
     private void Start()
     {
