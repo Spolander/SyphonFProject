@@ -32,6 +32,7 @@ public class IKController : MonoBehaviour {
 
     //look at weight that is moved between 0 and lookAtWeight for smooth lookat transitioning
     private float currentLookAtWeight = 0;
+    public float CurrentLookAtWeight { get { return currentLookAtWeight; } }
 
     //how far the hands reach from the player towards the aiming target
     [SerializeField]
@@ -60,11 +61,12 @@ public class IKController : MonoBehaviour {
     //aiming height for smoothing aiming height between close and far
     private float currentAimingHeight;
 
+
     bool shooting = false;
     public bool Shooting { set { shooting = value; } get { return shooting; } }
 
     bool lockedOn = false;
-    public bool LockedOn { get { return lockedOn; }set { lockedOn = value; } }
+    public bool LockedOn { get { if (target == null) return false; else return lockedOn; }set { lockedOn = value; } }
     Camera mainCam;
     private void Start()
     {

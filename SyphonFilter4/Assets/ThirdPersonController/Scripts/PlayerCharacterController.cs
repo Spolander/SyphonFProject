@@ -19,7 +19,7 @@ public class PlayerCharacterController : MonoBehaviour {
  
 
     float gravityTarget = 30;
-    float gravity = 0;
+    public float gravity = 0;
     [SerializeField]
     private float gravityAcceleration = 30;
 
@@ -34,6 +34,7 @@ public class PlayerCharacterController : MonoBehaviour {
 
 
     Vector3 groundNormal = Vector3.up;
+    Vector3 slopeNormal = Vector3.up;
 
     private bool isJumping = false;
 
@@ -52,6 +53,12 @@ public class PlayerCharacterController : MonoBehaviour {
     private float lastJumpTime;
 
     public static PlayerCharacterController player;
+
+    private bool grounded = true;
+    private float lastGroundedTime;
+
+    //how long before falling is registered
+    private float groundedLossTime = 0.1f;
 	// Use this for initialization
 	void Start () {
         ikc = GetComponent<IKController>();
@@ -65,8 +72,11 @@ public class PlayerCharacterController : MonoBehaviour {
     }
     // Update is called once per frame
     void Update () {
-        if (Time.time > lastJumpTime + 0.2f)
-        anim.SetBool("grounded", controller.isGrounded);
+
+
+
+        checkGrounded();
+        anim.SetBool("grounded", grounded);
         if (canControl)
             Move();
 
@@ -77,7 +87,7 @@ public class PlayerCharacterController : MonoBehaviour {
         }
         else
         {
-            if (controller.isGrounded)
+            if (grounded)
             {
                 gravity = 1;
 
@@ -95,6 +105,7 @@ public class PlayerCharacterController : MonoBehaviour {
 
     IEnumerator jumpingAnimation()
     {
+        grounded = false;
         lastJumpTime = Time.time;
         anim.SetBool("grounded", false);
         isJumping = true;
@@ -105,15 +116,18 @@ public class PlayerCharacterController : MonoBehaviour {
 
     private void Move()
     {
-        groundNormal = getGroundNormal();
 
         Vector2 inputVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (inputVector.magnitude > 1)
+            inputVector.Normalize();
+
         Vector3 camForward = mainCam.transform.forward;
         camForward.y = 0;
         camForward.Normalize();
 
         moveVector = mainCam.transform.right * inputVector.x + camForward * inputVector.y;
-        moveVector.y = 0f;
+        
+        
 
         anim.SetFloat("Forward", transform.InverseTransformDirection(moveVector).z, 0.05f, Time.deltaTime);
         anim.SetFloat("Horizontal", transform.InverseTransformDirection(moveVector).x);
@@ -149,19 +163,44 @@ public class PlayerCharacterController : MonoBehaviour {
         }
 
         Vector3 v = moveVector * moveSpeed;
+       // v.y = gravity * -1;
+      
+            if (slopeNormal.y <= 0.7f)
+            {
+                v.y = gravity*-1;
+                v = Vector3.ProjectOnPlane(v, -slopeNormal);
 
-        if(inputVector.magnitude > 0.1f)
-        {
-            v = Vector3.ProjectOnPlane(v, groundNormal);
-            v = v.normalized * moveVector.magnitude*moveSpeed;
-        }
+                if(moveVector.magnitude > 0.15)
+                v = v.normalized * moveVector.magnitude * moveSpeed;
+            
+            }
+            else
+            {
+                float magnitude = moveVector.magnitude;
+                v = Vector3.ProjectOnPlane(v, groundNormal);
 
-        Debug.DrawRay(transform.TransformPoint(0, 1, 0), v,Color.red);
-        v.y = gravity * -1;
+                v = v.normalized * magnitude*moveSpeed;
+                v.y -= gravity;
 
+
+            }
+
+
+
+        //if (!grounded || groundNormal == Vector3.up)
+        //{
+        //    v.y = gravity * -1;
+        //}
+
+
+            Debug.DrawRay(transform.TransformPoint(0, 1, 0), v,Color.red);
+
+
+       // print(controller.velocity.magnitude);
+       
+        
         controller.Move(v*Time.deltaTime);
 
-       
 
     }
 
@@ -173,18 +212,50 @@ public class PlayerCharacterController : MonoBehaviour {
 
    
 
-    Vector3 getGroundNormal()
+    void checkGrounded()
     {
+      
         RaycastHit hit;
 
-        Ray ray = new Ray(transform.TransformPoint(0f, 0.1f, 0f), Vector3.down);
+        Ray ray = new Ray(transform.TransformPoint(0f, controller.radius + 0.05f, 0f), Vector3.down);
+        Ray sphereRay = new Ray(transform.TransformPoint(0f, 1.5f, 0f), Vector3.down);
+        Ray wallRay = new Ray(transform.TransformPoint(0, 1, 0), transform.forward);
+  
 
-        if (Physics.Raycast(ray, out hit, 0.5f, whatIsGround))
+        if (Physics.SphereCast(sphereRay, controller.radius, out hit, 1.5f, whatIsGround) && !grounded)
         {
-            if(hit.normal.y > 0.7f)
-            return hit.normal;
+            slopeNormal = hit.normal;
+
+        }
+        else if (Physics.Raycast(ray, out hit, 1f, whatIsGround) && !grounded)
+        {
+            slopeNormal = hit.normal;
+        }
+        else
+            slopeNormal = Vector3.up;
+
+        if (Time.time > lastJumpTime + 0.2f)
+        {
+            if (Physics.Raycast(ray, out hit, 1f, whatIsGround))
+            {
+                if (hit.normal.y > 0.7f)
+                {
+                    groundNormal = hit.normal;
+                    grounded = true;
+                    lastGroundedTime = Time.time;
+                    return;
+                }
+                else if (Time.time > lastGroundedTime + groundedLossTime)
+                {
+                    grounded = false;
+                    return;
+                }
+            }
+        }
+        if (Time.time > lastGroundedTime + groundedLossTime)
+        {
+            grounded = false;
         }
 
-        return Vector3.up;
     }
 }
