@@ -9,7 +9,7 @@ public class playerCombat : MonoBehaviour {
     Camera mainCam;
 
     BaseHealth EnemyHealth;             // damage testiä varten
-    int damage = 50;                    // damage testiä varten
+    int damage = 34;                    // damage testiä varten
     RaycastHit ShootRaycastHit;
     [SerializeField]
     float GunFireRate =0.5f;
@@ -59,6 +59,7 @@ public class playerCombat : MonoBehaviour {
         if (damageTimer > GunFireRate && damageDone == true)
         {
             damageDone = false;
+            damageTimer = 0;
         }
 
 
@@ -94,7 +95,8 @@ public class playerCombat : MonoBehaviour {
                 {
                     if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
                     {
-                        Debug.DrawRay(transform.TransformPoint(0f, 1.5f, 0f), ikc.Target.transform.TransformPoint(0f, 1.5f, 0f) - transform.TransformPoint(0f, 1.5f, 0f) * ShootRaycastHit.distance, Color.red);
+                        //Debug.DrawRay(transform.TransformPoint(0f, 1.5f, 0f), ikc.Target.transform.TransformPoint(0f, 1.5f, 0f) - transform.TransformPoint(0f, 1.5f, 0f), Color.red);
+                        //Debug.Break();
                         EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
                         if (damageDone == false)
                         {
