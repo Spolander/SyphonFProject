@@ -163,7 +163,7 @@ public class PlayerCharacterController : MonoBehaviour {
         }
 
         Vector3 v = moveVector * moveSpeed;
-        v.y = gravity * -1;
+       // v.y = gravity * -1;
       
             if (slopeNormal.y <= 0.7f)
             {
@@ -176,28 +176,30 @@ public class PlayerCharacterController : MonoBehaviour {
             }
             else
             {
-               
+                float magnitude = moveVector.magnitude;
                 v = Vector3.ProjectOnPlane(v, groundNormal);
-                v = v.normalized * moveVector.magnitude * moveSpeed;
-            
+
+                v = v.normalized * magnitude*moveSpeed;
+                v.y -= gravity;
+
+
             }
-        
-
-
-        if (!grounded || groundNormal == Vector3.up)
-        {
-            v.y = gravity * -1;
-        }
-           
-
-        Debug.DrawRay(transform.TransformPoint(0, 1, 0), v,Color.red);
 
 
 
+        //if (!grounded || groundNormal == Vector3.up)
+        //{
+        //    v.y = gravity * -1;
+        //}
+
+
+            Debug.DrawRay(transform.TransformPoint(0, 1, 0), v,Color.red);
+
+
+       // print(controller.velocity.magnitude);
        
         
         controller.Move(v*Time.deltaTime);
-       // print(controller.velocity.magnitude);
 
 
     }
@@ -212,18 +214,20 @@ public class PlayerCharacterController : MonoBehaviour {
 
     void checkGrounded()
     {
+      
         RaycastHit hit;
 
         Ray ray = new Ray(transform.TransformPoint(0f, controller.radius + 0.05f, 0f), Vector3.down);
         Ray sphereRay = new Ray(transform.TransformPoint(0f, 1.5f, 0f), Vector3.down);
         Ray wallRay = new Ray(transform.TransformPoint(0, 1, 0), transform.forward);
+  
 
         if (Physics.SphereCast(sphereRay, controller.radius, out hit, 1.5f, whatIsGround) && !grounded)
         {
             slopeNormal = hit.normal;
 
         }
-        else if (Physics.Raycast(ray, out hit, 0.2f, whatIsGround) && !grounded)
+        else if (Physics.Raycast(ray, out hit, 1f, whatIsGround) && !grounded)
         {
             slopeNormal = hit.normal;
         }
