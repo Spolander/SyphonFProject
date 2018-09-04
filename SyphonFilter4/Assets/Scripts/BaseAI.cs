@@ -12,13 +12,14 @@ public class BaseAI : MonoBehaviour {
     Transform player = null;
 
     public enum AIState {NoBehaviour, Idle, Patrol, Chase};
-    private AIState state;
+    protected AIState state;
 
 
 
     protected float animatorForwardValue = 0;
+    protected float upperBodyWeight = 0;
 
-
+    [SerializeField]
     protected float maximumDetectDistance = 15;
     protected float maximumDetectAngle = 90;
 
@@ -34,7 +35,16 @@ public class BaseAI : MonoBehaviour {
 
     [SerializeField]
     protected LayerMask scanningLayers;
-    
+
+    [SerializeField]
+    protected float attackingDistance = 1.5f;
+
+    [SerializeField]
+    protected float stoppingDistance = 1.5f;
+
+
+    [SerializeField]
+    protected float rotateSpeed = 400;
 	// Use this for initialization
 	void Start () {
         anim = GetComponent<Animator>();
@@ -48,6 +58,10 @@ public class BaseAI : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+
+        UpdateAnimatorValues();
+
+
         if (state == AIState.NoBehaviour)
         {
             //stay still do nothing
@@ -59,13 +73,19 @@ public class BaseAI : MonoBehaviour {
             {
                 Idle();
             }
-            else ChangeState(AIState.NoBehaviour);
+            else
+            ChangeState(AIState.NoBehaviour);
         }
 
         else if (state == AIState.Chase)
         {
 
             //move towards player if can't go to idle
+            if (player)
+            {
+                Chase();
+            }
+            else ChangeState(AIState.NoBehaviour);
         }
         else if (state == AIState.Patrol)
         {
@@ -88,15 +108,81 @@ public class BaseAI : MonoBehaviour {
 
         if (IsPlayerDetected())
         {
-            print("I can see you");
-        }
-        else print("I can't see you");
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
+            if (distanceToPlayer > stoppingDistance)
+            {
+                ChangeState(AIState.Chase);
+            }
+            else
+            {
+                if (anim.IsInTransition(1) == false)
+                {
+                    upperBodyWeight = 1;
+                    CancelInvoke();
+                    anim.SetTrigger("melee1");
+                    Invoke("ResetUpperBodyWeight", 1.5f);
+                }
+                  
+            }
+        }
+
+    }
+
+    void ResetUpperBodyWeight()
+    {
+        upperBodyWeight = 0;
+    }
+
+    void UpdateAnimatorValues()
+    {
+        anim.SetFloat("Forward", animatorForwardValue, 0.2f, Time.deltaTime);
+
+        if(upperBodyWeight == 0)
+        anim.SetLayerWeight(1, Mathf.MoveTowards(anim.GetLayerWeight(1), upperBodyWeight, Time.deltaTime * 2));
+        else
+            anim.SetLayerWeight(1, Mathf.MoveTowards(anim.GetLayerWeight(1), upperBodyWeight, Time.deltaTime * 6));
+    }
+    protected virtual void Chase()
+    {
+
+        if (IsPlayerDetected())
+        {
+            agent.destination = player.position;
+
+            //player is unreachable or destination is invalid
+            if (agent.pathPending == false && agent.pathStatus != NavMeshPathStatus.PathComplete)
+            {
+                print("path not compelte");
+                ChangeState(AIState.Idle);
+                return;
+            }
+
+            animatorForwardValue = 1;
+            Vector3 direction = agent.steeringTarget - transform.position;
+            direction.y = 0;
+            Quaternion lookDir = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, Time.deltaTime * rotateSpeed);
+
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+            if (distanceToPlayer <= stoppingDistance)
+            {
+                ChangeState(AIState.Idle);
+
+            }
+
+
+        }
+        else
+        {
+            ChangeState(AIState.Idle);
+        }
     }
 
 
     //checks if the player is within distance and angle and that there's no collisions between them
-    bool IsPlayerDetected()
+    protected bool IsPlayerDetected()
     {
         
         if (Time.time > lastScanTime + scanInterval)
@@ -117,10 +203,13 @@ public class BaseAI : MonoBehaviour {
                             playerSeenTime = Time.time;
                             return true;
                         }
-                           
+                        else print(hit.collider.name);
+
                     }
+                    else print("no raycast");
                 }
             }
+            
             return false;
         }
 
