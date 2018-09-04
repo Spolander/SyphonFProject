@@ -45,6 +45,17 @@ public class BaseAI : MonoBehaviour {
 
     [SerializeField]
     protected float rotateSpeed = 400;
+
+
+
+    //hitbox stuff
+
+        [Header("Hit-detection")]
+        [Space()]
+    [SerializeField]
+    protected Vector3 hitBoxSize;
+    [SerializeField]
+    protected Vector3 hitBoxLocation;
 	// Use this for initialization
 	void Start () {
         anim = GetComponent<Animator>();
@@ -237,5 +248,16 @@ public class BaseAI : MonoBehaviour {
         {
             agent.velocity = anim.deltaPosition / Time.deltaTime;
         }
+    }
+
+
+    private void OnDrawGizmosSelected()
+    {
+        Color c = Color.red;
+        c.a = 0.4f;
+
+        Gizmos.color = c;
+
+        Gizmos.DrawCube(transform.TransformPoint(hitBoxLocation * transform.localScale.x), hitBoxSize);
     }
 }
