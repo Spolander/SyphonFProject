@@ -17,21 +17,26 @@ public class BaseHealth : MonoBehaviour {
 		
 	}
 
-    public void takeDamage(int amount) {
+    public virtual void takeDamage(int amount, GameObject caller) {
         Health = Health - amount;
         Debug.Log(Health);
         if (Health <= 0)
         {
-            death();
+            death(caller);
         }
     }
 
-    void death()
-    {
+    public virtual void death(GameObject caller)
+        {
+            
+        if (caller.tag == "Player")
+        {
+            caller.GetComponent<playerCombat>().stopLockOn();
+        }
         Destroy(gameObject);
     }
 
-    public void heal(int amount)
+    public virtual void heal(int amount)
     {
         Health = Health + amount;
     }

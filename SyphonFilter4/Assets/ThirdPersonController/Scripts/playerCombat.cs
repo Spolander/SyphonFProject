@@ -100,7 +100,7 @@ public class playerCombat : MonoBehaviour {
                         EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
                         if (damageDone == false)
                         {
-                            EnemyHealth.takeDamage(damage);
+                            EnemyHealth.takeDamage(damage,gameObject);
                             damageDone = true;
                         }
                     }
@@ -138,7 +138,7 @@ public class playerCombat : MonoBehaviour {
         }
     }
 
-    void stopLockOn()
+    public void stopLockOn()
     {
         //set the ikcontroller target to null and lockedOn to false to stop ik 
         ikc.Target = null;
