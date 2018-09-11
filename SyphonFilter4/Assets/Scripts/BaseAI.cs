@@ -66,7 +66,7 @@ public class BaseAI : MonoBehaviour {
     protected float damage = 10;
 
 	// Use this for initialization
-	void Start () {
+	protected virtual void Start () {
         anim = GetComponent<Animator>();
         player = PlayerCharacterController.player.transform;
         agent = GetComponent<NavMeshAgent>();
