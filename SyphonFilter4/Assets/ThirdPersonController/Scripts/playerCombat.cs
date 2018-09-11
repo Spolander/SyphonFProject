@@ -117,6 +117,21 @@ public class playerCombat : MonoBehaviour {
                 if (currentFreeAimingTarget)
                 {
                     ikc.Target = currentFreeAimingTarget;
+                    if (ikc.CurrentLookAtWeight > 0.8f)
+                        if (Physics.Raycast(transform.TransformPoint(0f, 1.5f, 0f), ikc.Target.transform.TransformPoint(0f, 1.5f, 0f) - transform.TransformPoint(0f, 1.5f, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
+                        {
+                            if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
+                            {
+                                //Debug.DrawRay(transform.TransformPoint(0f, 1.5f, 0f), ikc.Target.transform.TransformPoint(0f, 1.5f, 0f) - transform.TransformPoint(0f, 1.5f, 0f), Color.red);
+                                //Debug.Break();
+                                EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
+                                if (damageDone == false)
+                                {
+                                    EnemyHealth.takeDamage(damage, gameObject);
+                                    damageDone = true;
+                                }
+                            }
+                        }
                 }
                 else
                 {
