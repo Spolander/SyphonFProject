@@ -25,8 +25,26 @@ public class MechaAI:BaseAI{
     Quaternion originalGunRot_L;
     Quaternion originalGunRot_R;
 
+
+    //Shooting stuff
     [SerializeField]
     private float weaponRotateSpeed = 30;
+
+    [SerializeField]
+    private Transform[] cannons;
+
+    private float lastFireTime;
+    [SerializeField]
+    private float shootingInterval = 0.2f;
+
+    [SerializeField]
+    private float projectileSpeed = 75;
+
+    [SerializeField]
+    private GameObject bulletPrefab;
+
+    [SerializeField]
+    private GameObject bulletImpactPrefab;
 
     protected override void Start()
     {
@@ -47,65 +65,71 @@ public class MechaAI:BaseAI{
 
     protected override void Idle()
     {
-        
-    
+
+       
         if (IsPlayerDetected())
         {
+          
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+            if (distanceToPlayer <= attackingDistance)
+            {
+                shootCannons();
+            }
 
             if (distanceToPlayer > stoppingDistance)
             {
-                isWalking = true;
                 ChangeState(AIState.Chase);
             }
-            else
-            {
-                isWalking = false;
-
-            }
-
-            if (distanceToPlayer < attackingDistance)
-            {
-                //SHOOT KILL DESTROY
-            }
         }
-
+        RotateWeapons();
        
     }
 
     protected override void Update()
     {
-        RotateWeapons();
+    
         base.Update();
     }
 
     void RotateWeapons()
     {
-        //horizontal distance to the player
-        float horizontalDistance = Vector3.Distance(player.position, new Vector3(transform.position.x, player.position.y, transform.position.z));
-
-        //Vertical distance to the player from the gun position
-        float verticalDistance = (rightGunBase.position - player.position).y;
-
-
-        //calculate vertical angle with arc tan
-        float verticalAngle = Mathf.Atan(verticalDistance / horizontalDistance) * Mathf.Rad2Deg;
-
-
-       
-
-        //if player is in front of the mech we rotate all the guns properly towards player
-        if (transform.InverseTransformPoint(player.position).z > 0.5f)
+        if (player)
         {
-            rightGunBarrel.rotation = Quaternion.RotateTowards(rightGunBarrel.rotation, Quaternion.FromToRotation(rightGunBarrel.up, player.position - rightGunBarrel.position) * rightGunBarrel.rotation, Time.deltaTime * weaponRotateSpeed);
-            leftGunBarrel.rotation = Quaternion.RotateTowards(leftGunBarrel.rotation, Quaternion.FromToRotation(leftGunBarrel.up, player.position - leftGunBarrel.position) * leftGunBarrel.rotation, Time.deltaTime * weaponRotateSpeed);
+            Vector3 playerPosition = player.position + Vector3.up*0.5f;
+            //horizontal distance to the player
+            float horizontalDistance = Vector3.Distance(playerPosition, new Vector3(transform.position.x, playerPosition.y, transform.position.z));
 
-            rightGunBase.localRotation = Quaternion.RotateTowards(rightGunBase.localRotation, Quaternion.Euler(verticalAngle, rightGunBase.localEulerAngles.y, rightGunBase.localEulerAngles.z), Time.deltaTime*weaponRotateSpeed);
-            leftGunBase.localRotation = Quaternion.RotateTowards(leftGunBase.localRotation,Quaternion.Euler(verticalAngle, leftGunBase.localEulerAngles.y, leftGunBase.localEulerAngles.z),Time.deltaTime*weaponRotateSpeed);
+            //Vertical distance to the player from the gun position
+            float verticalDistance = (rightGunBase.position - playerPosition).y;
 
+
+            //calculate vertical angle with arc tan
+            float verticalAngle = Mathf.Atan(verticalDistance / horizontalDistance) * Mathf.Rad2Deg;
+
+
+
+
+            //if player is in front of the mech we rotate all the guns properly towards player
+            if (transform.InverseTransformPoint(playerPosition).z > 0.5f)
+            {
+                rightGunBarrel.rotation = Quaternion.RotateTowards(rightGunBarrel.rotation, Quaternion.FromToRotation(rightGunBarrel.up, playerPosition - rightGunBarrel.position) * rightGunBarrel.rotation, Time.deltaTime * weaponRotateSpeed);
+                leftGunBarrel.rotation = Quaternion.RotateTowards(leftGunBarrel.rotation, Quaternion.FromToRotation(leftGunBarrel.up, playerPosition - leftGunBarrel.position) * leftGunBarrel.rotation, Time.deltaTime * weaponRotateSpeed);
+
+                rightGunBase.localRotation = Quaternion.RotateTowards(rightGunBase.localRotation, Quaternion.Euler(verticalAngle, rightGunBase.localEulerAngles.y, rightGunBase.localEulerAngles.z), Time.deltaTime * weaponRotateSpeed);
+                leftGunBase.localRotation = Quaternion.RotateTowards(leftGunBase.localRotation, Quaternion.Euler(verticalAngle, leftGunBase.localEulerAngles.y, leftGunBase.localEulerAngles.z), Time.deltaTime * weaponRotateSpeed);
+
+            }
+            else
+            {
+                rightGunBase.localRotation = Quaternion.RotateTowards(rightGunBase.localRotation, originalBaseRot_R, Time.deltaTime * weaponRotateSpeed);
+                leftGunBase.localRotation = Quaternion.RotateTowards(leftGunBase.localRotation, originalBaseRot_L, Time.deltaTime * weaponRotateSpeed);
+
+                rightGunBarrel.localRotation = Quaternion.RotateTowards(rightGunBarrel.localRotation, originalGunRot_R, Time.deltaTime * weaponRotateSpeed);
+                leftGunBarrel.localRotation = Quaternion.RotateTowards(leftGunBarrel.localRotation, originalGunRot_L, Time.deltaTime * weaponRotateSpeed);
+            }
         }
-
-        //player is behind so we rotate the weapons back to the default poses
+        //player doesn't exist so we rotate the weapons back to the default poses
         else
         {
             rightGunBase.localRotation = Quaternion.RotateTowards(rightGunBase.localRotation, originalBaseRot_R, Time.deltaTime * weaponRotateSpeed);
@@ -119,15 +143,15 @@ public class MechaAI:BaseAI{
 
     protected override void Chase()
     {
-        isWalking = true;
+        
         if (IsPlayerDetected())
         {
+           
             agent.destination = player.position;
 
             //player is unreachable or destination is invalid
             if (agent.pathPending == false && agent.pathStatus != NavMeshPathStatus.PathComplete)
             {
-                print("path not compelte");
                 ChangeState(AIState.Idle);
                 return;
             }
@@ -139,27 +163,68 @@ public class MechaAI:BaseAI{
 
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            if (distanceToPlayer <= stoppingDistance)
+            if (distanceToPlayer < stoppingDistance-1)
             {
                 ChangeState(AIState.Idle);
 
             }
 
+            if (distanceToPlayer <= attackingDistance)
+            {
+                shootCannons();
+            }
 
         }
         else
         {
             ChangeState(AIState.Idle);
         }
+
+        RotateWeapons();
+    }
+
+    private void shootCannons()
+    {
+        if (Time.time > lastFireTime + shootingInterval && transform.InverseTransformPoint(player.position).z > 0.3f)
+        {
+            lastFireTime = Time.time;
+
+            for (int i = 0; i < cannons.Length; i++)
+            {
+                RaycastHit hit;
+                Vector3 endPoint = cannons[i].position + cannons[i].forward * attackingDistance;
+                Ray ray = new Ray(cannons[i].position,  cannons[i].forward);
+
+                float defaultLife = 0.5f;
+
+                if (Physics.Raycast(ray, out hit, attackingDistance, hitDetectionLayers))
+                {
+                    defaultLife = hit.distance / projectileSpeed;
+                    GameObject e = (GameObject)Instantiate(bulletImpactPrefab, hit.point, Quaternion.identity);
+                    e.transform.rotation = Quaternion.FromToRotation(e.transform.up, hit.normal);
+                    ParticleSystem p = e.GetComponent<ParticleSystem>();
+                    var m = p.main;
+                    m.startDelay = hit.distance / projectileSpeed;
+                    p.Play();
+                    endPoint = hit.point;
+                }
+
+
+                GameObject g = (GameObject)Instantiate(bulletPrefab, cannons[i].position, Quaternion.identity);
+                g.GetComponent<MechaProjectile>().Initialize(endPoint, cannons[i].forward, projectileSpeed, Mathf.Clamp(defaultLife, 0.2f, 10), 5);
+            }
+        }
     }
 
     public override void ChangeState(AIState state)
     {
         base.ChangeState(state);
-        if (state == AIState.Idle)
-        {
+
+        if (state == AIState.Idle || state == AIState.NoBehaviour)
             isWalking = false;
-        }
+        else if (state == AIState.Chase)
+            isWalking = true;
+       
     }
     protected override void OnAnimatorMove()
     {

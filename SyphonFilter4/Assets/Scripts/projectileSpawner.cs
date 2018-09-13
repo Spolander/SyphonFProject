@@ -6,6 +6,7 @@ public class projectileSpawner : MonoBehaviour {
 
 
     public GameObject prefab;
+    public GameObject effect;
 
     public float interval = 0.5f;
 
@@ -20,12 +21,7 @@ public class projectileSpawner : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        if (Time.time > lastFireTime + interval)
-        {
-            lastFireTime = Time.time;
-            GameObject g = (GameObject)Instantiate(prefab, transform.position + Vector3.one * Random.Range(-0.2f, 0.2f), Quaternion.identity);
-            g.GetComponent<MechaProjectile>().Initialize(transform.forward, speed, killDelay);
-        }
+      
 		
 	}
 }

@@ -6,8 +6,12 @@ public class MechaProjectile : MonoBehaviour {
 
     LineRenderer line;
 
+    Vector3 targetPoint;
     Vector3 direction;
+    Vector3 originPoint;
     float speed;
+    float damage;
+    bool damaged = false;
 
     float startingTime;
     private float killDelay;
@@ -29,16 +33,29 @@ public class MechaProjectile : MonoBehaviour {
 
         if (Time.time > startingTime + killDelay / 3)
         {
-            line.SetPosition(0, line.GetPosition(0) + direction.normalized * speed * Time.deltaTime);
+            line.SetPosition(0, originPoint + direction.normalized * speed * Time.deltaTime);
 
         }
 
-        transform.Translate(direction * Time.deltaTime * speed, Space.World);
+        if (!damaged)
+        {
+            RaycastHit hit;
+            if (Physics.Linecast(transform.position, line.GetPosition(0), out hit, 1 << LayerMask.NameToLayer("Player")))
+            {
+                damaged = true;
+                hit.collider.GetComponent<PlayerHealth>().takeDamage(damage, gameObject);
+            }
+        }
+        transform.position = Vector3.MoveTowards(transform.position, targetPoint, Time.deltaTime * speed);
+        
 	}
 
-    public void Initialize(Vector3 dir, float speed, float killDelay)
+    public void Initialize(Vector3 targetPoint,Vector3 direction, float speed, float killDelay, float damage)
     {
-        direction = dir;
+        originPoint = transform.position;
+        this.direction = direction;
+        this.damage = damage;
+        this.targetPoint = targetPoint;
         this.speed = speed;
         startingTime = Time.time;
         this.killDelay = killDelay;

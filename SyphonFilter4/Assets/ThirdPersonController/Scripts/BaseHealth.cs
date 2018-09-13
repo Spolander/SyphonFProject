@@ -5,7 +5,7 @@ using UnityEngine;
 public class BaseHealth : MonoBehaviour {
 
     [SerializeField]
-    private float Health = 100;
+    protected float Health = 100;
 
 
     public virtual void takeDamage(float amount, GameObject caller) {
