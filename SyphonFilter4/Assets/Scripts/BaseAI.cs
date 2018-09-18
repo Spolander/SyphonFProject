@@ -151,6 +151,7 @@ public class BaseAI : MonoBehaviour {
 
         if (IsPlayerDetected())
         {
+            print("player is detected");
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
             if (distanceToPlayer > stoppingDistance)
@@ -159,7 +160,12 @@ public class BaseAI : MonoBehaviour {
             }
             else
             {
-               if(CanAttack())
+                Vector3 direction = player.position - transform.position;
+                direction.y = 0;
+                Quaternion lookDir = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, Time.deltaTime * rotateSpeed);
+
+                if (CanAttack())
                 {
                     upperBodyWeight = 1;
                     CancelInvoke();

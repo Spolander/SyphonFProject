@@ -77,6 +77,11 @@ public class MechaAI:BaseAI{
                 shootCannons();
             }
 
+            Vector3 direction = player.position - transform.position;
+            direction.y = 0;
+            Quaternion lookDir = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, Time.deltaTime * rotateSpeed);
+
             if (distanceToPlayer > stoppingDistance)
             {
                 ChangeState(AIState.Chase);
