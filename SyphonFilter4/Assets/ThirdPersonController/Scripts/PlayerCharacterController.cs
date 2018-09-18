@@ -212,7 +212,10 @@ public class PlayerCharacterController : MonoBehaviour
 
     }
 
-
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        print(hit.collider.name);
+    }
 
 
     void checkGrounded()
@@ -261,13 +264,4 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
     }
-    //private void OnControllerColliderHit(ControllerColliderHit hit)
-    //{
-    //    Debug.Log(hit.gameObject.ToString());
-    //    if (hit.gameObject.tag == "Door")
-    //    {
-    //        Debug.Log("colliding2");
-
-    //    }
-    //}
 }
