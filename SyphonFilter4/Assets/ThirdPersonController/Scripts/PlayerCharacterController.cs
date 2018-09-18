@@ -209,8 +209,11 @@ public class PlayerCharacterController : MonoBehaviour {
         
     }
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        print(hit.collider.name);
+    }
 
-   
 
     void checkGrounded()
     {

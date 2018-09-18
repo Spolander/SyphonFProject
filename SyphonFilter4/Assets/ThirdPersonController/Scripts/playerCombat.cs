@@ -104,9 +104,11 @@ public class playerCombat : MonoBehaviour {
                 //shoot towards target
 
                 if (ikc.CurrentLookAtWeight > 0.8f)
-                    if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 0.5f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
+                    if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
                     {
-                        Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity);
+                       GameObject g =  Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity) as GameObject;
+                        g.transform.SetParent(ShootRaycastHit.collider.transform);
+
                         if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
                         {
                             EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
@@ -128,9 +130,11 @@ public class playerCombat : MonoBehaviour {
                 {
                     ikc.Target = currentFreeAimingTarget;
                     if (ikc.CurrentLookAtWeight > 0.8f)
-                        if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 0.5f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
+                        if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
                         {
-                            Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity);
+                            GameObject g = Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity) as GameObject;
+                            g.transform.SetParent(ShootRaycastHit.collider.transform);
+
                             if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
                             {
                                 EnemyHealth = ikc.Target.GetComponent<BaseHealth>();

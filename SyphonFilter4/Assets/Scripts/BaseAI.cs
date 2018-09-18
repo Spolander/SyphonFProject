@@ -65,14 +65,31 @@ public class BaseAI : MonoBehaviour {
     [SerializeField]
     protected float damage = 10;
 
+    [SerializeField]
+    private float chargeDamage = 20;
+
+    private bool charging = false;
+
+    private float lastChargeTime;
+
+    private float chargeIntervalMin = 5, chargeIntervalMax = 10;
+    private float chargeDuration = 2;
+    private ParticleSystem chargeParticle;
+
+    [SerializeField]
+    private float chargeSpeed = 10;
+
 	// Use this for initialization
 	protected virtual void Start () {
         anim = GetComponent<Animator>();
         player = PlayerCharacterController.player.transform;
         agent = GetComponent<NavMeshAgent>();
         playerSeenTime = -playerDisappearTime - 1;
+        lastChargeTime += Random.Range(chargeIntervalMin, chargeIntervalMax);
 
         ChangeState(AIState.Idle);
+
+        chargeParticle = GetComponentInChildren<ParticleSystem>();
 	}
 	
 	// Update is called once per frame
@@ -141,9 +158,37 @@ public class BaseAI : MonoBehaviour {
             if (c[0].GetComponent<BaseHealth>())
             {
                 c[0].GetComponent<BaseHealth>().takeDamage(damage, gameObject);
+                if(charging)
+                {
+                    lastChargeTime = Time.time + Random.Range(chargeIntervalMin, chargeIntervalMax);
+                    charging = false;
+                }
+            
             }
         }
         
+    }
+
+    private bool ChargeHitDetection(out BaseHealth b)
+    {
+        b = null;
+        //first collider found with overlapbox
+        Collider[] c = new Collider[1];
+        Physics.OverlapBoxNonAlloc(transform.TransformPoint(hitBoxLocation), hitBoxSize / 2, c, transform.rotation, hitDetectionLayers);
+
+        if (c[0] != null)
+        {
+
+            if (c[0].GetComponent<BaseHealth>())
+            {
+                b = c[0].GetComponent<BaseHealth>();
+                return true;
+               
+            }
+        }
+
+        return false;
+
     }
     protected virtual void Idle()
     {
@@ -151,7 +196,6 @@ public class BaseAI : MonoBehaviour {
 
         if (IsPlayerDetected())
         {
-            print("player is detected");
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
             if (distanceToPlayer > stoppingDistance)
@@ -186,6 +230,7 @@ public class BaseAI : MonoBehaviour {
     protected virtual void UpdateAnimatorValues()
     {
         anim.SetFloat("Forward", animatorForwardValue, 0.2f, Time.deltaTime);
+        anim.SetBool("charging", charging);
 
         if(upperBodyWeight == 0)
         anim.SetLayerWeight(1, Mathf.MoveTowards(anim.GetLayerWeight(1), upperBodyWeight, Time.deltaTime * 2));
@@ -211,11 +256,41 @@ public class BaseAI : MonoBehaviour {
             Vector3 direction = agent.steeringTarget - transform.position;
             direction.y = 0;
             Quaternion lookDir = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, Time.deltaTime * rotateSpeed);
-
+           
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            if (distanceToPlayer <= stoppingDistance)
+            if (Time.time > lastChargeTime && !charging)
+            {
+                chargeParticle.Play();
+                charging = true;
+                lastChargeTime = Time.time;
+
+            }
+
+            //CHARGE
+            if (charging)
+            {
+                agent.velocity = transform.forward * chargeSpeed;
+                BaseHealth b;
+                if (ChargeHitDetection(out b))
+                {
+                    b.takeDamage(chargeDamage, gameObject);
+                    StopCharge();
+                    lastChargeTime = Time.time + Random.Range(chargeIntervalMin, chargeIntervalMax);
+                    
+                }
+
+                if (Time.time > lastChargeTime + chargeDuration)
+                {
+                    StopCharge();
+                    lastChargeTime = Time.time + Random.Range(chargeIntervalMin, chargeIntervalMax);
+                }
+            }
+            else
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, Time.deltaTime * rotateSpeed);
+            }
+            if (distanceToPlayer <= stoppingDistance && !charging)
             {
                 ChangeState(AIState.Idle);
 
@@ -227,6 +302,12 @@ public class BaseAI : MonoBehaviour {
         {
             ChangeState(AIState.Idle);
         }
+    }
+
+    private void StopCharge()
+    {
+        charging = false;
+        chargeParticle.Stop(false, ParticleSystemStopBehavior.StopEmitting);
     }
 
 
@@ -283,6 +364,7 @@ public class BaseAI : MonoBehaviour {
     {
         if (agent.enabled && !agent.isStopped)
         {
+            if(anim.GetCurrentAnimatorStateInfo(0).IsTag("rootmotion"))
             agent.velocity = anim.deltaPosition / Time.deltaTime;
         }
     }
