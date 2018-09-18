@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCharacterController : MonoBehaviour {
+public class PlayerCharacterController : MonoBehaviour
+{
 
 
     CharacterController controller;
@@ -16,7 +17,7 @@ public class PlayerCharacterController : MonoBehaviour {
     [SerializeField]
     private float moveSpeed = 6;
 
- 
+
 
     float gravityTarget = 30;
     public float gravity = 0;
@@ -47,7 +48,7 @@ public class PlayerCharacterController : MonoBehaviour {
 
     [SerializeField]
     private float jumpingDuration = 0.2f;
- 
+
 
 
     private float lastJumpTime;
@@ -59,19 +60,21 @@ public class PlayerCharacterController : MonoBehaviour {
 
     //how long before falling is registered
     private float groundedLossTime = 0.1f;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         ikc = GetComponent<IKController>();
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         mainCam = Camera.main;
-	}
+    }
     private void Awake()
     {
         player = this;
     }
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
 
 
 
@@ -99,9 +102,9 @@ public class PlayerCharacterController : MonoBehaviour {
                 gravity = Mathf.MoveTowards(gravity, gravityTarget, Time.deltaTime * gravityAcceleration);
             }
         }
-       
-       
-	}
+
+
+    }
 
     IEnumerator jumpingAnimation()
     {
@@ -126,8 +129,8 @@ public class PlayerCharacterController : MonoBehaviour {
         camForward.Normalize();
 
         moveVector = mainCam.transform.right * inputVector.x + camForward * inputVector.y;
-        
-        
+
+
 
         anim.SetFloat("Forward", transform.InverseTransformDirection(moveVector).z, 0.05f, Time.deltaTime);
         anim.SetFloat("Horizontal", transform.InverseTransformDirection(moveVector).x);
@@ -135,9 +138,9 @@ public class PlayerCharacterController : MonoBehaviour {
         if (moveVector.magnitude > 1)
             moveVector.Normalize();
 
-         
 
-       
+
+
         if (inputVector.magnitude > 0.1f)
         {
             if (ikc.LockedOn == false)
@@ -148,7 +151,7 @@ public class PlayerCharacterController : MonoBehaviour {
                 dir.y = 0;
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
             }
-          
+
         }
         else
         {
@@ -158,32 +161,32 @@ public class PlayerCharacterController : MonoBehaviour {
                 dir.y = 0;
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
             }
-               
+
 
         }
 
         Vector3 v = moveVector * moveSpeed;
-       // v.y = gravity * -1;
-      
-            if (slopeNormal.y <= 0.7f)
-            {
-                v.y = gravity*-1;
-                v = Vector3.ProjectOnPlane(v, -slopeNormal);
+        // v.y = gravity * -1;
 
-                if(moveVector.magnitude > 0.15)
+        if (slopeNormal.y <= 0.7f)
+        {
+            v.y = gravity * -1;
+            v = Vector3.ProjectOnPlane(v, -slopeNormal);
+
+            if (moveVector.magnitude > 0.15)
                 v = v.normalized * moveVector.magnitude * moveSpeed;
-            
-            }
-            else
-            {
-                float magnitude = moveVector.magnitude;
-                v = Vector3.ProjectOnPlane(v, groundNormal);
 
-                v = v.normalized * magnitude*moveSpeed;
-                v.y -= gravity;
+        }
+        else
+        {
+            float magnitude = moveVector.magnitude;
+            v = Vector3.ProjectOnPlane(v, groundNormal);
+
+            v = v.normalized * magnitude * moveSpeed;
+            v.y -= gravity;
 
 
-            }
+        }
 
 
 
@@ -193,34 +196,34 @@ public class PlayerCharacterController : MonoBehaviour {
         //}
 
 
-            Debug.DrawRay(transform.TransformPoint(0, 1, 0), v,Color.red);
+        Debug.DrawRay(transform.TransformPoint(0, 1, 0), v, Color.red);
 
 
-       // print(controller.velocity.magnitude);
-       
-        
-        controller.Move(v*Time.deltaTime);
+        // print(controller.velocity.magnitude);
+
+
+        controller.Move(v * Time.deltaTime);
 
 
     }
 
     private void OnAnimatorMove()
     {
-        
+
     }
 
 
-   
+
 
     void checkGrounded()
     {
-      
+
         RaycastHit hit;
 
         Ray ray = new Ray(transform.TransformPoint(0f, controller.radius + 0.05f, 0f), Vector3.down);
         Ray sphereRay = new Ray(transform.TransformPoint(0f, 1.5f, 0f), Vector3.down);
         Ray wallRay = new Ray(transform.TransformPoint(0, 1, 0), transform.forward);
-  
+
 
         if (Physics.SphereCast(sphereRay, controller.radius, out hit, 1.5f, whatIsGround) && !grounded)
         {
@@ -258,4 +261,13 @@ public class PlayerCharacterController : MonoBehaviour {
         }
 
     }
+    //private void OnControllerColliderHit(ControllerColliderHit hit)
+    //{
+    //    Debug.Log(hit.gameObject.ToString());
+    //    if (hit.gameObject.tag == "Door")
+    //    {
+    //        Debug.Log("colliding2");
+
+    //    }
+    //}
 }
