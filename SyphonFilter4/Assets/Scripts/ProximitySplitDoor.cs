@@ -6,20 +6,20 @@ public class ProximitySplitDoor : MonoBehaviour {
     [SerializeField]
     private bool Status;                    //door status: false=closed, true=open
     [SerializeField]
-    private float doorSpeed = 2.0f;
+    private float doorSpeed = 0.002f;       //opening & closing speed
 
     GameObject doorL;
     GameObject doorR;
-    Vector3 doorLClosed;
-    Vector3 doorRClosed;
-    Vector3 doorLOpen;
-    Vector3 doorROpen;
 
-    Vector3 Right = Vector3.right;
-    Vector3 Left = Vector3.left;
+    Vector3 doorLClosed;                    //initial position of closed doors
+    Vector3 doorRClosed;
+    Vector3 doorLOpen;                      //position of doors when fully open
+    Vector3 doorROpen;
 
     bool opening;
     bool closing;
+
+    Coroutine Rutiini;
 
     // Use this for initialization
     void Start () {
@@ -28,8 +28,8 @@ public class ProximitySplitDoor : MonoBehaviour {
         doorR = transform.Find("DoorR").gameObject;
         doorLClosed = doorL.transform.position;
         doorRClosed = doorR.transform.position;
-        doorLOpen = doorLClosed - new Vector3(0, 30, 0);
-        doorROpen = doorRClosed - new Vector3(0, -30, 0);
+        doorLOpen = doorLClosed - new Vector3(-2.5f, 0, 0);
+        doorROpen = doorRClosed - new Vector3(2.5f, 0, 0);
     }
 	
 	// Update is called once per frame
@@ -43,10 +43,12 @@ public class ProximitySplitDoor : MonoBehaviour {
             Debug.Log("Opening");
             if (!opening)
             {
-                StartCoroutine(Open());
-
+                if (closing)
+                {
+                    StopCoroutine(Rutiini);
+                }
+                Rutiini = StartCoroutine(Open());
             }
-
         }
     }
     private void OnTriggerExit(Collider collision)
@@ -54,22 +56,37 @@ public class ProximitySplitDoor : MonoBehaviour {
         if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy" && Status == false)
         {
             Debug.Log("Closing");
-            closing = true;
-
-
-            StartCoroutine(Close());
+            if (!closing)
+            {
+                if (opening)
+                {
+                    StopCoroutine(Rutiini);
+                }
+                Rutiini = StartCoroutine(Close());
+            }
         }
     }
     IEnumerator Open()
     {
         opening = true;
         closing = false;
-        yield return null;
+        while (doorL.transform.position != doorLOpen && doorR.transform.position != doorROpen)
+        {
+            doorL.transform.position = Vector3.MoveTowards(doorL.transform.position, doorLOpen, Time.deltaTime * doorSpeed);
+            doorR.transform.position = Vector3.MoveTowards(doorR.transform.position, doorROpen, Time.deltaTime * doorSpeed);
+            yield return null;
+        }      
     }
     IEnumerator Close()
     {
         opening = false;
         closing = true;
+        while (doorL.transform.position != doorLClosed && doorR.transform.position != doorRClosed)
+        {
+            doorL.transform.position = Vector3.MoveTowards(doorL.transform.position, doorLClosed, Time.deltaTime * doorSpeed);
+            doorR.transform.position = Vector3.MoveTowards(doorR.transform.position, doorRClosed, Time.deltaTime * doorSpeed);
+            yield return null;
+        } 
         yield return null;
     }
 }
