@@ -6,10 +6,10 @@ using UnityEngine.AI;
 
 public class BaseAI : MonoBehaviour {
 
-    NavMeshAgent agent;
-    Animator anim;
+    protected NavMeshAgent agent;
+    protected Animator anim;
 
-    Transform player = null;
+    protected Transform player = null;
 
     public enum AIState {NoBehaviour, Idle, Patrol, Chase};
     protected AIState state;
@@ -21,6 +21,8 @@ public class BaseAI : MonoBehaviour {
 
     [SerializeField]
     protected float maximumDetectDistance = 15;
+
+    [SerializeField]
     protected float maximumDetectAngle = 90;
 
 
@@ -56,18 +58,42 @@ public class BaseAI : MonoBehaviour {
     protected Vector3 hitBoxSize;
     [SerializeField]
     protected Vector3 hitBoxLocation;
+
+    [SerializeField]
+    protected LayerMask hitDetectionLayers;
+
+    [SerializeField]
+    protected float damage = 10;
+
+    [SerializeField]
+    private float chargeDamage = 20;
+
+    private bool charging = false;
+
+    private float lastChargeTime;
+
+    private float chargeIntervalMin = 5, chargeIntervalMax = 10;
+    private float chargeDuration = 2;
+    private ParticleSystem chargeParticle;
+
+    [SerializeField]
+    private float chargeSpeed = 10;
+
 	// Use this for initialization
-	void Start () {
+	protected virtual void Start () {
         anim = GetComponent<Animator>();
         player = PlayerCharacterController.player.transform;
         agent = GetComponent<NavMeshAgent>();
         playerSeenTime = -playerDisappearTime - 1;
+        lastChargeTime += Random.Range(chargeIntervalMin, chargeIntervalMax);
 
         ChangeState(AIState.Idle);
+
+        chargeParticle = GetComponentInChildren<ParticleSystem>();
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	protected virtual void Update ()
     {
 
         UpdateAnimatorValues();
@@ -113,6 +139,57 @@ public class BaseAI : MonoBehaviour {
 
     }
 
+    protected virtual bool CanAttack()
+    {
+        return !anim.IsInTransition(1);
+
+    }
+
+    public void MeleeHitDetection()
+    {
+
+        //first collider found with overlapbox
+        Collider[] c = new Collider[1];
+        Physics.OverlapBoxNonAlloc(transform.TransformPoint(hitBoxLocation), hitBoxSize / 2, c, transform.rotation, hitDetectionLayers);
+
+        if (c[0] != null)
+        {
+
+            if (c[0].GetComponent<BaseHealth>())
+            {
+                c[0].GetComponent<BaseHealth>().takeDamage(damage, gameObject);
+                if(charging)
+                {
+                    lastChargeTime = Time.time + Random.Range(chargeIntervalMin, chargeIntervalMax);
+                    charging = false;
+                }
+            
+            }
+        }
+        
+    }
+
+    private bool ChargeHitDetection(out BaseHealth b)
+    {
+        b = null;
+        //first collider found with overlapbox
+        Collider[] c = new Collider[1];
+        Physics.OverlapBoxNonAlloc(transform.TransformPoint(hitBoxLocation), hitBoxSize / 2, c, transform.rotation, hitDetectionLayers);
+
+        if (c[0] != null)
+        {
+
+            if (c[0].GetComponent<BaseHealth>())
+            {
+                b = c[0].GetComponent<BaseHealth>();
+                return true;
+               
+            }
+        }
+
+        return false;
+
+    }
     protected virtual void Idle()
     {
         animatorForwardValue = 0;
@@ -127,7 +204,12 @@ public class BaseAI : MonoBehaviour {
             }
             else
             {
-                if (anim.IsInTransition(1) == false)
+                Vector3 direction = player.position - transform.position;
+                direction.y = 0;
+                Quaternion lookDir = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, Time.deltaTime * rotateSpeed);
+
+                if (CanAttack())
                 {
                     upperBodyWeight = 1;
                     CancelInvoke();
@@ -145,9 +227,10 @@ public class BaseAI : MonoBehaviour {
         upperBodyWeight = 0;
     }
 
-    void UpdateAnimatorValues()
+    protected virtual void UpdateAnimatorValues()
     {
         anim.SetFloat("Forward", animatorForwardValue, 0.2f, Time.deltaTime);
+        anim.SetBool("charging", charging);
 
         if(upperBodyWeight == 0)
         anim.SetLayerWeight(1, Mathf.MoveTowards(anim.GetLayerWeight(1), upperBodyWeight, Time.deltaTime * 2));
@@ -173,11 +256,41 @@ public class BaseAI : MonoBehaviour {
             Vector3 direction = agent.steeringTarget - transform.position;
             direction.y = 0;
             Quaternion lookDir = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, Time.deltaTime * rotateSpeed);
-
+           
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            if (distanceToPlayer <= stoppingDistance)
+            if (Time.time > lastChargeTime && !charging)
+            {
+                chargeParticle.Play();
+                charging = true;
+                lastChargeTime = Time.time;
+
+            }
+
+            //CHARGE
+            if (charging)
+            {
+                agent.velocity = transform.forward * chargeSpeed;
+                BaseHealth b;
+                if (ChargeHitDetection(out b))
+                {
+                    b.takeDamage(chargeDamage, gameObject);
+                    StopCharge();
+                    lastChargeTime = Time.time + Random.Range(chargeIntervalMin, chargeIntervalMax);
+                    
+                }
+
+                if (Time.time > lastChargeTime + chargeDuration)
+                {
+                    StopCharge();
+                    lastChargeTime = Time.time + Random.Range(chargeIntervalMin, chargeIntervalMax);
+                }
+            }
+            else
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, Time.deltaTime * rotateSpeed);
+            }
+            if (distanceToPlayer <= stoppingDistance && !charging)
             {
                 ChangeState(AIState.Idle);
 
@@ -191,9 +304,15 @@ public class BaseAI : MonoBehaviour {
         }
     }
 
+    private void StopCharge()
+    {
+        charging = false;
+        chargeParticle.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+    }
+
 
     //checks if the player is within distance and angle and that there's no collisions between them
-    protected bool IsPlayerDetected()
+    protected virtual bool IsPlayerDetected()
     {
         
         if (Time.time > lastScanTime + scanInterval)
@@ -214,7 +333,6 @@ public class BaseAI : MonoBehaviour {
                             playerSeenTime = Time.time;
                             return true;
                         }
-                        else print(hit.collider.name);
 
                     }
                     else print("no raycast");
@@ -234,7 +352,7 @@ public class BaseAI : MonoBehaviour {
     }
 
 
-    public void ChangeState(AIState state)
+    public virtual void ChangeState(AIState state)
     {
 
         this.state = state;
@@ -242,10 +360,11 @@ public class BaseAI : MonoBehaviour {
 
     }
 
-    private void OnAnimatorMove()
+    protected virtual void OnAnimatorMove()
     {
         if (agent.enabled && !agent.isStopped)
         {
+            if(anim.GetCurrentAnimatorStateInfo(0).IsTag("rootmotion"))
             agent.velocity = anim.deltaPosition / Time.deltaTime;
         }
     }
@@ -258,6 +377,6 @@ public class BaseAI : MonoBehaviour {
 
         Gizmos.color = c;
 
-        Gizmos.DrawCube(transform.TransformPoint(hitBoxLocation * transform.localScale.x), hitBoxSize);
+        Gizmos.DrawCube(transform.TransformPoint(hitBoxLocation), hitBoxSize);
     }
 }
