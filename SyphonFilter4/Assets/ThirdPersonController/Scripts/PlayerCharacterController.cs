@@ -57,6 +57,11 @@ public class PlayerCharacterController : MonoBehaviour
 
     private bool grounded = true;
     private float lastGroundedTime;
+    private bool dashing = false;
+    public bool Dashing { set { dashing = value; } }
+
+    [SerializeField]
+    private float dashSpeedMultiplier = 1;
 
     //how long before falling is registered
     private float groundedLossTime = 0.1f;
@@ -96,6 +101,11 @@ public class PlayerCharacterController : MonoBehaviour
 
                 if (isJumping == false && Input.GetKeyDown(KeyCode.Space))
                     StartCoroutine(jumpingAnimation());
+
+                if (isJumping == false && dashing == false && Input.GetKeyDown(KeyCode.LeftShift))
+                {
+                    Dash();
+                }
             }
             else if (isJumping == false)
             {
@@ -105,7 +115,11 @@ public class PlayerCharacterController : MonoBehaviour
 
 
     }
-
+    private void Dash()
+    {
+        anim.CrossFadeInFixedTime("Slide", 0);
+        dashing = true;
+    }
     IEnumerator jumpingAnimation()
     {
         grounded = false;
@@ -166,6 +180,7 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
         Vector3 v = moveVector * moveSpeed;
+      
         // v.y = gravity * -1;
 
         if (slopeNormal.y <= 0.7f)
@@ -183,6 +198,8 @@ public class PlayerCharacterController : MonoBehaviour
             v = Vector3.ProjectOnPlane(v, groundNormal);
 
             v = v.normalized * magnitude * moveSpeed;
+            if (dashing)
+                v *= dashSpeedMultiplier;
             v.y -= gravity;
 
 

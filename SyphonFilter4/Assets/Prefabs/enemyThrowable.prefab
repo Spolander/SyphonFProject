@@ -133,7 +133,7 @@ MonoBehaviour:
   explosionEffect: {fileID: 1282491835806780, guid: 990e4586573979c4b8c9641aa60b5595,
     type: 2}
   hitDetectionRadius: 0.24
-  explosionRadius: 2.5
+  explosionRadius: 3.5
   collisionLayers:
     serializedVersion: 2
     m_Bits: 513
