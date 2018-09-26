@@ -24,6 +24,9 @@ public class RangedEnemy : BaseAI {
 
     public void throwingAttack()
     {
+        if (player == null)
+            return;
+
         GameObject g = (GameObject)Instantiate(throwable, anim.GetBoneTransform(HumanBodyBones.RightHand).position, Quaternion.identity);
         g.GetComponent<enemyThrowable>().Initialize(player.position, throwableTime, damage);
     }
