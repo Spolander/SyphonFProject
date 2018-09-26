@@ -79,6 +79,12 @@ public class BaseAI : MonoBehaviour {
     [SerializeField]
     private float chargeSpeed = 10;
 
+    //did the player aggro the enemy by shooting it
+    protected bool aggroed = false;
+    protected float lastAggroTime;
+    protected float aggroTimer = 5f;
+    public float LastAggroTime { get { return lastAggroTime; }set { lastAggroTime = value; aggroed = true; } }
+
 	// Use this for initialization
 	protected virtual void Start () {
         anim = GetComponent<Animator>();
@@ -193,8 +199,12 @@ public class BaseAI : MonoBehaviour {
     protected virtual void Idle()
     {
         animatorForwardValue = 0;
+        bool playerDetected = aggroed && Time.time < lastAggroTime + aggroTimer;
 
-        if (IsPlayerDetected())
+        if (!playerDetected)
+            playerDetected = IsPlayerDetected();
+
+        if (playerDetected)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
@@ -213,7 +223,7 @@ public class BaseAI : MonoBehaviour {
                 {
                     upperBodyWeight = 1;
                     CancelInvoke();
-                    anim.SetTrigger("melee1");
+                    anim.SetTrigger("attack");
                     Invoke("ResetUpperBodyWeight", 1.5f);
                 }
                   
@@ -240,7 +250,9 @@ public class BaseAI : MonoBehaviour {
     protected virtual void Chase()
     {
 
-        if (IsPlayerDetected())
+        bool playerDetected = IsPlayerDetected();
+
+        if (playerDetected)
         {
             agent.destination = player.position;
 
@@ -314,7 +326,11 @@ public class BaseAI : MonoBehaviour {
     //checks if the player is within distance and angle and that there's no collisions between them
     protected virtual bool IsPlayerDetected()
     {
-        
+        if (aggroed && Time.time < lastAggroTime + aggroTimer)
+        {
+            return true;
+        }
+
         if (Time.time > lastScanTime + scanInterval)
         {
             lastScanTime = Time.time;
