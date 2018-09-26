@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Water : MonoBehaviour {
+public class LiquidHazard : MonoBehaviour {
 
     [SerializeField]
     int damage;

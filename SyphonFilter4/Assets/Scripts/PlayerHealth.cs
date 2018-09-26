@@ -42,4 +42,33 @@ public class PlayerHealth : BaseHealth{
             death(caller);
         }
     }
+
+    public void heal(float amount, GameObject caller)
+    {
+        if (Health + amount < maxHealth)
+        {
+            Health = Health + amount;
+
+        }
+        else if (Health + amount >= maxHealth)
+        {
+            Health = maxHealth;
+        }
+        if (hpBar != null)
+        {
+            hpBar.UpdateHealthBar(maxHealth, Health);           //health bar update
+        }
+        Debug.Log(Health);   
+    }
+
+
+    //getters for checking values
+    public float GetHealth()
+    {
+        return Health;
+    }
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
 }
