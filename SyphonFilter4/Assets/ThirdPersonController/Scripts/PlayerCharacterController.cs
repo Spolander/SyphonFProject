@@ -117,8 +117,9 @@ public class PlayerCharacterController : MonoBehaviour
     }
     private void Dash()
     {
-        anim.CrossFadeInFixedTime("Slide", 0);
         dashing = true;
+        anim.CrossFadeInFixedTime("Slide", 0);
+       
     }
     IEnumerator jumpingAnimation()
     {
