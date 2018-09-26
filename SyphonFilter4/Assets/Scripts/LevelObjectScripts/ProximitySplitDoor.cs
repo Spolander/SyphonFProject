@@ -19,17 +19,19 @@ public class ProximitySplitDoor : MonoBehaviour {
     bool opening;
     bool closing;
 
-    Coroutine Rutiini;
+    Coroutine Rutiini;                      //make coroutine variable, so we can stop it
 
     // Use this for initialization
     void Start () {
         Status = false;
         doorL = transform.Find("DoorL").gameObject;
         doorR = transform.Find("DoorR").gameObject;
-        doorLClosed = doorL.transform.position;
-        doorRClosed = doorR.transform.position;
-        doorLOpen = doorLClosed - new Vector3(-2.5f, 0, 0);
-        doorROpen = doorRClosed - new Vector3(2.5f, 0, 0);
+
+        doorLClosed = doorL.transform.position;                 //set positions where doors are closed
+        doorRClosed = doorR.transform.position; 
+        
+        doorLOpen = doorLClosed - transform.TransformDirection( new Vector3(-2.5f, 0, 0));      //set positions where door is open
+        doorROpen = doorRClosed - transform.TransformDirection( new Vector3( 2.5f, 0, 0));
     }
 	
 	// Update is called once per frame
@@ -43,7 +45,7 @@ public class ProximitySplitDoor : MonoBehaviour {
             Debug.Log("Opening");
             if (!opening)
             {
-                if (closing)
+                if (closing)                    //if  doors are closing, stop closing and start opening
                 {
                     StopCoroutine(Rutiini);
                 }
@@ -58,7 +60,7 @@ public class ProximitySplitDoor : MonoBehaviour {
             Debug.Log("Closing");
             if (!closing)
             {
-                if (opening)
+                if (opening)                            //if doors are opening, stop opening and start closing
                 {
                     StopCoroutine(Rutiini);
                 }
