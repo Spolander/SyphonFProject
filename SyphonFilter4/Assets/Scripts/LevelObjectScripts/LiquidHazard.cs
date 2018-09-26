@@ -7,6 +7,9 @@ public class LiquidHazard : MonoBehaviour {
     [SerializeField]
     int damage;
 
+    float previous;
+    float delay = 0.5f;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -18,7 +21,7 @@ public class LiquidHazard : MonoBehaviour {
 	}
     private void OnTriggerEnter(Collider other)
     {
-        
+        SoundEngine.instance.PlaySound("splash", gameObject.transform.position, gameObject.transform);
     }
     private void OnTriggerExit(Collider other)
     {
@@ -27,5 +30,11 @@ public class LiquidHazard : MonoBehaviour {
     private void OnTriggerStay(Collider other)
     {
         other.GetComponent<PlayerHealth>().takeDamage(damage, gameObject);
+        if (Time.time > previous +delay)
+        {
+            SoundEngine.instance.PlaySound("waterWalk", gameObject.transform.position, gameObject.transform);
+            previous = Time.time;
+        }
+
     }
 }
