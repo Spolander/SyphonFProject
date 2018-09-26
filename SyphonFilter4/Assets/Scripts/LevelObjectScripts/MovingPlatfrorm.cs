@@ -67,7 +67,8 @@ public class MovingPlatfrorm : MonoBehaviour {
     }
     private void OnTriggerEnter(Collider other)
     {
-        other.transform.SetParent(gameObject.transform);     
+        other.transform.SetParent(gameObject.transform);    
+        
         if (PlayerActivation)
         {
             Liike = StartCoroutine(StartMove());
@@ -76,6 +77,7 @@ public class MovingPlatfrorm : MonoBehaviour {
     private void OnTriggerExit(Collider other)
     {
         other.transform.SetParent(null);
+        other.transform.localScale = Vector3.one;
         if (ResetIfFall && ActiveLooping)
         {
             ActiveLooping = false;
