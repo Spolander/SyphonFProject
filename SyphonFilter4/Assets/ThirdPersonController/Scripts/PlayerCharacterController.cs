@@ -46,6 +46,8 @@ public class PlayerCharacterController : MonoBehaviour
     [SerializeField]
     private float jumpingForce = 20;
 
+    private float initialJumpingForce;
+
     [SerializeField]
     private float jumpingDuration = 0.2f;
 
@@ -72,6 +74,7 @@ public class PlayerCharacterController : MonoBehaviour
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         mainCam = Camera.main;
+        initialJumpingForce =jumpingForce;
     }
     private void Awake()
     {
@@ -280,5 +283,13 @@ public class PlayerCharacterController : MonoBehaviour
             grounded = false;
         }
 
+    }
+    public void setJumpForce(int amount)
+    {
+        jumpingForce = amount;
+    }
+    public void resetJumpForce()
+    {
+        jumpingForce = initialJumpingForce;
     }
 }
