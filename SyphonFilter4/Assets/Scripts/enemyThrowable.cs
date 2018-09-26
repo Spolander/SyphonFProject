@@ -30,8 +30,14 @@ public class enemyThrowable : MonoBehaviour {
     private float damage;
 
     bool hit = false;
+
+    Transform spriteTransform;
+
+    Camera mainCam;
     public void Initialize(Vector3 targetLocation, float time, float damage)
     {
+        mainCam = Camera.main;
+        spriteTransform = transform.GetChild(0);
         this.damage = damage;
         startingPoint = transform.position;
         this.targetLocation = targetLocation;
@@ -45,6 +51,7 @@ public class enemyThrowable : MonoBehaviour {
        
         while (lerp <= 1 && !hit)
         {
+            spriteTransform.rotation = Quaternion.LookRotation(mainCam.transform.position - transform.position);
             Vector3 pos = Vector3.Lerp(startingPoint, targetLocation, lerp);
             pos.y += flightCurve.Evaluate(lerp) * heightMultiplier;
 
