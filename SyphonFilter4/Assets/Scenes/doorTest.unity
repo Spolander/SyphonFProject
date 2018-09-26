@@ -1039,6 +1039,11 @@ Prefab:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 114971593503905282, guid: ecc34089c19a0cc419b737dcea6ade7d,
+        type: 2}
+      propertyPath: dashSpeedMultiplier
+      value: 1.75
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 64448988019810306, guid: ecc34089c19a0cc419b737dcea6ade7d, type: 2}
     - {fileID: 64825136908418022, guid: ecc34089c19a0cc419b737dcea6ade7d, type: 2}
