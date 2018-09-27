@@ -10,13 +10,29 @@ public class CameraFollow : MonoBehaviour {
     private Transform player;
 
     public float defaultDistance;
+  
+
+
     public float lockOnDistance;
     public float height = 2;
 
+   
+
     [SerializeField]
     private float defaultLookAtHeight = 1;
+
+
+
     [SerializeField]
     private float lockOnLookAtHeight = 1;
+
+    [Header("Camera values when the camera is nearest to the player")]
+    public float minimumDistance;
+    public float minimumHeight = 1;
+    [SerializeField]
+    private float minimumLookAtHeight = 1;
+
+    [Space]
 
     public float moveSpeed = 300;
     public float rotateSpeed = 300;
@@ -29,6 +45,9 @@ public class CameraFollow : MonoBehaviour {
 
 
     public static CameraFollow playerCam;
+
+    [SerializeField]
+    private LayerMask cameraBlockingLayers;
 	// Use this for initialization
 
     private void Awake()
@@ -62,8 +81,21 @@ public class CameraFollow : MonoBehaviour {
             else
             {
                 Quaternion rotation = Quaternion.Euler(0, rotationAngleY, 0);
-                transform.position = player.position + rotation * Vector3.forward * defaultDistance + Vector3.up*height;
-                transform.rotation = Quaternion.LookRotation((player.position + Vector3.up * defaultLookAtHeight) - transform.position);
+
+                Vector3 targetPosition = player.position + rotation * Vector3.forward * defaultDistance + Vector3.up * height;
+                RaycastHit hit;
+
+                float lerp = 1;
+                if (Physics.Linecast(player.position + Vector3.up, targetPosition, out hit, cameraBlockingLayers, QueryTriggerInteraction.Ignore))
+                {
+                    lerp = hit.distance / defaultDistance;
+                }
+
+
+                targetPosition = player.position + rotation * Vector3.forward * Mathf.Lerp(minimumDistance, defaultDistance,lerp) + Vector3.up * Mathf.Lerp(minimumHeight, height,lerp);
+
+                transform.position = targetPosition;
+                transform.rotation = Quaternion.LookRotation((player.position + Vector3.up * Mathf.Lerp(minimumLookAtHeight, defaultLookAtHeight,lerp)) - transform.position);
             }
         }
 		

@@ -39,9 +39,15 @@ public class playerCombat : MonoBehaviour {
     [SerializeField]
     private LayerMask lockOnLayers;
 
+    [SerializeField]
+    private LayerMask lockOnBlockingLayers;
+
     private Transform currentFreeAimingTarget = null;
 
     private MuzzleFlashAnimation muzzles;
+
+    [SerializeField]
+    private GameObject projectileImpact;
 	void Start () {
         muzzles = GetComponent<MuzzleFlashAnimation>();
         mainCam = Camera.main;
@@ -82,65 +88,75 @@ public class playerCombat : MonoBehaviour {
 
         }
 
+        Shooting();
+    }
+
+    private void Shooting()
+    {
 
         ikc.Shooting = Input.GetKey(KeyCode.Mouse0);
 
         if (ikc.Shooting)
         {
-            if (ikc.LockedOn)
+            if (ikc.LockedOn && damageDone == false)
             {
+                damageDone = true;
                 //shoot towards target
-                
-                if(ikc.CurrentLookAtWeight > 0.8f)
-                if (Physics.Raycast(transform.TransformPoint(0f,1.5f,0f), ikc.Target.transform.TransformPoint(0f,1.5f,0f)- transform.TransformPoint(0f, 1.5f, 0f), out ShootRaycastHit, maxShootingDistance,EnemyLayerMask))
-                {
-                    if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
+
+                if (ikc.CurrentLookAtWeight > 0.8f)
+                    if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
                     {
-                        //Debug.DrawRay(transform.TransformPoint(0f, 1.5f, 0f), ikc.Target.transform.TransformPoint(0f, 1.5f, 0f) - transform.TransformPoint(0f, 1.5f, 0f), Color.red);
-                        //Debug.Break();
-                        EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
-                        if (damageDone == false)
+                       GameObject g =  Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity) as GameObject;
+                        g.transform.SetParent(ShootRaycastHit.collider.transform);
+
+                        if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
                         {
-                            EnemyHealth.takeDamage(damage,gameObject);
-                            damageDone = true;
+                            EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
+                                EnemyHealth.takeDamage(damage, gameObject);
+                               
+                                
                         }
                     }
-                }
 
-               
-     
+
+
             }
-            else
+            else if(damageDone == false)
             {
+                damageDone = true;
                 scanForFreeAim();
 
                 if (currentFreeAimingTarget)
                 {
                     ikc.Target = currentFreeAimingTarget;
                     if (ikc.CurrentLookAtWeight > 0.8f)
-                        if (Physics.Raycast(transform.TransformPoint(0f, 1.5f, 0f), ikc.Target.transform.TransformPoint(0f, 1.5f, 0f) - transform.TransformPoint(0f, 1.5f, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
+                        if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
                         {
+                            GameObject g = Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity) as GameObject;
+                            g.transform.SetParent(ShootRaycastHit.collider.transform);
+
                             if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
                             {
-                                //Debug.DrawRay(transform.TransformPoint(0f, 1.5f, 0f), ikc.Target.transform.TransformPoint(0f, 1.5f, 0f) - transform.TransformPoint(0f, 1.5f, 0f), Color.red);
-                                //Debug.Break();
                                 EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
-                                if (damageDone == false)
-                                {
-                                    EnemyHealth.takeDamage(damage, gameObject);
-                                    damageDone = true;
-                                }
+                                EnemyHealth.takeDamage(damage, gameObject);
+                               
                             }
                         }
                 }
                 else
                 {
+                    if (ikc.CurrentLookAtWeight > 0.8f)
+                        if (Physics.Raycast(transform.TransformPoint(0f, 1.5f, 0f), transform.forward, out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
+                        {
+                            Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity);
+                        }
+
                     ikc.Target = null;
                 }
             }
 
-            if(ikc.CurrentLookAtWeight > 0.8f)
-            muzzles.Animate();
+            if (ikc.CurrentLookAtWeight > 0.8f)
+                muzzles.Animate();
         }
         else
         {
@@ -181,6 +197,9 @@ public class playerCombat : MonoBehaviour {
             float maxDistance = Mathf.Infinity;
             for (int i = 0; i < cols.Length; i++)
             {
+            if (!Physics.Linecast(transform.TransformPoint(0, 1.5f, 0), cols[i].transform.TransformPoint(0f, 1f, 0), lockOnBlockingLayers))
+            {
+
                 float distance = Vector3.Distance(transform.position, cols[i].transform.position);
                 if (distance < maxDistance)
                 {
@@ -192,6 +211,7 @@ public class playerCombat : MonoBehaviour {
                         maxDistance = distance;
                     }
                 }
+            }
             }
 
 
@@ -220,18 +240,20 @@ public class playerCombat : MonoBehaviour {
             float maxDistance = Mathf.Infinity;
             for (int i = 0; i < cols.Length; i++)
             {
-
-                //check if distance is smaller than 
-                float distance = Vector3.Distance(transform.position, cols[i].transform.position);
-                if (distance < maxDistance)
+                if (!Physics.Linecast(transform.TransformPoint(0, 1.5f, 0), cols[i].transform.TransformPoint(0f, 1f, 0), lockOnBlockingLayers))
                 {
-                    float angle = Vector3.Angle(transform.forward, cols[i].transform.position - transform.position);
-
-                    //Check if angle is small enough
-                    if (angle < maxFreeAimShootingAngle)
+                    //check if distance is smaller than 
+                    float distance = Vector3.Distance(transform.position, cols[i].transform.position);
+                    if (distance < maxDistance)
                     {
-                        target = cols[i].transform;
-                        maxDistance = distance;
+                        float angle = Vector3.Angle(transform.forward, cols[i].transform.position - transform.position);
+
+                        //Check if angle is small enough
+                        if (angle < maxFreeAimShootingAngle)
+                        {
+                            target = cols[i].transform;
+                            maxDistance = distance;
+                        }
                     }
                 }
             }
