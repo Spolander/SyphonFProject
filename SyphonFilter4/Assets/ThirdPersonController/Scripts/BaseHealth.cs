@@ -5,19 +5,10 @@ using UnityEngine;
 public class BaseHealth : MonoBehaviour {
 
     [SerializeField]
-    private int Health = 100;
+    protected float Health = 100;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-    public virtual void takeDamage(int amount, GameObject caller) {
+    public virtual void takeDamage(float amount, GameObject caller) {
         Health = Health - amount;
         Debug.Log(Health);
         if (Health <= 0)
@@ -36,7 +27,7 @@ public class BaseHealth : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    public virtual void heal(int amount)
+    public virtual void heal(float amount)
     {
         Health = Health + amount;
     }
