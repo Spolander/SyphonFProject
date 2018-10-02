@@ -163,3 +163,11 @@ MonoBehaviour:
   pistolShots:
   - {fileID: 8300000, guid: 6c3723730ea702645a0a4983165be526, type: 3}
   - {fileID: 8300000, guid: 46cec41a5573be344a2dcc6a2bd992f3, type: 3}
+  grenadeSounds:
+  - {fileID: 8300000, guid: 820858bdda8828c4585211ae490f02c4, type: 3}
+  mechaWeapons:
+  - {fileID: 8300000, guid: e2233aa377f4c6e409872e3ae4a204ae, type: 3}
+  - {fileID: 8300000, guid: 461a778839440c3458e10a6196103176, type: 3}
+  - {fileID: 8300000, guid: 82fa28d9ec029e64fba3005235f7aeb8, type: 3}
+  mechaSteps:
+  - {fileID: 8300000, guid: 43d73f3734ddd2b4582f48356c8254f6, type: 3}

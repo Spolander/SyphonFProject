@@ -16,6 +16,15 @@ public class SoundEngine : MonoBehaviour {
     [SerializeField]
     AudioClip[] pistolShots;
 
+    [SerializeField]
+    AudioClip[] grenadeSounds;
+
+    [SerializeField]
+    AudioClip[] mechaWeapons;
+
+    [SerializeField]
+    AudioClip[] mechaSteps;
+
     public static SoundEngine instance;
     private void Awake()
     {
@@ -51,8 +60,24 @@ public class SoundEngine : MonoBehaviour {
         else if (name == "Footsteps")
         {
             AS.clip = Footsteps[Random.Range(0, Footsteps.Length)];
+            AS.maxDistance = 15;
         }
-
+        else if (name == "grenade")
+        {
+            AS.clip = grenadeSounds[Random.Range(0, grenadeSounds.Length)];
+            AS.maxDistance = 10;
+            AS.minDistance = 2;
+        }
+        else if (name == "mechaweapons")
+        {
+            AS.clip = mechaWeapons[Random.Range(0, mechaWeapons.Length)];
+            AS.minDistance = 1;
+        }
+        else if (name == "mechasteps")
+        {
+            AS.clip = mechaSteps[Random.Range(0, mechaSteps.Length)];
+            AS.maxDistance = 10;
+        }
 
 
         sound.transform.position = point;

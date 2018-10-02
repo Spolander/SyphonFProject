@@ -62,6 +62,7 @@ public class enemyThrowable : MonoBehaviour {
         }
 
         Destroy(gameObject);
+        SoundEngine.instance.PlaySound("grenade", transform.position, null);
         GameObject particleSys = (GameObject)Instantiate(explosionEffect, transform.position, Quaternion.identity);
         var main = particleSys.GetComponent<ParticleSystem>().main;
         main.startSize = explosionRadius/2;
