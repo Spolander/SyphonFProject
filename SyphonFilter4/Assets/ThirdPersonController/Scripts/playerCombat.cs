@@ -14,6 +14,7 @@ public class playerCombat : MonoBehaviour {
     RaycastHit ShootRaycastHit;         // mihin tähdätään laukaisuhetkellä
     [SerializeField]
     float GunFireRate =0.5f;            // aika damagen dealauksen välissä
+    public float FireRate { get { return GunFireRate; } }
     bool damageDone = false;
     float damageTimer=0;
 
@@ -45,12 +46,15 @@ public class playerCombat : MonoBehaviour {
 
     private Transform currentFreeAimingTarget = null;
 
-    private MuzzleFlashAnimation muzzles;
+
 
     [SerializeField]
     private GameObject projectileImpact;
+
+    [SerializeField]
+    private ParticleSystem[] gunMuzzles;
+    int lastFired = 0;
 	void Start () {
-        muzzles = GetComponent<MuzzleFlashAnimation>();
         mainCam = Camera.main;
         anim = GetComponent<Animator>();
         ikc = GetComponent<IKController>();
@@ -92,6 +96,13 @@ public class playerCombat : MonoBehaviour {
         Shooting();
     }
 
+    void PlayMuzzleParticle()
+    {
+        lastFired = lastFired == 1 ? 0 : 1;
+
+        gunMuzzles[lastFired].Play(true);
+    }
+
     private void Shooting()
     {
 
@@ -101,6 +112,8 @@ public class playerCombat : MonoBehaviour {
         {
             if (ikc.LockedOn && damageDone == false)
             {
+                PlayMuzzleParticle();
+                SoundEngine.instance.PlaySound("pistolShot", transform.position, null);
                 damageDone = true;
                 //shoot towards target
 
@@ -122,6 +135,8 @@ public class playerCombat : MonoBehaviour {
             }
             else if(damageDone == false)
             {
+                PlayMuzzleParticle();
+                SoundEngine.instance.PlaySound("pistolShot", transform.position, null);
                 damageDone = true;
                 scanForFreeAim();
 
@@ -154,8 +169,6 @@ public class playerCombat : MonoBehaviour {
                 }
             }
 
-            if (ikc.CurrentLookAtWeight > 0.8f)
-                muzzles.Animate();
         }
         else
         {
@@ -165,8 +178,6 @@ public class playerCombat : MonoBehaviour {
                 ikc.Target = null;
             }
 
-            if (muzzles.Animating)
-                muzzles.StopAnimating();
         }
     }
 

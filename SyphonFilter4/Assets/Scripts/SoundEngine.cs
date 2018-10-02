@@ -10,6 +10,9 @@ public class SoundEngine : MonoBehaviour {
     [SerializeField]
     AudioClip[] waterWalk;
 
+    [SerializeField]
+    AudioClip[] pistolShots;
+
     public static SoundEngine instance;
     private void Awake()
     {
@@ -30,15 +33,18 @@ public class SoundEngine : MonoBehaviour {
         GameObject sound = new GameObject();
         AudioSource AS = sound.AddComponent<AudioSource>();
 
-        if(name == "splash")
+        if (name == "splash")
         {
             AS.clip = splash;
         }
-        if (name == "waterWalk")
+        else if (name == "waterWalk")
         {
             AS.clip = waterWalk[Random.Range(0, 4)];
         }
-
+        else if (name == "pistolShot")
+        {
+            AS.clip = pistolShots[Random.Range(0, pistolShots.Length)];
+        }
 
 
 
