@@ -1,8 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Audio;
 public class SoundEngine : MonoBehaviour {
+
+    [SerializeField]
+    private AudioMixer mixer;
+
+    [Space]
 
     [SerializeField]
     AudioClip splash;
@@ -26,15 +31,15 @@ public class SoundEngine : MonoBehaviour {
     AudioClip[] mechaSteps;
 
     public static SoundEngine instance;
+
+   
     private void Awake()
     {
         instance = this;
     }
 
     // Use this for initialization
-    void Start () {
-		
-	}
+   
 	
 	// Update is called once per frame
 	void Update () {
@@ -79,7 +84,7 @@ public class SoundEngine : MonoBehaviour {
             AS.maxDistance = 10;
         }
 
-
+        AS.outputAudioMixerGroup = mixer.FindMatchingGroups("FX")[0];
         sound.transform.position = point;
         sound.transform.SetParent(parent);
         AS.dopplerLevel = 0;

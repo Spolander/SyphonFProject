@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 303a2c5b6cbf48d40a96c3cea62f6c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: 50ff2d0c7f525e94fae493d628507c25, type: 2}
   splash: {fileID: 8300000, guid: de93949602e204a49955b9dfb2c40099, type: 3}
   waterWalk:
   - {fileID: 8300000, guid: d1d7d85d67a9bb04f89800e2d421d411, type: 3}
