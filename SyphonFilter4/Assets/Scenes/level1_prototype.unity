@@ -153,6 +153,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114890713236140876, guid: 5fb654d19f44df94b9fc3dcb78dab314,
+        type: 2}
+      propertyPath: Health
+      value: 350
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fb654d19f44df94b9fc3dcb78dab314, type: 2}
   m_IsPrefabAsset: 0
@@ -1232,6 +1237,11 @@ Prefab:
       propertyPath: attackingDistance
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 114890713236140876, guid: 5fb654d19f44df94b9fc3dcb78dab314,
+        type: 2}
+      propertyPath: Health
+      value: 350
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fb654d19f44df94b9fc3dcb78dab314, type: 2}
   m_IsPrefabAsset: 0
@@ -1404,6 +1414,11 @@ Prefab:
     - target: {fileID: 1763646796920610, guid: 5fb654d19f44df94b9fc3dcb78dab314, type: 2}
       propertyPath: m_Name
       value: RangedEnemy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114890713236140876, guid: 5fb654d19f44df94b9fc3dcb78dab314,
+        type: 2}
+      propertyPath: Health
+      value: 350
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fb654d19f44df94b9fc3dcb78dab314, type: 2}
