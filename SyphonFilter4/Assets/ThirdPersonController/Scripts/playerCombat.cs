@@ -9,10 +9,11 @@ public class playerCombat : MonoBehaviour {
     Camera mainCam;
 
     BaseHealth EnemyHealth;             // damage testiä varten
-    int damage = 34;                    // damage testiä varten
-    RaycastHit ShootRaycastHit;
     [SerializeField]
-    float GunFireRate =0.5f;
+    int GunDamage = 34;                    // damage testiä varten
+    RaycastHit ShootRaycastHit;         // mihin tähdätään laukaisuhetkellä
+    [SerializeField]
+    float GunFireRate =0.5f;            // aika damagen dealauksen välissä
     bool damageDone = false;
     float damageTimer=0;
 
@@ -113,8 +114,6 @@ public class playerCombat : MonoBehaviour {
                         {
                             EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
                                 EnemyHealth.takeDamage(damage, gameObject);
-                               
-                                
                         }
                     }
 
