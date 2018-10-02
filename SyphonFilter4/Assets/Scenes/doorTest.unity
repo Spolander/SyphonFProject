@@ -440,7 +440,7 @@ Transform:
   m_LocalScale: {x: 1.6489124, y: 1, z: 10.837667}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &502304231
 GameObject:
@@ -540,7 +540,7 @@ GameObject:
   - component: {fileID: 543862734}
   - component: {fileID: 543862733}
   - component: {fileID: 543862738}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -561,7 +561,8 @@ MonoBehaviour:
   ExplosionDamage: 100
   hitDetectionRadius: 1
   ExplosionRadius: 4
-  explosionEffect: {fileID: 0}
+  explosionEffect: {fileID: 1282491835806780, guid: 990e4586573979c4b8c9641aa60b5595,
+    type: 2}
   collisionLayers:
     serializedVersion: 2
     m_Bits: 1536
@@ -575,9 +576,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5000001
-  m_Height: 2
+  m_Height: 2.0312433
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: 0.000000059604645, y: 0.015621662, z: -0.00000011920929}
 --- !u!23 &543862735
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -627,8 +628,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 543862732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.86, y: 9.95, z: 2.83}
-  m_LocalScale: {x: 1, y: 0.6086, z: 1}
+  m_LocalPosition: {x: 4.86, y: 10.577, z: 2.83}
+  m_LocalScale: {x: 1, y: 0.67564, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 26
@@ -641,7 +642,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 543862732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7a47e4df29b64a4a8d55fafcabe74fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c61b99b8a771c44fb617d4c6a32eee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 50
@@ -969,7 +970,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4626684864431224, guid: 8d6aae02f85bfed4b89dec4dadc2ebcd, type: 2}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d6aae02f85bfed4b89dec4dadc2ebcd, type: 2}
@@ -1057,7 +1058,7 @@ Transform:
   m_LocalScale: {x: 5, y: 13.254276, z: 34.191166}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 31.598001, y: 180.00002, z: 0}
 --- !u!1 &1150656772
 GameObject:
@@ -1227,7 +1228,7 @@ Transform:
   m_LocalScale: {x: 1.6489124, y: 1, z: 10.837667}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1322795434
 Prefab:
@@ -1344,10 +1345,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1542436220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7a47e4df29b64a4a8d55fafcabe74fc, type: 3}
+  m_Script: {fileID: 11500000, guid: edaef4dbd0b64cb41b8ebc62d1655e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
 --- !u!136 &1542436228
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1508,7 +1508,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4014361312116838, guid: de9fcee414fabf04da113dcf49b144b8, type: 2}
       propertyPath: m_RootOrder
-      value: 22
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 1260117203899980, guid: de9fcee414fabf04da113dcf49b144b8, type: 2}
       propertyPath: m_Name
@@ -1524,11 +1524,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: waterWalk.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 4316161352967360, guid: 6bb695f9cd8f9b542b8a5b08cff9d433, type: 2}
       propertyPath: m_LocalPosition.x
       value: -4.913191
@@ -1561,31 +1556,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 24
       objectReference: {fileID: 0}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: splash
-      value: 
-      objectReference: {fileID: 8300000, guid: de93949602e204a49955b9dfb2c40099, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: waterWalk.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: d1d7d85d67a9bb04f89800e2d421d411, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: waterWalk.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 13f65fc1ec192c647a29bc210fa20327, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: waterWalk.Array.data[2]
-      value: 
-      objectReference: {fileID: 8300000, guid: 392c386bffd93f04db2ed19354fb0fc3, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: waterWalk.Array.data[3]
-      value: 
-      objectReference: {fileID: 8300000, guid: deef19e3ad789f942887e2c5a9eae28b, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bb695f9cd8f9b542b8a5b08cff9d433, type: 2}
   m_IsPrefabAsset: 0
@@ -1889,7 +1859,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4253040883377020, guid: 795fcb623f6aa2b4b81a2afe21362193, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4253040883377020, guid: 795fcb623f6aa2b4b81a2afe21362193, type: 2}
       propertyPath: m_LocalScale.x
