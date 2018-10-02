@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseHealth : MonoBehaviour {
+public class BarrelHealt : BaseHealth {
 
-    [SerializeField]
-    protected float Health = 100;
-
-    public virtual void takeDamage(float amount, GameObject caller) {
+    public override void takeDamage(float amount, GameObject caller)
+    {
         Health = Health - amount;
         Debug.Log(Health);
         if (Health <= 0)
@@ -16,18 +14,14 @@ public class BaseHealth : MonoBehaviour {
         }
     }
 
-    public virtual void death(GameObject caller)
-        {
-            
+    public override void death(GameObject caller)
+    {
+
         if (caller.tag == "Player")
         {
             caller.GetComponent<playerCombat>().stopLockOn();
         }
+        GetComponent<barrel>().Explode();
         Destroy(gameObject);
-    }
-
-    public virtual void heal(float amount)
-    {
-        Health = Health + amount;
     }
 }

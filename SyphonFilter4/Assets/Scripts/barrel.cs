@@ -51,7 +51,7 @@ public class barrel : MonoBehaviour {
 
             for (int j = 0; j < cols.Length; j++)
             {
-                if (cols[j].GetComponent<BaseHealth>())
+                if (cols[j].GetComponent<BaseHealth>() && cols[j].gameObject != gameObject)
                 {
                     if (!Physics.Linecast(transform.position + Vector3.up * hitDetectionRadius, cols[j].transform.position + Vector3.up, 1 << LayerMask.NameToLayer("Default")))
                     {
@@ -61,5 +61,13 @@ public class barrel : MonoBehaviour {
             }
         }
 
+    }
+    public void Explode()
+    {
+        GameObject particleSys = (GameObject)Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        var main = particleSys.GetComponent<ParticleSystem>().main;
+        main.startSize = ExplosionRadius / 2;
+
+        HitDetection();
     }
 }
