@@ -11,6 +11,9 @@ public class SoundEngine : MonoBehaviour {
     AudioClip[] waterWalk;
 
     [SerializeField]
+    AudioClip[] Footsteps;
+
+    [SerializeField]
     AudioClip[] pistolShots;
 
     public static SoundEngine instance;
@@ -39,11 +42,15 @@ public class SoundEngine : MonoBehaviour {
         }
         else if (name == "waterWalk")
         {
-            AS.clip = waterWalk[Random.Range(0, 4)];
+            AS.clip = waterWalk[Random.Range(0, waterWalk.Length)];
         }
         else if (name == "pistolShot")
         {
             AS.clip = pistolShots[Random.Range(0, pistolShots.Length)];
+        }
+        else if (name == "Footsteps")
+        {
+            AS.clip = Footsteps[Random.Range(0, Footsteps.Length)];
         }
 
 

@@ -147,4 +147,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 303a2c5b6cbf48d40a96c3cea62f6c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splash: {fileID: 0}
+  splash: {fileID: 8300000, guid: de93949602e204a49955b9dfb2c40099, type: 3}
+  waterWalk:
+  - {fileID: 8300000, guid: d1d7d85d67a9bb04f89800e2d421d411, type: 3}
+  - {fileID: 8300000, guid: 13f65fc1ec192c647a29bc210fa20327, type: 3}
+  - {fileID: 8300000, guid: 392c386bffd93f04db2ed19354fb0fc3, type: 3}
+  - {fileID: 8300000, guid: deef19e3ad789f942887e2c5a9eae28b, type: 3}
+  Footsteps:
+  - {fileID: 8300000, guid: eb16d37a1b6d00049a387e565c9d5d58, type: 3}
+  - {fileID: 8300000, guid: c55e185cd8df0a04f861eaf9ba0239e1, type: 3}
+  - {fileID: 8300000, guid: c8c161124ef197a4d844ad982eccab02, type: 3}
+  - {fileID: 8300000, guid: 33a9433bcadc52f4eba50a50310236ad, type: 3}
+  - {fileID: 8300000, guid: 7bb8a622facbcd2429804859c12fdb65, type: 3}
+  - {fileID: 8300000, guid: f71a905122390a54180b3d5c056d5931, type: 3}
+  pistolShots:
+  - {fileID: 8300000, guid: 6c3723730ea702645a0a4983165be526, type: 3}
+  - {fileID: 8300000, guid: 46cec41a5573be344a2dcc6a2bd992f3, type: 3}

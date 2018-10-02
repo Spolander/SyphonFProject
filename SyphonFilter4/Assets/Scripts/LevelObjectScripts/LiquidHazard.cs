@@ -19,13 +19,15 @@ public class LiquidHazard : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         SoundEngine.instance.PlaySound("splash", gameObject.transform.position, gameObject.transform);
+        other.GetComponent<PlayerCharacterController>().IsInWater = true;
     }
     private void OnTriggerExit(Collider other)
     {
-        
+        other.GetComponent<PlayerCharacterController>().IsInWater = false;
     }
     private void OnTriggerStay(Collider other)
     {
         other.GetComponent<PlayerHealth>().takeDamage(damage, gameObject);
+
     }
 }
