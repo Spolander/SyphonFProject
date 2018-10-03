@@ -108,7 +108,7 @@ public class MovingPlatfrorm : MonoBehaviour {
                 transform.position = Vector3.MoveTowards(transform.position, Target, Time.deltaTime * speed);
                 yield return null;
             }
-            if (transform.position == MovingPoints[0] && !PassiveLooping)
+            if (transform.position == MovingPoints[0] && !PassiveLooping && !ActiveLooping)
             {
                 SoundEngine.instance.StopSound("MovingPlatformSound");
             }

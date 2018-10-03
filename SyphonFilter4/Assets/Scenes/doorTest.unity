@@ -2016,7 +2016,7 @@ Prefab:
     - target: {fileID: 114006280742035184, guid: 795fcb623f6aa2b4b81a2afe21362193,
         type: 2}
       propertyPath: PassiveLooping
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114006280742035184, guid: 795fcb623f6aa2b4b81a2afe21362193,
         type: 2}
@@ -2026,7 +2026,7 @@ Prefab:
     - target: {fileID: 114006280742035184, guid: 795fcb623f6aa2b4b81a2afe21362193,
         type: 2}
       propertyPath: ActiveLooping
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 795fcb623f6aa2b4b81a2afe21362193, type: 2}
