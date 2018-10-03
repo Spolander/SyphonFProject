@@ -227,6 +227,16 @@ Prefab:
       propertyPath: MovingPoints.Array.data[2].y
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114006280742035184, guid: 795fcb623f6aa2b4b81a2afe21362193,
+        type: 2}
+      propertyPath: PassiveLooping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006280742035184, guid: 795fcb623f6aa2b4b81a2afe21362193,
+        type: 2}
+      propertyPath: PlayerActivation
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 795fcb623f6aa2b4b81a2afe21362193, type: 2}
   m_IsPrefabAsset: 0
@@ -1868,6 +1878,16 @@ Prefab:
     - target: {fileID: 4253040883377020, guid: 795fcb623f6aa2b4b81a2afe21362193, type: 2}
       propertyPath: m_LocalScale.z
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006280742035184, guid: 795fcb623f6aa2b4b81a2afe21362193,
+        type: 2}
+      propertyPath: PassiveLooping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006280742035184, guid: 795fcb623f6aa2b4b81a2afe21362193,
+        type: 2}
+      propertyPath: PlayerActivation
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 795fcb623f6aa2b4b81a2afe21362193, type: 2}

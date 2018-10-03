@@ -10,6 +10,12 @@ public class SoundEngine : MonoBehaviour {
     [Space]
 
     [SerializeField]
+    AudioClip BarrelExplosion;
+
+    [SerializeField]
+    AudioClip MovingPlatformSound;
+
+    [SerializeField]
     AudioClip splash;
 
     [SerializeField]
@@ -45,9 +51,17 @@ public class SoundEngine : MonoBehaviour {
 	void Update () {
 		
 	}
+    public void StopSound(string name)
+    {
+        if (name == "MovingPlatformSound")
+        {
+            Destroy(GameObject.Find(name));
+        }
+    }
+
     public void PlaySound(string name, Vector3 point, Transform parent)
     {
-        GameObject sound = new GameObject();
+        GameObject sound = new GameObject(name);
         AudioSource AS = sound.AddComponent<AudioSource>();
 
         if (name == "splash")
@@ -83,6 +97,15 @@ public class SoundEngine : MonoBehaviour {
             AS.clip = mechaSteps[Random.Range(0, mechaSteps.Length)];
             AS.maxDistance = 10;
         }
+        else if (name == "BarrelExplosion")
+        {
+            AS.clip = BarrelExplosion;
+        }
+        else if (name == "MovingPlatformSound")
+        {
+            AS.clip = MovingPlatformSound;
+            AS.loop = true;
+        }
 
         AS.outputAudioMixerGroup = mixer.FindMatchingGroups("FX")[0];
         sound.transform.position = point;
@@ -90,6 +113,7 @@ public class SoundEngine : MonoBehaviour {
         AS.dopplerLevel = 0;
         AS.spatialBlend = 1;
         AS.Play();
+        if(!AS.loop)
         Destroy(sound, AS.clip.length);
     }
 }

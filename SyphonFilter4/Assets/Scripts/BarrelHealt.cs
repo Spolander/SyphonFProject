@@ -22,6 +22,7 @@ public class BarrelHealt : BaseHealth {
             caller.GetComponent<playerCombat>().stopLockOn();
         }
         GetComponent<barrel>().Explode();
+        SoundEngine.instance.PlaySound("BarrelExplosion", gameObject.transform.position, null);
         Destroy(gameObject);
     }
 }

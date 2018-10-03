@@ -85,10 +85,12 @@ public class MovingPlatfrorm : MonoBehaviour {
         if (!ResetIfFall && !PassiveLooping)
         {
             StopCoroutine(Liike);
+            SoundEngine.instance.StopSound("MovingPlatformSound");
         }
     }
     IEnumerator StartMove()
     {
+        SoundEngine.instance.PlaySound("MovingPlatformSound", gameObject.transform.position, null);
         for (int i = 0; i < MovingPoints.Length; i++)
         {
             if (i < MovingPoints.Length - 1)
