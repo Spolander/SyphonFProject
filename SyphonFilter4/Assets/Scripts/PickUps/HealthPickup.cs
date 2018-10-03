@@ -24,6 +24,7 @@ public class HealthPickup : MonoBehaviour {
             if (other.GetComponent<PlayerHealth>().GetHealth() != other.GetComponent<PlayerHealth>().GetMaxHealth())
             {
                 other.GetComponent<PlayerHealth>().heal(HealAmount, gameObject);
+                SoundEngine.instance.PlaySound("HealthPickup", gameObject.transform.position, null);
                 Destroy(gameObject);
             }
         }

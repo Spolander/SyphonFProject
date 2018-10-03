@@ -13,6 +13,12 @@ public class SoundEngine : MonoBehaviour {
     AudioClip BarrelExplosion;
 
     [SerializeField]
+    AudioClip Door;
+
+    [SerializeField]
+    AudioClip HealthPickup;
+
+    [SerializeField]
     AudioClip MovingPlatformSound;
 
     [SerializeField]
@@ -105,6 +111,14 @@ public class SoundEngine : MonoBehaviour {
         {
             AS.clip = MovingPlatformSound;
             AS.loop = true;
+        }
+        else if (name == "Door")
+        {
+            AS.clip = Door;
+        }
+        else if (name == "HealthPickup")
+        {
+            AS.clip = HealthPickup;
         }
 
         AS.outputAudioMixerGroup = mixer.FindMatchingGroups("FX")[0];

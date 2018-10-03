@@ -50,6 +50,7 @@ public class ProximitySplitDoor : MonoBehaviour {
                     StopCoroutine(Rutiini);
                 }
                 Rutiini = StartCoroutine(Open());
+                SoundEngine.instance.PlaySound("Door", gameObject.transform.position, gameObject.transform);
             }
         }
     }
@@ -65,6 +66,7 @@ public class ProximitySplitDoor : MonoBehaviour {
                     StopCoroutine(Rutiini);
                 }
                 Rutiini = StartCoroutine(Close());
+                SoundEngine.instance.PlaySound("Door", gameObject.transform.position, gameObject.transform);
             }
         }
     }
