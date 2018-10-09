@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 195946587004078142}
   - component: {fileID: 114374300819796778}
   - component: {fileID: 114900676982151178}
+  - component: {fileID: 143931933074569880}
   m_Layer: 10
   m_Name: TestEnemy
   m_TagString: Enemy
@@ -1762,7 +1763,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb6af19f5ed82947a149e6bd846cbe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 500
+  Health: 100
+  damageParticleEffect: {fileID: 0}
+  chanceToSpawnEffect: 0.5
 --- !u!136 &136914013658431156
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -1875,6 +1878,23 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.12604469, y: -0.0000039339066, z: 1.2098088}
     m_Extent: {x: 0.3265673, y: 0.5050013, z: 1.2288234}
   m_DirtyAABB: 0
+--- !u!143 &143931933074569880
+CharacterController:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1514622900037982}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &195946587004078142
 NavMeshAgent:
   m_ObjectHideFlags: 1
