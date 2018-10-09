@@ -122,6 +122,7 @@ public class playerCombat : MonoBehaviour {
                     {
                        GameObject g =  Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity) as GameObject;
                         g.transform.SetParent(ShootRaycastHit.collider.transform);
+                        g.transform.rotation = Quaternion.FromToRotation(g.transform.up, transform.position - g.transform.position);
 
                         if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
                         {
@@ -148,7 +149,7 @@ public class playerCombat : MonoBehaviour {
                         {
                             GameObject g = Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity) as GameObject;
                             g.transform.SetParent(ShootRaycastHit.collider.transform);
-
+                            g.transform.rotation = Quaternion.FromToRotation(g.transform.up, transform.position - g.transform.position);
                             if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
                             {
                                 EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
@@ -162,7 +163,8 @@ public class playerCombat : MonoBehaviour {
                     if (ikc.CurrentLookAtWeight > 0.8f)
                         if (Physics.Raycast(transform.TransformPoint(0f, 1.5f, 0f), transform.forward, out ShootRaycastHit, maxShootingDistance, EnemyLayerMask, QueryTriggerInteraction.Ignore))
                         {
-                            Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity);
+                            GameObject g = (GameObject)Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity);
+                            g.transform.rotation = Quaternion.FromToRotation(g.transform.up, transform.position - g.transform.position);
                         }
 
                     ikc.Target = null;

@@ -8,7 +8,7 @@ public class enemyHealth : BaseHealth {
     protected GameObject damageParticleEffect;
 
     [SerializeField]
-    protected float chanceToSpawnEffect = 0.5f;
+    protected float chanceToSpawnEffect = 12;
     public override void takeDamage(float amount, GameObject caller)
     {
         Health = Health - amount;

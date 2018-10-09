@@ -824,7 +824,6 @@ GameObject:
   - component: {fileID: 4242444946232322}
   - component: {fileID: 33114820604621210}
   - component: {fileID: 23633184815251136}
-  - component: {fileID: 65426102223560736}
   m_Layer: 0
   m_Name: maila
   m_TagString: Untagged
@@ -1694,18 +1693,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1939238130901412}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65426102223560736
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1939238130901412}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95693747818014688
 Animator:
   serializedVersion: 3
@@ -1763,6 +1750,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 500
+  damageParticleEffect: {fileID: 1058171438153982, guid: 74b430e1aadf09d4ebf4ded22f834a74,
+    type: 2}
+  chanceToSpawnEffect: 0.33
 --- !u!136 &136914013658431156
 CapsuleCollider:
   m_ObjectHideFlags: 1
