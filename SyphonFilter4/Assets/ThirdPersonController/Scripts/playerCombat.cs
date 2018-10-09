@@ -118,7 +118,7 @@ public class playerCombat : MonoBehaviour {
                 //shoot towards target
 
                 if (ikc.CurrentLookAtWeight > 0.8f)
-                    if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
+                    if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask, QueryTriggerInteraction.Ignore))
                     {
                        GameObject g =  Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity) as GameObject;
                         g.transform.SetParent(ShootRaycastHit.collider.transform);
@@ -144,7 +144,7 @@ public class playerCombat : MonoBehaviour {
                 {
                     ikc.Target = currentFreeAimingTarget;
                     if (ikc.CurrentLookAtWeight > 0.8f)
-                        if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
+                        if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask, QueryTriggerInteraction.Ignore))
                         {
                             GameObject g = Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity) as GameObject;
                             g.transform.SetParent(ShootRaycastHit.collider.transform);
@@ -160,7 +160,7 @@ public class playerCombat : MonoBehaviour {
                 else
                 {
                     if (ikc.CurrentLookAtWeight > 0.8f)
-                        if (Physics.Raycast(transform.TransformPoint(0f, 1.5f, 0f), transform.forward, out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
+                        if (Physics.Raycast(transform.TransformPoint(0f, 1.5f, 0f), transform.forward, out ShootRaycastHit, maxShootingDistance, EnemyLayerMask, QueryTriggerInteraction.Ignore))
                         {
                             Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity);
                         }
