@@ -126,7 +126,7 @@ public class playerCombat : MonoBehaviour {
 
                         if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
                         {
-                            EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
+                            EnemyHealth = ShootRaycastHit.collider.GetComponent<BaseHealth>();
                                 EnemyHealth.takeDamage(GunDamage, gameObject);
                         }
                     }

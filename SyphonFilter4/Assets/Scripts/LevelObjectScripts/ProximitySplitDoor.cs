@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ProximitySplitDoor : MonoBehaviour {
-    [SerializeField]
-    private bool Status;                    //door status: false=closed, true=open
+    private int inside =0;                  //variable to keep count how many characters are inside trigger
     [SerializeField]
     private float doorSpeed = 0.002f;       //opening & closing speed
 
@@ -23,7 +22,6 @@ public class ProximitySplitDoor : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Status = false;
         doorL = transform.Find("DoorL").gameObject;
         doorR = transform.Find("DoorR").gameObject;
 
@@ -40,8 +38,9 @@ public class ProximitySplitDoor : MonoBehaviour {
 	}
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy" && Status == false)
+        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
         {
+            inside++;
             Debug.Log("Opening");
             if (!opening)
             {
@@ -56,20 +55,26 @@ public class ProximitySplitDoor : MonoBehaviour {
     }
     private void OnTriggerExit(Collider collision)
     {
-        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy" && Status == false)
-        {
-            Debug.Log("Closing");
-            if (!closing)
+            if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
             {
-                if (opening)                            //if doors are opening, stop opening and start closing
+                inside--;
+                Debug.Log("Closing");
+                if (!closing && inside == 0)                //check that the count of characters inside trigger is 0
                 {
-                    StopCoroutine(Rutiini);
+                    if (opening)                            //if doors are opening, stop opening and start closing
+                    {
+                        StopCoroutine(Rutiini);
+                    }
+                    Rutiini = StartCoroutine(Close());
+                    SoundEngine.instance.PlaySound("Door", gameObject.transform.position, gameObject.transform);
                 }
-                Rutiini = StartCoroutine(Close());
-                SoundEngine.instance.PlaySound("Door", gameObject.transform.position, gameObject.transform);
             }
-        }
     }
+    private void OnTriggerStay(Collider other)
+    {
+        
+    }
+
     IEnumerator Open()
     {
         opening = true;
