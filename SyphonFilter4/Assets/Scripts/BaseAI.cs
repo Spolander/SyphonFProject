@@ -156,7 +156,7 @@ public class BaseAI : MonoBehaviour {
 
         //first collider found with overlapbox
         Collider[] c = new Collider[1];
-        Physics.OverlapBoxNonAlloc(transform.TransformPoint(hitBoxLocation), hitBoxSize / 2, c, transform.rotation, hitDetectionLayers);
+        Physics.OverlapBoxNonAlloc(transform.TransformPoint(hitBoxLocation), hitBoxSize / 2, c, transform.rotation, hitDetectionLayers, QueryTriggerInteraction.Ignore);
 
         if (c[0] != null)
         {
@@ -180,7 +180,7 @@ public class BaseAI : MonoBehaviour {
         b = null;
         //first collider found with overlapbox
         Collider[] c = new Collider[1];
-        Physics.OverlapBoxNonAlloc(transform.TransformPoint(hitBoxLocation), hitBoxSize / 2, c, transform.rotation, hitDetectionLayers);
+        Physics.OverlapBoxNonAlloc(transform.TransformPoint(hitBoxLocation), hitBoxSize / 2, c, transform.rotation, hitDetectionLayers, QueryTriggerInteraction.Ignore);
 
         if (c[0] != null)
         {
@@ -342,7 +342,7 @@ public class BaseAI : MonoBehaviour {
                     RaycastHit hit;
                     Ray ray = new Ray(transform.TransformPoint(0f, 1.5f * transform.localScale.x, 0f), player.position - transform.position);
                     Debug.DrawRay(ray.origin, ray.direction.normalized * maximumDetectDistance);
-                    if (Physics.Raycast(ray, out hit, maximumDetectDistance, scanningLayers))
+                    if (Physics.Raycast(ray, out hit, maximumDetectDistance, scanningLayers, QueryTriggerInteraction.Ignore))
                     {
                         if (hit.collider.tag == "Player")
                         {

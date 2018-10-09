@@ -1284,6 +1284,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114900676982151178, guid: 1115700755b24a04d822240366f23e6f,
+        type: 2}
+      propertyPath: damageParticleEffect
+      value: 
+      objectReference: {fileID: 1058171438153982, guid: 74b430e1aadf09d4ebf4ded22f834a74,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1115700755b24a04d822240366f23e6f, type: 2}
   m_IsPrefabAsset: 0
@@ -1875,7 +1881,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4809437503447746, guid: ecc34089c19a0cc419b737dcea6ade7d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 33.6
+      value: 9.74
       objectReference: {fileID: 0}
     - target: {fileID: 4809437503447746, guid: ecc34089c19a0cc419b737dcea6ade7d, type: 2}
       propertyPath: m_LocalPosition.z
