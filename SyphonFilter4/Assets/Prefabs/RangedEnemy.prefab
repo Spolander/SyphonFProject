@@ -1331,7 +1331,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1763646796920610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.472, y: 9.21, z: -18.17}
+  m_LocalPosition: {x: 28.755661, y: 8.806, z: 42.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4157387566939192}
@@ -1648,7 +1648,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb6af19f5ed82947a149e6bd846cbe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 500
+  Health: 350
+  bloodParticle: {fileID: 0}
+  cogParticle: {fileID: 1974064769963706, guid: be4efa405d8e2ae4caa4c2186e9b9258,
+    type: 2}
+  chanceToSpawnBlood: 0.8
+  chanceToSpawnCogs: 0.5
 --- !u!136 &136817198116307356
 CapsuleCollider:
   m_ObjectHideFlags: 1
