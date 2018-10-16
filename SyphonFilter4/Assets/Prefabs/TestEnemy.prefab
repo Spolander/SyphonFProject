@@ -1750,12 +1750,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb6af19f5ed82947a149e6bd846cbe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-
   Health: 500
-  damageParticleEffect: {fileID: 1058171438153982, guid: 74b430e1aadf09d4ebf4ded22f834a74,
+  bloodParticle: {fileID: 1058171438153982, guid: 74b430e1aadf09d4ebf4ded22f834a74,
     type: 2}
-  chanceToSpawnEffect: 0.33
-
+  cogParticle: {fileID: 1974064769963706, guid: be4efa405d8e2ae4caa4c2186e9b9258,
+    type: 2}
+  chanceToSpawnBlood: 0.8
+  chanceToSpawnCogs: 0.5
 --- !u!136 &136914013658431156
 CapsuleCollider:
   m_ObjectHideFlags: 1
