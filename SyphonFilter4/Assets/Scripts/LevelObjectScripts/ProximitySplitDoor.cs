@@ -7,6 +7,11 @@ public class ProximitySplitDoor : MonoBehaviour {
     [SerializeField]
     private float doorSpeed = 0.002f;       //opening & closing speed
 
+    [SerializeField]
+    bool UsesKey;
+    [SerializeField]
+    GameObject KeyEnemy;
+
     GameObject doorL;
     GameObject doorR;
 
@@ -38,18 +43,38 @@ public class ProximitySplitDoor : MonoBehaviour {
 	}
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
+        if (!UsesKey)
         {
-            inside++;
-            Debug.Log("Opening");
-            if (!opening)
+            if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
             {
-                if (closing)                    //if  doors are closing, stop closing and start opening
+                inside++;
+                Debug.Log("Opening");
+                if (!opening)
                 {
-                    StopCoroutine(Rutiini);
+                    if (closing)                    //if  doors are closing, stop closing and start opening
+                    {
+                        StopCoroutine(Rutiini);
+                    }
+                    Rutiini = StartCoroutine(Open());
+                    SoundEngine.instance.PlaySound("Door", gameObject.transform.position, gameObject.transform);
                 }
-                Rutiini = StartCoroutine(Open());
-                SoundEngine.instance.PlaySound("Door", gameObject.transform.position, gameObject.transform);
+            }
+        }
+        else if (UsesKey && KeyEnemy == null)
+        {
+            if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
+            {
+                inside++;
+                Debug.Log("Opening");
+                if (!opening)
+                {
+                    if (closing)                    //if  doors are closing, stop closing and start opening
+                    {
+                        StopCoroutine(Rutiini);
+                    }
+                    Rutiini = StartCoroutine(Open());
+                    SoundEngine.instance.PlaySound("Door", gameObject.transform.position, gameObject.transform);
+                }
             }
         }
     }
