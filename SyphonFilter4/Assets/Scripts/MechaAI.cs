@@ -193,7 +193,7 @@ public class MechaAI:BaseAI{
         if (Time.time > lastFireTime + shootingInterval && transform.InverseTransformPoint(player.position).z > 0.3f)
         {
             lastFireTime = Time.time;
-
+            SoundEngine.instance.PlaySound("mechaweapons", transform.position, null);
             for (int i = 0; i < cannons.Length; i++)
             {
                 RaycastHit hit;
@@ -237,6 +237,11 @@ public class MechaAI:BaseAI{
         deltaMovement = Vector3.ProjectOnPlane(deltaMovement, Vector3.up);
 
         agent.velocity = deltaMovement;
+    }
+
+    public void mechaFootStep()
+    {
+        SoundEngine.instance.PlaySound("mechasteps", transform.position, null);
     }
 
 }

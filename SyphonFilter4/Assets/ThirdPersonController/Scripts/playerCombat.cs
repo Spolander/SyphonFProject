@@ -9,10 +9,12 @@ public class playerCombat : MonoBehaviour {
     Camera mainCam;
 
     BaseHealth EnemyHealth;             // damage testiä varten
-    int damage = 34;                    // damage testiä varten
-    RaycastHit ShootRaycastHit;
     [SerializeField]
-    float GunFireRate =0.5f;
+    int GunDamage = 34;                    // damage testiä varten
+    RaycastHit ShootRaycastHit;         // mihin tähdätään laukaisuhetkellä
+    [SerializeField]
+    float GunFireRate =0.5f;            // aika damagen dealauksen välissä
+    public float FireRate { get { return GunFireRate; } }
     bool damageDone = false;
     float damageTimer=0;
 
@@ -44,12 +46,15 @@ public class playerCombat : MonoBehaviour {
 
     private Transform currentFreeAimingTarget = null;
 
-    private MuzzleFlashAnimation muzzles;
+
 
     [SerializeField]
     private GameObject projectileImpact;
+
+    [SerializeField]
+    private ParticleSystem[] gunMuzzles;
+    int lastFired = 0;
 	void Start () {
-        muzzles = GetComponent<MuzzleFlashAnimation>();
         mainCam = Camera.main;
         anim = GetComponent<Animator>();
         ikc = GetComponent<IKController>();
@@ -91,6 +96,13 @@ public class playerCombat : MonoBehaviour {
         Shooting();
     }
 
+    void PlayMuzzleParticle()
+    {
+        lastFired = lastFired == 1 ? 0 : 1;
+
+        gunMuzzles[lastFired].Play(true);
+    }
+
     private void Shooting()
     {
 
@@ -100,21 +112,21 @@ public class playerCombat : MonoBehaviour {
         {
             if (ikc.LockedOn && damageDone == false)
             {
+                PlayMuzzleParticle();
+                SoundEngine.instance.PlaySound("pistolShot", transform.position, null);
                 damageDone = true;
                 //shoot towards target
 
                 if (ikc.CurrentLookAtWeight > 0.8f)
-                    if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
+                    if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask, QueryTriggerInteraction.Ignore))
                     {
                        GameObject g =  Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity) as GameObject;
                         g.transform.SetParent(ShootRaycastHit.collider.transform);
-
+                        g.transform.rotation = Quaternion.FromToRotation(g.transform.up, ShootRaycastHit.normal);
                         if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
                         {
-                            EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
-                                EnemyHealth.takeDamage(damage, gameObject);
-                               
-                                
+                            EnemyHealth = ShootRaycastHit.collider.GetComponent<BaseHealth>();
+                                EnemyHealth.takeDamage(GunDamage, gameObject);
                         }
                     }
 
@@ -123,6 +135,8 @@ public class playerCombat : MonoBehaviour {
             }
             else if(damageDone == false)
             {
+                PlayMuzzleParticle();
+                SoundEngine.instance.PlaySound("pistolShot", transform.position, null);
                 damageDone = true;
                 scanForFreeAim();
 
@@ -130,15 +144,15 @@ public class playerCombat : MonoBehaviour {
                 {
                     ikc.Target = currentFreeAimingTarget;
                     if (ikc.CurrentLookAtWeight > 0.8f)
-                        if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
+                        if (Physics.Raycast(transform.TransformPoint(0f, 1, 0f), ikc.Target.transform.TransformPoint(0f, 1.4f, 0f) - transform.TransformPoint(0f, 1, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask, QueryTriggerInteraction.Ignore))
                         {
                             GameObject g = Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity) as GameObject;
                             g.transform.SetParent(ShootRaycastHit.collider.transform);
-
+                            g.transform.rotation = Quaternion.FromToRotation(g.transform.up, transform.position - g.transform.position);
                             if (ShootRaycastHit.collider.GetComponent<BaseHealth>())
                             {
                                 EnemyHealth = ikc.Target.GetComponent<BaseHealth>();
-                                EnemyHealth.takeDamage(damage, gameObject);
+                                EnemyHealth.takeDamage(GunDamage, gameObject);
                                
                             }
                         }
@@ -146,17 +160,16 @@ public class playerCombat : MonoBehaviour {
                 else
                 {
                     if (ikc.CurrentLookAtWeight > 0.8f)
-                        if (Physics.Raycast(transform.TransformPoint(0f, 1.5f, 0f), transform.forward, out ShootRaycastHit, maxShootingDistance, EnemyLayerMask))
+                        if (Physics.Raycast(transform.TransformPoint(0f, 1.5f, 0f), transform.forward, out ShootRaycastHit, maxShootingDistance, EnemyLayerMask, QueryTriggerInteraction.Ignore))
                         {
-                            Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity);
+                            GameObject g = (GameObject)Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity);
+                            g.transform.rotation = Quaternion.FromToRotation(g.transform.up, ShootRaycastHit.normal);
                         }
 
                     ikc.Target = null;
                 }
             }
 
-            if (ikc.CurrentLookAtWeight > 0.8f)
-                muzzles.Animate();
         }
         else
         {
@@ -166,8 +179,6 @@ public class playerCombat : MonoBehaviour {
                 ikc.Target = null;
             }
 
-            if (muzzles.Animating)
-                muzzles.StopAnimating();
         }
     }
 

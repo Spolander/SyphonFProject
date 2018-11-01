@@ -17,6 +17,9 @@ public class MovingPlatfrorm : MonoBehaviour {
     bool ResetIfFall;
 
     [SerializeField]
+    bool UseAsElevator;
+
+    [SerializeField]
     float speed;
 
     [SerializeField]
@@ -44,6 +47,12 @@ public class MovingPlatfrorm : MonoBehaviour {
         {
             PassiveLooping = false;
         }
+        if (UseAsElevator)
+        {
+            ActiveLooping = false;
+            PassiveLooping = false;
+            ResetIfFall = false;
+        }
         
 	}
 	
@@ -69,52 +78,101 @@ public class MovingPlatfrorm : MonoBehaviour {
     {
         other.transform.SetParent(gameObject.transform);    
         
-        if (PlayerActivation)
+        if (PlayerActivation && Liike ==null)
         {
             Liike = StartCoroutine(StartMove());
+            Debug.Log(speed);
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        other.transform.SetParent(null);
-        other.transform.localScale = Vector3.one;
-        if (ResetIfFall && ActiveLooping)
+        if (!UseAsElevator)
         {
-            ActiveLooping = false;
+            other.transform.SetParent(null);
+            other.transform.localScale = Vector3.one;
+            if (ResetIfFall && ActiveLooping)
+            {
+                ActiveLooping = false;
+            }
+            if (!ResetIfFall && !PassiveLooping)
+            {
+                StopCoroutine(Liike);
+                SoundEngine.instance.StopSound("MovingPlatformSound");
+            }
         }
-        if (!ResetIfFall && !PassiveLooping)
+        else if (UseAsElevator)
         {
-            StopCoroutine(Liike);
+            other.transform.SetParent(null);
+            other.transform.localScale = Vector3.one;
         }
     }
     IEnumerator StartMove()
     {
-        for (int i = 0; i < MovingPoints.Length; i++)
+        if (!UseAsElevator)
         {
-            if (i < MovingPoints.Length - 1)
+            SoundEngine.instance.PlaySound("MovingPlatformSound", gameObject.transform.position, null);
+            for (int i = 0; i < MovingPoints.Length; i++)
             {
-                Target = MovingPoints[i + 1];
+                if (i < MovingPoints.Length - 1)
+                {
+                    Target = MovingPoints[i + 1];
+                }
+                if (i == MovingPoints.Length - 1)
+                {
+                    Target = MovingPoints[0];
+                }
+
+
+                while (transform.position != Target)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, Target, Time.deltaTime * speed);
+                    yield return null;
+                }
+                if (transform.position == MovingPoints[0] && !PassiveLooping && !ActiveLooping)
+                {
+                    SoundEngine.instance.StopSound("MovingPlatformSound");
+                }
+                if (Target == MovingPoints[0] && ActiveLooping)
+                {
+                    i = -1;
+                }
+                if (Target == MovingPoints[0] && PassiveLooping)
+                {
+                    i = -1;
+                }
             }
-            if (i == MovingPoints.Length-1)
+        }
+        else if (UseAsElevator)
+        {
+            
+            if (Target == Vector3.zero)
             {
                 Target = MovingPoints[0];
+                Debug.Log("movingpoint0");
             }
-
-
+            SoundEngine.instance.PlaySound("MovingPlatformSound", gameObject.transform.position, null);
+            if (Target == MovingPoints[0])
+            {
+                Target = MovingPoints[1];
+                Debug.Log("movingpoint1");
+            }
+            else if (Target==MovingPoints[1])
+            {
+                Target = MovingPoints[0];
+                Debug.Log("movingpoint0");
+            }
             while (transform.position != Target)
             {
                 transform.position = Vector3.MoveTowards(transform.position, Target, Time.deltaTime * speed);
                 yield return null;
             }
-            if (Target == MovingPoints[0] && ActiveLooping)
+          
+            if (transform.position == Target)
             {
-                i = -1;
-            }
-            if (Target == MovingPoints[0] && PassiveLooping)
-            {
-                i = -1;
+                SoundEngine.instance.StopSound("MovingPlatformSound");
             }
         }
+        Liike = null;
     }
     IEnumerator Reset()
     {
