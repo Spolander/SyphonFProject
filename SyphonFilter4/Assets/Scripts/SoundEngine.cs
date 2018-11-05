@@ -57,11 +57,11 @@ public class SoundEngine : MonoBehaviour {
 	void Update () {
 		
 	}
-    public void StopSound(string name)
+    public void StopSound(string name , Transform parent)
     {
         if (name == "MovingPlatformSound")
         {
-            Destroy(GameObject.Find(name));
+            Destroy(parent.Find(name).gameObject);
         }
     }
 
@@ -111,6 +111,8 @@ public class SoundEngine : MonoBehaviour {
         {
             AS.clip = MovingPlatformSound;
             AS.loop = true;
+            AS.maxDistance = 15;
+            AS.rolloffMode = AudioRolloffMode.Linear;
         }
         else if (name == "Door")
         {

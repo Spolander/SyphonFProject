@@ -97,7 +97,7 @@ public class MovingPlatfrorm : MonoBehaviour {
             if (!ResetIfFall && !PassiveLooping)
             {
                 StopCoroutine(Liike);
-                SoundEngine.instance.StopSound("MovingPlatformSound");
+                SoundEngine.instance.StopSound("MovingPlatformSound" , transform);
             }
         }
         else if (UseAsElevator)
@@ -110,7 +110,7 @@ public class MovingPlatfrorm : MonoBehaviour {
     {
         if (!UseAsElevator)
         {
-            SoundEngine.instance.PlaySound("MovingPlatformSound", gameObject.transform.position, null);
+            SoundEngine.instance.PlaySound("MovingPlatformSound", gameObject.transform.position, transform);
             for (int i = 0; i < MovingPoints.Length; i++)
             {
                 if (i < MovingPoints.Length - 1)
@@ -130,7 +130,7 @@ public class MovingPlatfrorm : MonoBehaviour {
                 }
                 if (transform.position == MovingPoints[0] && !PassiveLooping && !ActiveLooping)
                 {
-                    SoundEngine.instance.StopSound("MovingPlatformSound");
+                    SoundEngine.instance.StopSound("MovingPlatformSound", transform);
                 }
                 if (Target == MovingPoints[0] && ActiveLooping)
                 {
@@ -150,7 +150,7 @@ public class MovingPlatfrorm : MonoBehaviour {
                 Target = MovingPoints[0];
                 Debug.Log("movingpoint0");
             }
-            SoundEngine.instance.PlaySound("MovingPlatformSound", gameObject.transform.position, null);
+            SoundEngine.instance.PlaySound("MovingPlatformSound", gameObject.transform.position, transform);
             if (Target == MovingPoints[0])
             {
                 Target = MovingPoints[1];
@@ -169,7 +169,7 @@ public class MovingPlatfrorm : MonoBehaviour {
           
             if (transform.position == Target)
             {
-                SoundEngine.instance.StopSound("MovingPlatformSound");
+                SoundEngine.instance.StopSound("MovingPlatformSound", transform);
             }
         }
         Liike = null;
