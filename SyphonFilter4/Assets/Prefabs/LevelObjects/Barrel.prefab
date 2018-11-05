@@ -53,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1116426093428488}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.872395, y: 14.91712, z: -5.902294}
+  m_LocalPosition: {x: 18.984318, y: 20.25, z: -33.91}
   m_LocalScale: {x: 1, y: 0.67564, z: 1}
   m_Children:
   - {fileID: 4652005867983582}
@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExplosionDamage: 100
-  hitDetectionRadius: 1
-  ExplosionRadius: 4
+  hitDetectionRadius: 5
+  ExplosionRadius: 5
   explosionEffect: {fileID: 1282491835806780, guid: 990e4586573979c4b8c9641aa60b5595,
     type: 2}
   collisionLayers:

@@ -19,17 +19,10 @@ public class barrel : MonoBehaviour {
     [SerializeField]
     private LayerMask collisionLayers;
 
+    bool exploded;
+
     bool hit = false;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     private void HitDetection()
     {
@@ -51,11 +44,22 @@ public class barrel : MonoBehaviour {
 
             for (int j = 0; j < cols.Length; j++)
             {
-                if (cols[j].GetComponent<BaseHealth>() && cols[j].gameObject != gameObject)
+                if (cols[j].GetComponent<BaseHealth>() && cols[j].gameObject != gameObject)     //if the object has health and is not this object
                 {
                     if (!Physics.Linecast(transform.position + Vector3.up * hitDetectionRadius, cols[j].transform.position + Vector3.up, 1 << LayerMask.NameToLayer("Default")))
                     {
-                        cols[j].GetComponent<BaseHealth>().takeDamage(ExplosionDamage, gameObject);
+                        if (cols[j].GetComponent<barrel>())
+                        {
+                            if (cols[j].GetComponent<barrel>().exploded == false)
+                            {
+                                exploded = true;
+                                cols[j].GetComponent<BaseHealth>().takeDamage(ExplosionDamage, gameObject);  
+                            }
+                        }
+                        else
+                        {
+                            cols[j].GetComponent<BaseHealth>().takeDamage(ExplosionDamage, gameObject);
+                        }
                     }
                 }
             }
@@ -67,7 +71,11 @@ public class barrel : MonoBehaviour {
         GameObject particleSys = (GameObject)Instantiate(explosionEffect, transform.position, Quaternion.identity);
         var main = particleSys.GetComponent<ParticleSystem>().main;
         main.startSize = ExplosionRadius / 2;
-
         HitDetection();
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, ExplosionRadius);
     }
 }

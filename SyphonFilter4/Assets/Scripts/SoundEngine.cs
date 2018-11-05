@@ -50,13 +50,7 @@ public class SoundEngine : MonoBehaviour {
         instance = this;
     }
 
-    // Use this for initialization
-   
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+  
     public void StopSound(string name , Transform parent)
     {
         if (name == "MovingPlatformSound")

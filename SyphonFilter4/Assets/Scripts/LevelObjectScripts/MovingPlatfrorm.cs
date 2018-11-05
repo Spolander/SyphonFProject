@@ -56,10 +56,6 @@ public class MovingPlatfrorm : MonoBehaviour {
         
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
