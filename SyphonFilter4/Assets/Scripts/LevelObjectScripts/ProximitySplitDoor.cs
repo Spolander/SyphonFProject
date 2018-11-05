@@ -33,8 +33,8 @@ public class ProximitySplitDoor : MonoBehaviour {
         doorLClosed = doorL.transform.position;                 //set positions where doors are closed
         doorRClosed = doorR.transform.position; 
         
-        doorLOpen = doorLClosed - transform.TransformDirection( new Vector3(-2.5f, 0, 0));      //set positions where door is open
-        doorROpen = doorRClosed - transform.TransformDirection( new Vector3( 2.5f, 0, 0));
+        doorLOpen = doorLClosed - transform.TransformDirection( new Vector3(-3.7f, 0, 0));      //set positions where door is open
+        doorROpen = doorRClosed - transform.TransformDirection( new Vector3( 3.7f, 0, 0));
     }
 	
 	// Update is called once per frame

@@ -83,9 +83,6 @@ public class PlayerCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-
         checkGrounded();
         anim.SetBool("grounded", grounded);
         if (canControl)
@@ -203,7 +200,12 @@ public class PlayerCharacterController : MonoBehaviour
 
             v = v.normalized * magnitude * moveSpeed;
             if (dashing)
+            {
+                if (moveVector.magnitude < 1)
+                    v = transform.forward * moveSpeed;
                 v *= dashSpeedMultiplier;
+            }
+              
             v.y -= gravity;
 
 
