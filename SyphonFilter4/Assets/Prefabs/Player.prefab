@@ -542,6 +542,8 @@ GameObject:
   - component: {fileID: 114731069807999394}
   - component: {fileID: 114741952578069938}
   - component: {fileID: 114234833024141768}
+  - component: {fileID: 136826174607512402}
+  - component: {fileID: 114411077389953022}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1841,8 +1843,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1361015852339538}
-  m_LocalRotation: {x: -0, y: 0.9913391, z: -0, w: -0.13132717}
-  m_LocalPosition: {x: -20.807, y: 9.74, z: 4.02}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.21, y: 19.73, z: -31.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4031559676228928}
@@ -2091,6 +2093,17 @@ MonoBehaviour:
   baseAimingHeight: 0.8
   lookAtPointYOffset: 1.5
   closeAimingHeight: 1.78
+--- !u!114 &114411077389953022
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1361015852339538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edaef4dbd0b64cb41b8ebc62d1655e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114731069807999394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2133,6 +2146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 100
+  TargetPoint: {fileID: 0}
   maxHealth: 100
 --- !u!114 &114971593503905282
 MonoBehaviour:
@@ -2145,18 +2159,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f649e1a737daca4496b2921a3a9f5e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  airMoveSpeed: 8
-  moveSpeed: 8
+  airMoveSpeed: 10
+  moveSpeed: 10
   IsInWater: 0
   gravity: 0
   gravityAcceleration: 45
   rotateSpeed: 500
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2049
   jumpingForce: 9
   jumpingDuration: 0.2
   dashSpeedMultiplier: 1.75
+--- !u!136 &136826174607512402
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1361015852339538}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.4
+  m_Height: 2.4279535
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.2039768, z: 0}
 --- !u!137 &137235847656514010
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

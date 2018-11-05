@@ -37,8 +37,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1255003680622992}
-  m_LocalRotation: {x: 0.016751274, y: 0.98311275, z: -0.120348774, w: 0.13683929}
-  m_LocalPosition: {x: -23.551052, y: 12.754474, z: -5.266743}
+  m_LocalRotation: {x: 0.122692116, y: 0, z: 0, w: 0.99244475}
+  m_LocalPosition: {x: 1.8229809, y: 13.84233, z: 3.4065018}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -66,7 +66,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 65.4
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -128,7 +128,7 @@ MonoBehaviour:
   sensitivityX: 100
   cameraBlockingLayers:
     serializedVersion: 2
-    m_Bits: 2049
+    m_Bits: 10241
 --- !u!124 &124475838250710736
 Behaviour:
   m_ObjectHideFlags: 1
