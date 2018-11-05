@@ -7,6 +7,9 @@ public class BaseHealth : MonoBehaviour {
     [SerializeField]
     protected float Health = 100;
 
+    [SerializeField]
+    public Transform TargetPoint;
+
     public virtual void takeDamage(float amount, GameObject caller) {
         Health = Health - amount;
         Debug.Log(Health);
