@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class CameraFollow : MonoBehaviour {
 
     private Transform lockOntarget;
@@ -64,6 +64,11 @@ public class CameraFollow : MonoBehaviour {
     }
     // Update is called once per frame
     void LateUpdate () {
+
+        if (Input.GetKeyDown(KeyCode.R))
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+
         if (player)
         {
             rotationAngleY += Time.deltaTime * Input.GetAxisRaw("Mouse X")*sensitivityX;

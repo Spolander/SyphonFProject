@@ -210,7 +210,7 @@ public class BaseAI : MonoBehaviour {
 
             if (distanceToPlayer > stoppingDistance)
             {
-                ChangeState(AIState.Chase);
+                    ChangeState(AIState.Chase);
             }
             else
             {
@@ -288,14 +288,13 @@ public class BaseAI : MonoBehaviour {
                 {
                     b.takeDamage(chargeDamage, gameObject);
                     StopCharge();
-                    lastChargeTime = Time.time + Random.Range(chargeIntervalMin, chargeIntervalMax);
                     
                 }
 
                 if (Time.time > lastChargeTime + chargeDuration)
                 {
                     StopCharge();
-                    lastChargeTime = Time.time + Random.Range(chargeIntervalMin, chargeIntervalMax);
+              
                 }
             }
             else
@@ -312,12 +311,15 @@ public class BaseAI : MonoBehaviour {
         }
         else
         {
+            if(charging)
+                StopCharge();
             ChangeState(AIState.Idle);
         }
     }
 
     private void StopCharge()
     {
+        lastChargeTime = Time.time + Random.Range(chargeIntervalMin, chargeIntervalMax);
         charging = false;
         chargeParticle.Stop(false, ParticleSystemStopBehavior.StopEmitting);
     }
