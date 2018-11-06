@@ -1,15 +1,14 @@
 fileFormatVersion: 2
-guid: 9e23b532770ed504daecc8a7dc163841
+guid: 585c178b9975d9e4f8ba4acb39e74106
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: No Name
-    2100002: slope
+    2100000: catwalk
     2300000: //RootNode
     3300000: //RootNode
-    4300000: bridgeSlope
+    4300000: catwalk_corner
   externalObjects: {}
   materials:
     importMaterials: 1
