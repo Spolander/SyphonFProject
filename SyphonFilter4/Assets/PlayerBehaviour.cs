@@ -7,14 +7,12 @@ public class PlayerBehaviour : StateMachineBehaviour {
     // OnStateEnter is called before OnStateEnter is called on any state inside this state machine
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
         if (stateInfo.IsName("Move"))
         {
             PlayerCharacterController.player.Dashing = false;
         }
-        else if (stateInfo.IsName("Idle"))
-        {
-            animator.SetLayerWeight(2, 0);
-        }
+
     }
 
     // OnStateUpdate is called before OnStateUpdate is called on any state inside this state machine
