@@ -11,6 +11,10 @@ public class PlayerBehaviour : StateMachineBehaviour {
         {
             PlayerCharacterController.player.Dashing = false;
         }
+        else if (stateInfo.IsName("Idle"))
+        {
+            animator.SetLayerWeight(2, 0);
+        }
     }
 
     // OnStateUpdate is called before OnStateUpdate is called on any state inside this state machine

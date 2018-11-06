@@ -797,7 +797,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243432297019592072, guid: 50ff2d0c7f525e94fae493d628507c25,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 500e1d3451b83874cbe7fe2738834bd1, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 7cbbb9c87e9886f4ab61d76231de2e7a, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1792,6 +1792,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
+        type: 2}
+      propertyPath: pistolShots.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4316161352967360, guid: 6bb695f9cd8f9b542b8a5b08cff9d433, type: 2}
       propertyPath: m_LocalPosition.x
       value: -4.913191
@@ -1824,6 +1829,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 17
       objectReference: {fileID: 0}
+    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
+        type: 2}
+      propertyPath: pistolShots.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 15bcbfa9bea67e54eb78f003a04df274, type: 3}
+    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
+        type: 2}
+      propertyPath: pistolShots.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 012ae6a12b64fbd4aa939155a2cdb4f6, type: 3}
+    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
+        type: 2}
+      propertyPath: pistolShots.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: db7d179826d536e4db3d142be7d2ea7f, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bb695f9cd8f9b542b8a5b08cff9d433, type: 2}
   m_IsPrefabAsset: 0

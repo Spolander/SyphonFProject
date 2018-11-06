@@ -84,7 +84,7 @@ public class IKController : MonoBehaviour {
         {
             if (target)
             {
-                aimingPoint = target.position+Vector3.up*lookAtPointYOffset;
+                aimingPoint = target.position + Vector3.up * lookAtPointYOffset;
                 lookPoint = target.position;
                 float y = lookPoint.y;
 
@@ -96,25 +96,25 @@ public class IKController : MonoBehaviour {
             else if (shooting)
             {
                 currentLookAtWeight = Mathf.MoveTowards(currentLookAtWeight, lookAtWeight, Time.deltaTime * 5);
-                lookPoint = Vector3.MoveTowards(lookPoint, transform.TransformPoint(0f, 2, 10), Time.deltaTime*50);
+                lookPoint = Vector3.MoveTowards(lookPoint, transform.TransformPoint(0f, 2, 10), Time.deltaTime * 50);
             }
             else
             {
                 currentLookAtWeight = Mathf.MoveTowards(currentLookAtWeight, 0, Time.deltaTime * 5);
-                lookPoint = Vector3.MoveTowards(lookPoint, transform.TransformPoint(0f, 2, 10), Time.deltaTime*50);
+                lookPoint = Vector3.MoveTowards(lookPoint, transform.TransformPoint(0f, 2, 10), Time.deltaTime * 50);
             }
-               
+
 
 
 
             anim.SetLookAtPosition(aimingPoint);
             anim.SetLookAtWeight(currentLookAtWeight, bodyWeight, headWeight, 0, clampWeight);
 
-            anim.SetIKPosition(AvatarIKGoal.RightHand, lookPoint+mainCam.transform.right*aimingSpread);
-            anim.SetIKPositionWeight(AvatarIKGoal.RightHand, currentLookAtWeight*handPositionWeight);
+            anim.SetIKPosition(AvatarIKGoal.RightHand, lookPoint + mainCam.transform.right * aimingSpread);
+            anim.SetIKPositionWeight(AvatarIKGoal.RightHand, currentLookAtWeight * handPositionWeight);
 
             anim.SetIKPosition(AvatarIKGoal.LeftHand, lookPoint + mainCam.transform.right * -aimingSpread);
-            anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, currentLookAtWeight*handPositionWeight);
+            anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, currentLookAtWeight * handPositionWeight);
 
             if (Vector3.Distance(transform.position, aimingPoint) < closeAimingDistance)
             {
@@ -125,8 +125,8 @@ public class IKController : MonoBehaviour {
                 currentAimingHeight = Mathf.MoveTowards(currentAimingHeight, baseAimingHeight, Time.deltaTime * 5);
             }
 
-            Quaternion look = Quaternion.LookRotation(aimingPoint-transform.TransformPoint(0,currentAimingHeight,0));
-            anim.SetIKRotation(AvatarIKGoal.RightHand, look*Quaternion.AngleAxis(-90,Vector3.forward));
+            Quaternion look = Quaternion.LookRotation(aimingPoint - transform.TransformPoint(0, currentAimingHeight, 0));
+            anim.SetIKRotation(AvatarIKGoal.RightHand, look * Quaternion.AngleAxis(-90, Vector3.forward));
             anim.SetIKRotationWeight(AvatarIKGoal.RightHand, currentLookAtWeight);
 
             anim.SetIKRotation(AvatarIKGoal.LeftHand, look * Quaternion.AngleAxis(90, Vector3.forward));
@@ -135,7 +135,12 @@ public class IKController : MonoBehaviour {
             anim.SetIKHintPosition(AvatarIKHint.RightElbow, transform.TransformPoint(hintPosition.x, hintPosition.y, 0));
             anim.SetIKHintPositionWeight(AvatarIKHint.RightElbow, currentLookAtWeight);
 
-           
+
+        }
+        else if (layerIndex == 2)
+        {
+            if (anim.GetCurrentAnimatorStateInfo(2).IsName("Shoot"))
+                anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
         }
         
     }
