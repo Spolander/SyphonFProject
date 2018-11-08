@@ -90,6 +90,8 @@ ModelImporter:
     100168: toe.R_end
     100170: upper_arm.L
     100172: upper_arm.R
+    100174: Camera
+    100176: Lamp
     400000: chest
     400002: Cube
     400004: f_index.01.L
@@ -177,11 +179,15 @@ ModelImporter:
     400168: toe.R_end
     400170: upper_arm.L
     400172: upper_arm.R
+    400174: Camera
+    400176: Lamp
+    2000000: Camera
     2100000: Material
     2100002: visor
     4300000: Cube
     7400000: AirDashnew
     9500000: //RootNode
+    10800000: Lamp
     13700000: Cube
   externalObjects: {}
   materials:

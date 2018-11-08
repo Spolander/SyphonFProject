@@ -8,10 +8,7 @@ public class PlayerBehaviour : StateMachineBehaviour {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
-        if (stateInfo.IsName("Move"))
-        {
-            PlayerCharacterController.player.Dashing = false;
-        }
+ 
 
     }
 
