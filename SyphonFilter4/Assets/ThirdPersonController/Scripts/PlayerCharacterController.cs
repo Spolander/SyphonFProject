@@ -59,14 +59,25 @@ public class PlayerCharacterController : MonoBehaviour
 
     private bool grounded = true;
     private float lastGroundedTime;
+
     private bool dashing = false;
     public bool Dashing { set { dashing = value; } }
+
+    private bool airDashing = false;
+    public bool AirDashing { set { airDashing = value; } }
 
     [SerializeField]
     private float dashSpeedMultiplier = 1;
 
+    [SerializeField]
+    private float airDashSpeedMultiplier = 1.2f;
+
     //how long before falling is registered
     private float groundedLossTime = 0.1f;
+
+
+    //has the player jumped and not just fallen off
+    private bool hasJumped = false;
     // Use this for initialization
     void Start()
     {
@@ -89,9 +100,16 @@ public class PlayerCharacterController : MonoBehaviour
             Move();
 
 
+        if (!grounded)
+        {
+            if (airDashing == false && Input.GetButtonDown("Jump") && hasJumped)
+                AirDash();
+        }
+
         if (isJumping)
         {
             gravity = -jumpingForce;
+         
         }
         else
         {
@@ -112,6 +130,7 @@ public class PlayerCharacterController : MonoBehaviour
                 gravity = Mathf.MoveTowards(gravity, gravityTarget, Time.deltaTime * gravityAcceleration);
             }
         }
+
      
 
     }
@@ -121,8 +140,16 @@ public class PlayerCharacterController : MonoBehaviour
         anim.CrossFadeInFixedTime("Slide", 0);
        
     }
+
+    private void AirDash()
+    {
+        airDashing = true;
+        anim.CrossFadeInFixedTime("AirDash", 0.15f);
+    }
     IEnumerator jumpingAnimation()
     {
+        hasJumped = true;
+        groundNormal = Vector3.up;
         grounded = false;
         lastJumpTime = Time.time;
         anim.SetBool("grounded", false);
@@ -205,25 +232,19 @@ public class PlayerCharacterController : MonoBehaviour
                     v = transform.forward * moveSpeed;
                 v *= dashSpeedMultiplier;
             }
-              
+            else if (airDashing)
+            {
+                if (moveVector.magnitude < 1)
+                    v = transform.forward * moveSpeed;
+                v *= airDashSpeedMultiplier;
+            }
             v.y -= gravity;
 
-
+            print(controller.velocity.magnitude);
         }
 
 
-
-        //if (!grounded || groundNormal == Vector3.up)
-        //{
-        //    v.y = gravity * -1;
-        //}
-
-
         Debug.DrawRay(transform.TransformPoint(0, 1, 0), v, Color.red);
-
-
-        // print(controller.velocity.magnitude);
-
 
         controller.Move(v * Time.deltaTime);
 
@@ -272,6 +293,7 @@ public class PlayerCharacterController : MonoBehaviour
                     groundNormal = hit.normal;
                     grounded = true;
                     lastGroundedTime = Time.time;
+                    hasJumped = false;
                     return;
                 }
                 else if (Time.time > lastGroundedTime + groundedLossTime)

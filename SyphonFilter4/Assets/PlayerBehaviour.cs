@@ -27,6 +27,10 @@ public class PlayerBehaviour : StateMachineBehaviour {
         {
             PlayerCharacterController.player.Dashing = false;
         }
+        else if (stateInfo.IsName("AirDash"))
+        {
+            PlayerCharacterController.player.AirDashing = false;
+        }
     }
 
     // OnStateMove is called before OnStateMove is called on any state inside this state machine
