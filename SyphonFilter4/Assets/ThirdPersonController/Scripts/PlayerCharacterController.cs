@@ -33,11 +33,14 @@ public class PlayerCharacterController : MonoBehaviour
 
     IKController ikc;
 
+    playerCombat combat;
+
 
     Vector3 groundNormal = Vector3.up;
     Vector3 slopeNormal = Vector3.up;
 
     private bool isJumping = false;
+    private bool isLedgeJumping = false;
 
     [SerializeField]
     private LayerMask whatIsGround;
@@ -45,6 +48,9 @@ public class PlayerCharacterController : MonoBehaviour
 
     [SerializeField]
     private float jumpingForce = 20;
+
+    [SerializeField]
+    private float ledgeJumpForce = 10;
 
     private float initialJumpingForce;
 
@@ -75,12 +81,21 @@ public class PlayerCharacterController : MonoBehaviour
     //how long before falling is registered
     private float groundedLossTime = 0.1f;
 
-
     //has the player jumped and not just fallen off
     private bool hasJumped = false;
+
+    private bool hasLedgeJumped = false;
+
+    Vector3 animMatchingPoint;
+    Quaternion animMatchingRotation;
+
+    private bool hangingFromLedge = false;
+    public bool HangingFromLedge { get { return hangingFromLedge; } }
+    private float ledgeJumpTime;
     // Use this for initialization
     void Start()
     {
+        combat = GetComponent<playerCombat>();
         ikc = GetComponent<IKController>();
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
@@ -96,20 +111,29 @@ public class PlayerCharacterController : MonoBehaviour
     {
         checkGrounded();
         anim.SetBool("grounded", grounded);
-        if (canControl)
+        if (canControl && hangingFromLedge == false)
             Move();
 
 
         if (!grounded)
         {
-            if (airDashing == false && Input.GetButtonDown("Jump") && hasJumped)
+            if (airDashing == false && Input.GetButtonDown("Jump") && (hasJumped || hasLedgeJumped) && hangingFromLedge == false)
                 AirDash();
+            else if (Input.GetButtonDown("Jump") && hangingFromLedge == true)
+                StartCoroutine(jumpingAnimation(true));
+
+            if (hangingFromLedge == false && hasJumped && controller.velocity.y < 0)
+                checkLedgeGrab();
         }
 
         if (isJumping)
         {
             gravity = -jumpingForce;
-         
+
+        }
+        else if (isLedgeJumping)
+        {
+            gravity = -ledgeJumpForce;
         }
         else
         {
@@ -117,8 +141,10 @@ public class PlayerCharacterController : MonoBehaviour
             {
                 gravity = 1;
 
-                if (isJumping == false && Input.GetKeyDown(KeyCode.Space))
-                    StartCoroutine(jumpingAnimation());
+                if (isJumping == false && Input.GetKeyDown(KeyCode.Space) && hangingFromLedge == false)
+                    StartCoroutine(jumpingAnimation(false));
+                else if (isLedgeJumping == false && Input.GetKeyDown(KeyCode.Space) && hangingFromLedge)
+                    StartCoroutine(jumpingAnimation(true));
 
                 if (isJumping == false && dashing == false && Input.GetKeyDown(KeyCode.LeftShift))
                 {
@@ -131,7 +157,7 @@ public class PlayerCharacterController : MonoBehaviour
             }
         }
 
-     
+        MatchAnimator();
 
     }
     private void Dash()
@@ -146,17 +172,39 @@ public class PlayerCharacterController : MonoBehaviour
         airDashing = true;
         anim.CrossFadeInFixedTime("AirDash", 0.15f);
     }
-    IEnumerator jumpingAnimation()
+    IEnumerator jumpingAnimation(bool ledgeJump)
     {
-        hasJumped = true;
+        if (ledgeJump)
+        {
+            hasLedgeJumped = true;
+            print("ledge jump");
+            isLedgeJumping = true;
+            ledgeJumpTime = Time.time;
+            hangingFromLedge = false;
+            controller.enabled = true;
+            canControl = true;
+            combat.CanControl = true;
+            anim.CrossFadeInFixedTime("LedgeJump", 0.1f);
+        }
+        else
+        {
+            hasJumped = true;
+            anim.CrossFadeInFixedTime("jump", 0.1f);
+            isJumping = true;
+        }
+
+            
+
+      
         groundNormal = Vector3.up;
         grounded = false;
         lastJumpTime = Time.time;
         anim.SetBool("grounded", false);
-        isJumping = true;
-        anim.CrossFadeInFixedTime("jump", 0.1f);
+
         yield return new WaitForSeconds(jumpingDuration);
+
         isJumping = false;
+        isLedgeJumping = false;
     }
 
     private void Move()
@@ -239,8 +287,6 @@ public class PlayerCharacterController : MonoBehaviour
                 v *= airDashSpeedMultiplier;
             }
             v.y -= gravity;
-
-            print(controller.velocity.magnitude);
         }
 
 
@@ -253,6 +299,12 @@ public class PlayerCharacterController : MonoBehaviour
 
     private void OnAnimatorMove()
     {
+        if (hangingFromLedge)
+        {
+            transform.position = anim.rootPosition;
+            transform.rotation = anim.rootRotation;
+        }
+           
 
     }
 
@@ -286,14 +338,15 @@ public class PlayerCharacterController : MonoBehaviour
 
         if (Time.time > lastJumpTime + 0.2f)
         {
-            if (Physics.Raycast(ray, out hit, 1f, whatIsGround, QueryTriggerInteraction.Ignore))
-            {
+            if (Physics.SphereCast(sphereRay, controller.radius, out hit, 1.5f, whatIsGround, QueryTriggerInteraction.Ignore))
+             {
                 if (hit.normal.y > 0.7f)
                 {
                     groundNormal = hit.normal;
                     grounded = true;
                     lastGroundedTime = Time.time;
                     hasJumped = false;
+                    hasLedgeJumped = false;
                     return;
                 }
                 else if (Time.time > lastGroundedTime + groundedLossTime)
@@ -316,5 +369,57 @@ public class PlayerCharacterController : MonoBehaviour
     public void resetJumpForce()
     {
         jumpingForce = initialJumpingForce;
+    }
+
+    void checkLedgeGrab()
+    {
+        if (Time.time < ledgeJumpTime + 1)
+            return;
+
+        Ray ray = new Ray(transform.TransformPoint(0f, 1f * transform.localScale.x, 0f), transform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 1f, whatIsGround))
+        {
+            if (Vector3.Angle(-hit.normal, transform.forward) < 60f)
+            {
+                Vector3 downPoint = hit.point + (-hit.normal) * 0.5f + Vector3.up * 1.5f;
+                Ray forwardRay = new Ray(new Vector3(transform.position.x, downPoint.y, transform.position.z), -hit.normal);
+                RaycastHit forwardHit;
+                if (Physics.Raycast(forwardRay, out forwardHit, 1f, whatIsGround, QueryTriggerInteraction.Ignore))
+                    return;
+
+                Ray downRay = new Ray(downPoint, Vector3.down);
+                RaycastHit downHit;
+                if (Physics.Raycast(downRay, out downHit, 2f, whatIsGround))
+                {
+                    Vector3 dir = -hit.normal;
+                    dir.y = 0f;
+                    animMatchingPoint = new Vector3(hit.point.x, downHit.point.y-2.65f, hit.point.z) + hit.normal * 0.3f;
+                    Vector3 lookDirection = -hit.normal;
+                    lookDirection.y = 0;
+                    animMatchingRotation = Quaternion.LookRotation(lookDirection.normalized);
+                    hangingFromLedge = true;
+                    anim.Play("LedgeGrab");
+                    combat.CanControl = false;
+              
+                    controller.enabled = false;
+                }
+            }
+        }
+    }
+
+    void MatchAnimator()
+    {
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("LedgeGrab") && anim.IsInTransition(0) == false)
+        {
+            anim.MatchTarget(animMatchingPoint, animMatchingRotation, AvatarTarget.Root, new MatchTargetWeightMask(Vector3.one, 1), 0, 0.5f);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(animMatchingPoint, 0.1f);
     }
 }

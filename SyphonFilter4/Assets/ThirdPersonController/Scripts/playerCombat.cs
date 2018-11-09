@@ -33,6 +33,7 @@ public class playerCombat : MonoBehaviour {
     // Use this for initialization
 
     private bool canControl = true;
+    public bool CanControl { set { canControl = value; } }
 
 
     float lastFreeAimScan;
@@ -112,8 +113,6 @@ public class playerCombat : MonoBehaviour {
         {
             if (ikc.LockedOn && damageDone == false)
             {
-                anim.SetLayerWeight(2, 1);
-                anim.Play("Shoot", 2,0.0f);
                 PlayMuzzleParticle();
                 SoundEngine.instance.PlaySound("pistolShot", transform.position, null);
                 damageDone = true;
@@ -137,8 +136,6 @@ public class playerCombat : MonoBehaviour {
             }
             else if(damageDone == false)
             {
-                anim.SetLayerWeight(2, 1);
-                anim.Play("Shoot", 2);
                 PlayMuzzleParticle();
                 SoundEngine.instance.PlaySound("pistolShot", transform.position, null);
                 damageDone = true;

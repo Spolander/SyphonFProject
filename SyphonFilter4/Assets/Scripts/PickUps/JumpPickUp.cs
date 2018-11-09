@@ -7,11 +7,7 @@ public class JumpPickUp : MonoBehaviour {
     [SerializeField]
     int JumpPower = 20;
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
+    
 
     // Update is called once per frame
     void Update()

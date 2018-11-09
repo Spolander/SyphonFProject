@@ -3033,7 +3033,7 @@ MonoBehaviour:
     m_Bits: 1024
   lockOnBlockingLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   projectileImpact: {fileID: 1230267997736062, guid: 3d72a60da2c2d81459bc6475255cbacc,
     type: 2}
   gunMuzzles:
@@ -3081,6 +3081,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2049
   jumpingForce: 12
+  ledgeJumpForce: 15
   jumpingDuration: 0.15
   dashSpeedMultiplier: 1.75
   airDashSpeedMultiplier: 2
