@@ -53,7 +53,7 @@ public class CameraFollow : MonoBehaviour {
     private void Awake()
     {
         playerCam = this;
-        rotationAngleY = transform.eulerAngles.y;
+       // rotationAngleY = transform.eulerAngles.y;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
