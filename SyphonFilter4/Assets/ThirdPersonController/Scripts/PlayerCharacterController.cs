@@ -67,7 +67,7 @@ public class PlayerCharacterController : MonoBehaviour
     private float lastGroundedTime;
 
     private bool dashing = false;
-    public bool Dashing { set { dashing = value; } }
+    public bool Dashing { set { dashing = value; } get { return dashing; } }
 
     private bool airDashing = false;
     public bool AirDashing { set { airDashing = value; } }
@@ -146,7 +146,7 @@ public class PlayerCharacterController : MonoBehaviour
                 else if (isLedgeJumping == false && Input.GetKeyDown(KeyCode.Space) && hangingFromLedge)
                     StartCoroutine(jumpingAnimation(true));
 
-                if (isJumping == false && dashing == false && Input.GetKeyDown(KeyCode.LeftShift))
+                if (isJumping == false && dashing == false && Input.GetKeyDown(KeyCode.LeftShift) && anim.IsInTransition(0) == false)
                 {
                     Dash();
                 }

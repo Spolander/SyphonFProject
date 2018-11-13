@@ -229,9 +229,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.12690687
-  m_TransitionOffset: 0
-  m_ExitTime: 0.66206944
+  m_TransitionDuration: 0.30393738
+  m_TransitionOffset: 0.002150373
+  m_ExitTime: 0.4811617
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -277,9 +277,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.20944351
-  m_TransitionOffset: 0.006083472
-  m_ExitTime: 0.2670908
+  m_TransitionDuration: 0.038271107
+  m_TransitionOffset: 0.0060834703
+  m_ExitTime: 0.26709062
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -594,7 +594,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: LedgeJump
-  m_Speed: 2
+  m_Speed: 3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101373926367292944}
