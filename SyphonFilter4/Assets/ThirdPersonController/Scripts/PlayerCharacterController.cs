@@ -177,7 +177,6 @@ public class PlayerCharacterController : MonoBehaviour
         if (ledgeJump)
         {
             hasLedgeJumped = true;
-            print("ledge jump");
             isLedgeJumping = true;
             ledgeJumpTime = Time.time;
             hangingFromLedge = false;
@@ -384,7 +383,7 @@ public class PlayerCharacterController : MonoBehaviour
             if (Vector3.Angle(-hit.normal, transform.forward) < 60f)
             {
                 Vector3 downPoint = hit.point + (-hit.normal) * 0.5f + Vector3.up * 1.5f;
-                Ray forwardRay = new Ray(new Vector3(transform.position.x, downPoint.y, transform.position.z), -hit.normal);
+                Ray forwardRay = new Ray(new Vector3(transform.position.x, downPoint.y, transform.position.z), transform.forward);
                 RaycastHit forwardHit;
                 if (Physics.Raycast(forwardRay, out forwardHit, 1f, whatIsGround, QueryTriggerInteraction.Ignore))
                     return;

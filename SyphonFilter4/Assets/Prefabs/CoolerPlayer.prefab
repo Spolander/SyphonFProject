@@ -703,6 +703,7 @@ GameObject:
   - component: {fileID: 114345629632569906}
   - component: {fileID: 114571519118316914}
   - component: {fileID: 114081618103756552}
+  - component: {fileID: 114754814464846730}
   m_Layer: 9
   m_Name: CoolerPlayer
   m_TagString: Player
@@ -1905,7 +1906,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1416360615061964}
   m_LocalRotation: {x: -0, y: -0.6832386, z: -0, w: 0.7301953}
-  m_LocalPosition: {x: -52.626614, y: 8.918, z: 3.169003}
+  m_LocalPosition: {x: 24.984123, y: 41.5684, z: 32.228577}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4965811497529426}
@@ -3085,6 +3086,20 @@ MonoBehaviour:
   jumpingDuration: 0.15
   dashSpeedMultiplier: 1.75
   airDashSpeedMultiplier: 2
+--- !u!114 &114754814464846730
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1416360615061964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d8885634833384d96d733894b694cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
+  TargetPoint: {fileID: 0}
+  maxHealth: 100
 --- !u!114 &114767804420492502
 MonoBehaviour:
   m_ObjectHideFlags: 1
