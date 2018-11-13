@@ -1,0 +1,82 @@
+Git cheat sheet: https://www.git-tower.com/blog/git-cheat-sheet/
+
+# Vain ensimmäisellä kerralla
+
+1. Avaa Git Bash
+
+1. Aseta käyttäjätunnukset (Nämä on samat kuin GitLabissa)  
+    `git config --global user.name "Oma Nimi"`  
+    `git config --global user.email etunimi.sukunimi@osoite.fi`
+1. Luo SSH avain, joka kopioidaan GitLabiin  
+    > `ssh-keygen -t rsa -C "your.email@example.com" -b 4096`  
+    > Luotu avain löytyy polusta `%userprofile%/.ssh` Tämän polun voi kopioida suoraan resurssienhallintaan.  
+    > Luotu avain kopioidaan tänne: https://gitlab.com/profile/keys
+1. Siirry kansioon, johon haluat luoda uuden kansion projektille:  
+    `cd [hakemisto]`
+1. Kopioi etärepo koneellesin:
+    git clone https://github.com/Spolander/SyphonFProject.git
+
+# Uuden ominaisuuden luominen
+
+Jokaisen haaran (masteria lukuun ottamatta) on tarkoitus sisältää vain mahdollisimman pieni ominaisuus, ja se on tarkoitus yhdistää (merge) master-haaraan mahdollisimman pian.
+Huomio: Jos muokkaat tai aiot muokata jotain sceneä uudessa haarassa, ilmoita siitä muille, jotta säästymme päällekäisyyksiltä (conflicteilta).
+
+1. Hae `masterin` muutokset reposta  
+    `git pull`
+1. Luo ominaisuudelle uusi haara (branch) masterista:  
+    `git branch [haaran nimi] master`
+1. Nimeä uusi haara lyhyesti, mutta aiheeseen liittyvästi, esim. pelaajan_liikkuminen tai taustagrafiikka.
+
+1. Älä luo haaraa mistään muusta kuin masterista.
+
+1. Vaihda haaraan  
+    `git checkout [haaran nimi]`
+1. Luo haara myös etärepolle:  
+    `git push origin [haaran nimi]`
+
+# Ominaisuuden kehittäminen
+
+1. Tee muutoksia
+
+1. Lisää muuttuneet tiedostot staging:lle:  
+    `git add [tiedostot]`
+1. Luo muutoksista uusi commit:  
+    `git commit -m "[commitin viesti]"`
+1. Työnnä muutokset etärepolle:  
+    `git push origin [haaran nimi]`
+
+# Ominaisuuden lisääminen master-haaraan (kehittäjät)
+
+1. Luo uusi Merge request valitsemalla Gitlabissa Merge Requests -välilehti.
+
+1. Klikkaa New merge request -nappia ja luo merge request esiintyvällä lomakkeella.
+
+1. Pyydä jotain master-käyttäjää hoitamaan merge requestisi.
+
+# Ominaisuuden lisääminen master-haaraan (master-käyttäjät)
+
+Älä tee muutoksia suoraan master-haaraan, vaan aina luo uusi haara tehtäville muutoksille.
+
+1. Vaihda master-haaraan:  
+    `git checkout master`
+1. Käytä merge-komentoa:  
+    `git merge [haaran nimi]`
+1. Jos mergessä ilmeni päällekkäisyyksiä (conflicteja), käytä aiemmin asettamaasi työkalua sen ratkaisemiseen:  
+    `git mergetool`
+1. Poista äsken yhdistämäsi haaran omalta koneeltasi:  
+    `git branch -d [haaran nimi]`
+1. Työnnä muutokset etärepolle:  
+    `git push origin master`
+1. Poista äsken yhdistämäsi haara myös etärepolta:  
+    `git push origin -d [branchin nimi]`
+
+# Kuinka putsata työkansio epätoivotuista muutoksista
+
+Jos et ole tehnyt projektiin muutoksia, mutta haluat vaihtaa haaraa tai pullata uusimmat muutokset, voit putsata työkansion näillä komennoilla. Käytä niitä harkiten.
+Palauttaa Working Directoryn (paikallinen projektin työkansio) samaan tilaan kuin viimeisimmässä commitissa, mutta ei vaikuta "untracked"-tilassa oleviin tiedostoihin:
+
+`git reset --hard`
+
+Poistaa Working Directorysta "untracked"-tilassa olevat tiedostot:
+
+`git clean -f`
