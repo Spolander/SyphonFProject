@@ -1358,8 +1358,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1763646796920610}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -13.937473, y: 26.583971, z: -34.49854}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -40.2663, y: -29.989607, z: -80.28129}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4625943305157060}
@@ -1677,7 +1677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb6af19f5ed82947a149e6bd846cbe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 350
+  Health: 20
   TargetPoint: {fileID: 4625943305157060}
   bloodParticle: {fileID: 0}
   cogParticle: {fileID: 1974064769963706, guid: be4efa405d8e2ae4caa4c2186e9b9258,
