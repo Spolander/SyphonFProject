@@ -31,9 +31,7 @@ public class PlayerCharacterController : MonoBehaviour
     [SerializeField]
     private float rotateSpeed = 300;
 
-    IKController ikc;
 
-    playerCombat combat;
 
 
     Vector3 groundNormal = Vector3.up;
@@ -95,8 +93,6 @@ public class PlayerCharacterController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        combat = GetComponent<playerCombat>();
-        ikc = GetComponent<IKController>();
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         mainCam = Camera.main;
@@ -182,7 +178,6 @@ public class PlayerCharacterController : MonoBehaviour
             hangingFromLedge = false;
             controller.enabled = true;
             canControl = true;
-            combat.CanControl = true;
             anim.CrossFadeInFixedTime("LedgeJump", 0.1f);
         }
         else
@@ -230,29 +225,9 @@ public class PlayerCharacterController : MonoBehaviour
 
 
 
-        if (inputVector.magnitude > 0.1f)
-        {
-            if (ikc.LockedOn == false)
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Vector3.Scale(new Vector3(1, 0, 1), moveVector)), Time.deltaTime * rotateSpeed);
-            else
-            {
-                Vector3 dir = ikc.Target.position - transform.position;
-                dir.y = 0;
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
-            }
-
-        }
-        else
-        {
-            if (ikc.LockedOn)
-            {
-                Vector3 dir = ikc.Target.position - transform.position;
-                dir.y = 0;
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
-            }
-
-
-        }
+        if(moveVector.magnitude > 0.1f)
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Vector3.Scale(new Vector3(1, 0, 1), moveVector)), Time.deltaTime * rotateSpeed);
+        
 
         Vector3 v = moveVector * moveSpeed;
       
@@ -400,7 +375,6 @@ public class PlayerCharacterController : MonoBehaviour
                     animMatchingRotation = Quaternion.LookRotation(lookDirection.normalized);
                     hangingFromLedge = true;
                     anim.Play("LedgeGrab");
-                    combat.CanControl = false;
               
                     controller.enabled = false;
                 }
