@@ -90,6 +90,9 @@ public class PlayerCharacterController : MonoBehaviour
     private bool hangingFromLedge = false;
     public bool HangingFromLedge { get { return hangingFromLedge; } }
     private float ledgeJumpTime;
+
+    [SerializeField]
+    private float swordRootmotionSpeed = 1;
     // Use this for initialization
     void Start()
     {
@@ -107,6 +110,8 @@ public class PlayerCharacterController : MonoBehaviour
     {
         checkGrounded();
         anim.SetBool("grounded", grounded);
+
+
         if (canControl && hangingFromLedge == false)
             Move();
 
@@ -264,7 +269,13 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
 
-        Debug.DrawRay(transform.TransformPoint(0, 1, 0), v, Color.red);
+        //check if we are attacking currently 
+        if (anim.GetCurrentAnimatorStateInfo(0).IsTag("swordhit") && anim.IsInTransition(0) == false)
+        {
+            Vector3 rootmotion = transform.forward * swordRootmotionSpeed * anim.GetFloat("ForwardRootMotion");
+            v.x = rootmotion.x;
+            v.z = rootmotion.z;
+        }
 
         controller.Move(v * Time.deltaTime);
 

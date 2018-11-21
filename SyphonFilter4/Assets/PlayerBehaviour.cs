@@ -8,10 +8,14 @@ public class PlayerBehaviour : StateMachineBehaviour {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
-        if (stateInfo.IsName("Move") && PlayerCharacterController.player.Dashing)
+        if (stateInfo.IsName("Move"))
         {
+            if(PlayerCharacterController.player.Dashing)
             PlayerCharacterController.player.Dashing = false;
+
+            animator.ResetTrigger("swordHit");
         }
+        
 
     }
 
@@ -30,6 +34,10 @@ public class PlayerBehaviour : StateMachineBehaviour {
         else if (stateInfo.IsName("AirDash"))
         {
             PlayerCharacterController.player.AirDashing = false;
+        }
+        else if (stateInfo.IsTag("swordhit"))
+        {
+            animator.ResetTrigger("swordHit");
         }
     }
 
