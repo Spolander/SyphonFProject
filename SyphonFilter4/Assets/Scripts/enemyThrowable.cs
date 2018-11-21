@@ -33,6 +33,8 @@ public class enemyThrowable : MonoBehaviour {
 
     Transform spriteTransform;
 
+    Coroutine COROU;
+
     Camera mainCam;
     public void Initialize(Vector3 targetLocation, float time, float damage)
     {
@@ -42,7 +44,12 @@ public class enemyThrowable : MonoBehaviour {
         startingPoint = transform.position;
         this.targetLocation = targetLocation;
         projectileTime = time;
-        StartCoroutine(moveAnimation());
+
+        if ( COROU != null)
+        {
+            StopCoroutine(COROU);
+        }
+        COROU=StartCoroutine(moveAnimation());
     }
 
     IEnumerator moveAnimation()
@@ -66,6 +73,7 @@ public class enemyThrowable : MonoBehaviour {
         GameObject particleSys = (GameObject)Instantiate(explosionEffect, transform.position, Quaternion.identity);
         var main = particleSys.GetComponent<ParticleSystem>().main;
         main.startSize = explosionRadius/2;
+        COROU = null;
     }
 
     private void HitDetection()
