@@ -39,6 +39,11 @@ public class PlayerBehaviour : StateMachineBehaviour {
         {
             animator.ResetTrigger("swordHit");
         }
+
+        if (stateInfo.IsName("swordAway"))
+        {
+            animator.GetComponent<playerSwordCombat>().ParentSwordToSpine();
+        }
     }
 
     // OnStateMove is called before OnStateMove is called on any state inside this state machine
