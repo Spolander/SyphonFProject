@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4256023048824244}
   - component: {fileID: 212756510546356400}
   - component: {fileID: 95379416902740412}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: grenadeSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,8 @@ GameObject:
   - component: {fileID: 23985111883597872}
   - component: {fileID: 135308880045445344}
   - component: {fileID: 114770510794251090}
-  m_Layer: 0
+  - component: {fileID: 114922507549015098}
+  m_Layer: 14
   m_Name: enemyThrowable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,6 +187,17 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 513
+--- !u!114 &114922507549015098
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1878209647088264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a13cdf4259e759f43a13fee53e3d2b17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135308880045445344
 SphereCollider:
   m_ObjectHideFlags: 1
