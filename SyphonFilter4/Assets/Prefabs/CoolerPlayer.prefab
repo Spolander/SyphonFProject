@@ -641,7 +641,7 @@ GameObject:
   - component: {fileID: 114571519118316914}
   - component: {fileID: 114754814464846730}
   m_Layer: 9
-  m_Name: UpdatedPlayerPrefab
+  m_Name: CoolerPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
