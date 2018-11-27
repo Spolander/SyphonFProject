@@ -1206,6 +1206,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1831271246632964
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4386306300048184}
+  m_Layer: 9
+  m_Name: DeflectEffectPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1845929499909802
 GameObject:
   m_ObjectHideFlags: 1
@@ -1781,8 +1796,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1416360615061964}
-  m_LocalRotation: {x: 0, y: -0.69382304, z: 0, w: 0.7201456}
-  m_LocalPosition: {x: -36.47212, y: 9.455989, z: 1.5943004}
+  m_LocalRotation: {x: -0, y: -0.6832386, z: -0, w: 0.7301953}
+  m_LocalPosition: {x: 31.93, y: 11.83, z: -63.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4965811497529426}
@@ -1793,6 +1808,7 @@ Transform:
   - {fileID: 4809809456347454}
   - {fileID: 4071363526877312}
   - {fileID: 4985245879813796}
+  - {fileID: 4386306300048184}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -87.867004, z: 0}
@@ -1879,6 +1895,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4796077431814960}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4386306300048184
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1831271246632964}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.008, z: 1.296}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4296648426696774}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4406390758254818
 Transform:
@@ -2894,9 +2923,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3555c203a29bfc43af35a79c13549bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeflectParticle: {fileID: 0}
-  hitBoxSize: {x: 2.73, y: 2.51, z: 2}
-  hitBoxLocation: {x: 0, y: 1.62, z: 1.38}
+  DeflectionEffect: {fileID: 1282491835806780, guid: c24caee95c4003049b6df3796e14faa5,
+    type: 2}
+  deflectionRadius: 1
+  DeflectEffectPosition: {fileID: 1831271246632964}
+  hitBoxSize: {x: 4.7, y: 3.09, z: 3.59}
+  hitBoxLocation: {x: 0, y: 1.66, z: 1.99}
   hitDetectionLayers:
     serializedVersion: 2
     m_Bits: 16384
