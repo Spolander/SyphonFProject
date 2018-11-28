@@ -39,6 +39,10 @@ public class PlayerBehaviour : StateMachineBehaviour {
         {
             animator.ResetTrigger("swordHit");
         }
+        else if (stateInfo.IsTag("deflect"))
+        {
+            animator.GetComponent<PlayerDeflect>().deflectFail = false;
+        }
 
         if (stateInfo.IsName("swordAway"))
         {

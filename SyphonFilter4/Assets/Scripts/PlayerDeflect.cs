@@ -29,49 +29,67 @@ public class PlayerDeflect : MonoBehaviour {
     [SerializeField]
     Transform[] DeflectPoints;
 
-    float deflectTime = 0.2f;
+    [SerializeField]
+    float deflectTimeWindow = 0.5f;
+    float deflectStart;
+
+    public bool deflectFail=false;
 
     void Start () {
+        deflectStart = -deflectTimeWindow;
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("deflect"))
+        if (Input.GetButtonDown("deflect") && deflectFail == false)
         {
-            // deflect timer here
-                if (DeflectHitDetection())
+            deflectStart = Time.time; 
+        }
+        if (Time.time < deflectStart + deflectTimeWindow)
+        {
+            DeflectHitDetection();
+
+            for (int i = 0; i < deflectable.Length; i++)
+            {
+                if (deflectable[i] != null)
                 {
-                for (int i = 0; i < deflectable.Length; i++)
-                {
-                    if (deflectable[i].GetComponent<enemyThrowable>())
+                    //if the object is a grenade and is not deflected before
+                    if (deflectable[i].GetComponent<enemyThrowable>() && deflectable[i].GetComponent<Deflectable>().isDeflected != true)
                     {
                         Debug.Log("Throwable deflected");
                         //set direction of deflectable object towards random deflectpoint
                         deflectable[i].GetComponent<enemyThrowable>().Initialize(DeflectPoints[Random.Range(0, 5)].position, 0.5f, 10);
+                        deflectable[i].GetComponent<Deflectable>().isDeflected = true;
                         //deflection particles
                         GameObject particleSys = (GameObject)Instantiate(DeflectionEffect, deflectable[i].transform.position, Quaternion.identity);
                     }
 
-                    else if (deflectable[i].GetComponent<EnemyProjectile>())
+                    //if the object is a projectile and is not deflected before
+                    else if (deflectable[i].GetComponent<EnemyProjectile>() && deflectable[i].GetComponent<Deflectable>().isDeflected != true)
                     {
                         Debug.Log("particle deflected");
                         //set direction of deflectable object towards random deflectpoint
                         deflectable[i].GetComponent<EnemyProjectile>().Initialize(DeflectPoints[Random.Range(0, 5)].position, 0.5f, 10);
+                        deflectable[i].GetComponent<Deflectable>().isDeflected = true;
                         //deflection particles
                         GameObject particleSys = (GameObject)Instantiate(DeflectionEffect, deflectable[i].transform.position, Quaternion.identity);
                     }
                     //draw traces
                 }
+                //if tried to deflect nothing deflect is a fail
+                else
+                {
+                    deflectFail = true;
                 }
+            }
         }
     }
 
-    public bool DeflectHitDetection()
+    public void DeflectHitDetection()
     {
-        //first collider found with overlapbox
+        //check all ocjects in the overlapbox if they are deflectable
         Collider[] c = new Collider[10];
-        Physics.OverlapBoxNonAlloc(transform.TransformPoint(hitBoxLocation), hitBoxSize / 2, c, transform.rotation, hitDetectionLayers, QueryTriggerInteraction.Ignore);
-
+        Physics.OverlapBoxNonAlloc(transform.TransformPoint(hitBoxLocation), hitBoxSize / 2, c, transform.rotation, hitDetectionLayers, QueryTriggerInteraction.Ignore); 
         for (int i = 0; i < c.Length; i++)
         {
             if (c[i] != null)
@@ -81,12 +99,9 @@ public class PlayerDeflect : MonoBehaviour {
                 {
                     Debug.Log("ISDEFLECTABLE");
                     deflectable[i] = c[i].gameObject;
-                    
                 }
-
             }
         }
-        return true;
     }
 
 
