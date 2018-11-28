@@ -36,6 +36,9 @@ public class playerSwordCombat : MonoBehaviour {
     [SerializeField]
     private LayerMask hitDetectionLayers;
 
+    [SerializeField]
+    private LayerMask enemyLayers;
+
     
     [Tooltip("Layers that can block the sword from damaging the enemy")]
     [SerializeField]
@@ -52,6 +55,24 @@ public class playerSwordCombat : MonoBehaviour {
     private float upperBodyWeight = 0;
     public float UpperBodyWeight { set { upperBodyWeight = value; } }
 
+
+    [Header("Shuriken properties")]
+    [SerializeField]
+    private GameObject shuriken;
+
+    private GameObject spawnedShuriken;
+
+    [SerializeField]
+    private float shurikenTargetDistance = 20;
+
+    [SerializeField]
+    private float maxShurikenTargetAngle = 80f;
+
+    [SerializeField]
+    private int maxAmmo = 5;
+
+    private int ammo;
+
     // Update is called once per frame
 
     private void Start()
@@ -60,6 +81,7 @@ public class playerSwordCombat : MonoBehaviour {
 
         player = GetComponent<PlayerCharacterController>();
         health = GetComponent<PlayerHealth>();
+        ammo = maxAmmo;
         ParentSwordToSpine();
     }
 
@@ -86,7 +108,7 @@ public class playerSwordCombat : MonoBehaviour {
         //check for input and play animations
         if (Input.GetKeyDown(KeyCode.Mouse0) && player.CanControl && layer1Info.IsName("Idle") && anim.IsInTransition(1) == false)
             anim.SetTrigger("swordHit");
-        else if (Input.GetKeyDown(KeyCode.Mouse1) && player.CanControl && player.HangingFromLedge == false && !layer0Info.IsTag("swordhit"))
+        else if (Input.GetKeyDown(KeyCode.Mouse1) && player.CanControl && player.HangingFromLedge == false && !layer0Info.IsTag("swordhit") && layer1Info.IsName("Idle") && ammo > 0)
         {
             anim.Play("shurikenThrow", 1);
             anim.SetLayerWeight(1, 0.9f);
@@ -143,7 +165,74 @@ public class playerSwordCombat : MonoBehaviour {
             }
         }
     }
-           
+
+    public void spawnShuriken()
+    {
+        ammo--;
+        spawnedShuriken = (GameObject)Instantiate(shuriken, transform.position, Quaternion.identity);
+        spawnedShuriken.transform.SetParent(anim.GetBoneTransform(HumanBodyBones.RightHand));
+        spawnedShuriken.transform.localPosition = Vector3.zero;
+        spawnedShuriken.transform.localEulerAngles = new Vector3(52.975f, -189.607f, 1.224f);
+        spawnedShuriken.GetComponent<Shuriken>().enabled = false;
+    }
+
+    public void throwShuriken()
+    {
+
+        //check for enemies in front
+        GameObject target = null;
+
+        Collider[] enemies = Physics.OverlapSphere(transform.position, shurikenTargetDistance, enemyLayers, QueryTriggerInteraction.Ignore);
+
+        float minimumAngle = maxShurikenTargetAngle;
+
+        for (int i = 0; i < enemies.Length; i++)
+        {
+
+            if (Physics.Linecast(health.centerPoint, enemies[i].GetComponent<enemyHealth>().centerPoint, blockingLayers, QueryTriggerInteraction.Ignore))
+                continue;
+
+            float angle = Vector3.Angle(transform.forward, enemies[i].transform.position - transform.position);
+
+            if(angle < minimumAngle)
+            {
+                minimumAngle = angle;
+                target = enemies[i].gameObject;
+            }
+        }
+
+
+        if (spawnedShuriken)
+        {
+            Vector3 throwDir = transform.forward;
+
+            if (target)
+                throwDir = target.GetComponent<enemyHealth>().centerPoint - spawnedShuriken.transform.position;
+
+            spawnedShuriken.transform.SetParent(null);
+            spawnedShuriken.GetComponent<Shuriken>().Initialize(throwDir);
+            spawnedShuriken.GetComponent<Shuriken>().enabled = true;
+            spawnedShuriken = null;
+        }
+        else
+        {
+            spawnedShuriken = (GameObject)Instantiate(shuriken, transform.position, Quaternion.identity);
+            spawnedShuriken.transform.SetParent(anim.GetBoneTransform(HumanBodyBones.RightHand));
+            spawnedShuriken.transform.localPosition = Vector3.zero;
+            spawnedShuriken.transform.localEulerAngles = new Vector3(52.975f, -189.607f, 1.224f);
+            spawnedShuriken.GetComponent<Shuriken>().enabled = false;
+            spawnedShuriken.transform.SetParent(null);
+
+            Vector3 throwDir = transform.forward;
+
+            if (target)
+                throwDir = target.GetComponent<enemyHealth>().centerPoint - spawnedShuriken.transform.position;
+
+            spawnedShuriken.GetComponent<Shuriken>().Initialize(throwDir);
+            spawnedShuriken.GetComponent<Shuriken>().enabled = true;
+            spawnedShuriken = null;
+        }
+    }
     
 
     private void OnDrawGizmos()
