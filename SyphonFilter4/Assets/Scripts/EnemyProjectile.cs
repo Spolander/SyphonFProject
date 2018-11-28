@@ -10,9 +10,6 @@ public class EnemyProjectile : MonoBehaviour {
     [SerializeField]
     private float damage;
 
-    [SerializeField]
-    GameObject deflectionEffect;
-
     Transform targetPoint;
 
     Vector3 targetLocation;
@@ -60,13 +57,13 @@ public class EnemyProjectile : MonoBehaviour {
         yield return null;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        hit = true; //Set hit to true to exit the coroutine loop
-        if (collision.collider.GetComponent<BaseHealth>())
+        Debug.Log("collide");
+        if (collision.GetComponent<BaseHealth>())
         {
-            collision.collider.GetComponent<BaseHealth>().takeDamage(damage, gameObject);
+            collision.GetComponent<BaseHealth>().takeDamage(damage, gameObject);
         }
-        
+        hit = true; //Set hit to true to exit the coroutine loop
     }
 }
