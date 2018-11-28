@@ -61,22 +61,12 @@ public class PlayerBehaviour : StateMachineBehaviour {
         {
             animator.GetComponent<PlayerDeflect>().deflectFail = false;
         }
-            if (stateInfo.IsName("shurikenThrow"))
-            {
-                animator.GetComponent<playerSwordCombat>().UpperBodyWeight = 0;
-            }
+        if (stateInfo.IsName("shurikenThrow"))
+        {
+            animator.GetComponent<playerSwordCombat>().UpperBodyWeight = 0;
         }
-
-
-
-
-
-        
-
-       
-           
-        
-    }
+    }  
+}
 
     // OnStateMove is called before OnStateMove is called on any state inside this state machine
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -97,4 +87,3 @@ public class PlayerBehaviour : StateMachineBehaviour {
     //override public void OnStateMachineExit(Animator animator, int stateMachinePathHash) {
     //
     //}
-}
