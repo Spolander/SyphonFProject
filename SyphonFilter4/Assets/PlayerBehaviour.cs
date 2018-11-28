@@ -15,6 +15,8 @@ public class PlayerBehaviour : StateMachineBehaviour {
 
             animator.ResetTrigger("swordHit");
         }
+
+
         
 
     }
@@ -27,15 +29,31 @@ public class PlayerBehaviour : StateMachineBehaviour {
     // OnStateExit is called before OnStateExit is called on any state inside this state machine
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (stateInfo.IsName("Slide"))
+        if (layerIndex == 0)
         {
-            PlayerCharacterController.player.Dashing = false;
+            if (stateInfo.IsName("Slide"))
+            {
+                PlayerCharacterController.player.Dashing = false;
+            }
+            else if (stateInfo.IsName("AirDash"))
+            {
+                PlayerCharacterController.player.AirDashing = false;
+            }
+            else if (stateInfo.IsName("swordAway"))
+            {
+                animator.GetComponent<playerSwordCombat>().ParentSwordToSpine();
+            }
+
+
+
+            if (stateInfo.IsTag("swordhit"))
+            {
+                animator.ResetTrigger("swordHit");
+                PlayerCharacterController.player.CanControl = true;
+            }
+
         }
-        else if (stateInfo.IsName("AirDash"))
-        {
-            PlayerCharacterController.player.AirDashing = false;
-        }
-        else if (stateInfo.IsTag("swordhit"))
+        else if (layerIndex == 1)
         {
             animator.ResetTrigger("swordHit");
         }
@@ -43,11 +61,21 @@ public class PlayerBehaviour : StateMachineBehaviour {
         {
             animator.GetComponent<PlayerDeflect>().deflectFail = false;
         }
-
-        if (stateInfo.IsName("swordAway"))
-        {
-            animator.GetComponent<playerSwordCombat>().ParentSwordToSpine();
+            if (stateInfo.IsName("shurikenThrow"))
+            {
+                animator.GetComponent<playerSwordCombat>().UpperBodyWeight = 0;
+            }
         }
+
+
+
+
+
+        
+
+       
+           
+        
     }
 
     // OnStateMove is called before OnStateMove is called on any state inside this state machine

@@ -25,6 +25,7 @@ public class PlayerCharacterController : MonoBehaviour
     private float gravityAcceleration = 30;
 
     bool canControl = true;
+    public bool CanControl { get { return canControl; } set { canControl = value; } }
 
     Animator anim;
 

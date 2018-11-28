@@ -117,15 +117,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultDistance: 6.14
   lockOnDistance: 4.3
-  height: 3.23
+  height: 2
   defaultLookAtHeight: 1.74
   lockOnLookAtHeight: 1.32
-  minimumDistance: 0.75
-  minimumHeight: 1
-  minimumLookAtHeight: 1
+  minimumDistance: 0.08
+  minimumHeight: 2
+  minimumLookAtHeight: 2
   moveSpeed: 50
   rotateSpeed: 5555
+  minimumXRotation: -50
+  maximumXRotation: 20
   sensitivityX: 100
+  sensitivityY: 100
   cameraBlockingLayers:
     serializedVersion: 2
     m_Bits: 10241

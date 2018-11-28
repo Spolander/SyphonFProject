@@ -339,6 +339,20 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.64583325
+        functionName: HitDetection
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.02934438
+        functionName: DetectEnemySnap
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -454,6 +468,20 @@ ModelImporter:
         messageOptions: 0
       - time: 0.82234526
         functionName: CreateMeshCopy
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.62597144
+        functionName: HitDetection
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.017376715
+        functionName: DetectEnemySnap
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -599,6 +627,20 @@ ModelImporter:
         messageOptions: 0
       - time: 0.87261987
         functionName: CreateMeshCopy
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.784097
+        functionName: HitDetection
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.031296413
+        functionName: DetectEnemySnap
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -751,6 +793,20 @@ ModelImporter:
         messageOptions: 0
       - time: 0.9526062
         functionName: CreateMeshCopy
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9336643
+        functionName: HitDetection
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.02220726
+        functionName: DetectEnemySnap
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

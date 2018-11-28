@@ -37,6 +37,7 @@ public class enemyHealth : BaseHealth {
         }
         else
         {
+            if(GetComponent<BaseAI>())
             GetComponent<BaseAI>().LastAggroTime = Time.time;
         }
     }
