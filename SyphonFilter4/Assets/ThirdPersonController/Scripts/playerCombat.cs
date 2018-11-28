@@ -119,7 +119,7 @@ public class playerCombat : MonoBehaviour {
                 //shoot towards target
 
                 if (ikc.CurrentLookAtWeight > 0.8f)
-                    if (Physics.Raycast(transform.TransformPoint(0f, 1.7f, 0f), ikc.Target.GetComponent<BaseHealth>().TargetPoint.position - transform.TransformPoint(0f, 1.7f, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask, QueryTriggerInteraction.Ignore)) //starting point, target point
+                    if (Physics.Raycast(transform.TransformPoint(0f, 1.7f, 0f), ikc.Target.GetComponent<BaseHealth>().centerPoint - transform.TransformPoint(0f, 1.7f, 0f), out ShootRaycastHit, maxShootingDistance, EnemyLayerMask, QueryTriggerInteraction.Ignore)) //starting point, target point
                     {
                        GameObject g =  Instantiate(projectileImpact, ShootRaycastHit.point, Quaternion.identity) as GameObject;
                         g.transform.SetParent(ShootRaycastHit.collider.transform);
