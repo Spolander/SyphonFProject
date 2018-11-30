@@ -38,10 +38,22 @@ public class CameraFollow : MonoBehaviour {
     public float rotateSpeed = 300;
 
     private float rotationAngleY;
+
     public float RotationAngleY { set { rotationAngleY = value; } }
+
+    private float rotationAngleX;
+
+    [SerializeField]
+    private float minimumXRotation = -20;
+
+    [SerializeField]
+    private float maximumXRotation = 60;
 
     [SerializeField]
     private float sensitivityX = 100;
+
+    [SerializeField]
+    private float sensitivityY = 100;
 
 
     public static CameraFollow playerCam;
@@ -72,20 +84,10 @@ public class CameraFollow : MonoBehaviour {
         if (player)
         {
             rotationAngleY += Time.deltaTime * Input.GetAxisRaw("Mouse X")*sensitivityX;
+            rotationAngleX += Time.deltaTime * Input.GetAxisRaw("Mouse Y") * sensitivityY;
 
-            if (lockOntarget)
-            {
-                Vector3 dir = lockOntarget.position - player.position;
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation((lockOntarget.position + Vector3.up * lockOnLookAtHeight) - transform.position), rotateSpeed * Time.deltaTime);
-
-
-                Vector3 translation = Vector3.Scale(dir.normalized, new Vector3(1, 0, 1));
-                translation.Normalize();
-                transform.position = Vector3.MoveTowards(transform.position, (player.position + translation * -lockOnDistance) + Vector3.up * height, moveSpeed * Time.deltaTime);
-            }
-            else
-            {
-                Quaternion rotation = Quaternion.Euler(0, rotationAngleY, 0);
+            ClampRotationX();
+            Quaternion rotation = Quaternion.Euler(rotationAngleX, rotationAngleY, 0);
 
                 Vector3 targetPosition = player.position + rotation * Vector3.forward * defaultDistance + Vector3.up * height;
                 RaycastHit hit;
@@ -96,13 +98,23 @@ public class CameraFollow : MonoBehaviour {
                     lerp = hit.distance / defaultDistance;
                 }
 
+                if(hit.collider)
+                targetPosition = player.position + rotation * Vector3.forward * Mathf.Lerp(minimumDistance,hit.distance,lerp) + Vector3.up * Mathf.Lerp(minimumHeight, height,lerp);
+                else
+                targetPosition = player.position + rotation * Vector3.forward * Mathf.Lerp(minimumDistance, defaultDistance, lerp) + Vector3.up * Mathf.Lerp(minimumHeight, height, lerp);
 
-                targetPosition = player.position + rotation * Vector3.forward * Mathf.Lerp(minimumDistance, defaultDistance,lerp) + Vector3.up * Mathf.Lerp(minimumHeight, height,lerp);
-
-                transform.position = targetPosition;
+            transform.position = targetPosition;
                 transform.rotation = Quaternion.LookRotation((player.position + Vector3.up * Mathf.Lerp(minimumLookAtHeight, defaultLookAtHeight,lerp)) - transform.position);
-            }
+            
         }
 		
 	}
+
+    void ClampRotationX()
+    {
+        if (rotationAngleX < minimumXRotation)
+            rotationAngleX = minimumXRotation;
+        else if (rotationAngleX > maximumXRotation)
+            rotationAngleX = maximumXRotation;
+    }
 }

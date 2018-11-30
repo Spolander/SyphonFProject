@@ -15,7 +15,7 @@ public class PlayerCharacterController : MonoBehaviour
     private float airMoveSpeed = 6;
 
     [SerializeField]
-    private float moveSpeed = 6;
+    public float moveSpeed = 6;
 
     public bool IsInWater;
 
@@ -25,6 +25,7 @@ public class PlayerCharacterController : MonoBehaviour
     private float gravityAcceleration = 30;
 
     bool canControl = true;
+    public bool CanControl { get { return canControl; } set { canControl = value; } }
 
     Animator anim;
 
@@ -107,9 +108,13 @@ public class PlayerCharacterController : MonoBehaviour
     //movement speed multiplier when swing the sword
     [SerializeField]
     private float swordRootmotionSpeed = 1;
+
+
+    playerSwordCombat swordCombat;
     // Use this for initialization
     void Start()
     {
+        swordCombat = GetComponent<playerSwordCombat>();
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         mainCam = Camera.main;
@@ -191,6 +196,7 @@ public class PlayerCharacterController : MonoBehaviour
     //Activates dash
     private void Dash()
     {
+        swordCombat.ParentSwordToSpine();
         dashing = true;
         anim.CrossFadeInFixedTime("Slide", 0);
        
@@ -199,6 +205,7 @@ public class PlayerCharacterController : MonoBehaviour
     //activates air dash
     private void AirDash()
     {
+
         airDashing = true;
         anim.CrossFadeInFixedTime("AirDash", 0.15f);
     }
@@ -206,6 +213,7 @@ public class PlayerCharacterController : MonoBehaviour
     //jumping
     IEnumerator jumpingAnimation(bool ledgeJump)
     {
+        swordCombat.ParentSwordToSpine();
         if (ledgeJump)
         {
             hasLedgeJumped = true;

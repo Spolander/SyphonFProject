@@ -15,6 +15,12 @@ public class PlayerHealth : BaseHealth{
     //the time before you can take damage after previous takeDamage()
     float postHitInvincibility = 0.2f;
 
+    [SerializeField]
+    float movementSpeedSlowTime = 4;
+
+    float originalMoveSpeed;
+    float damageTaken;
+
     playerHealthBar hpBar;
 
 
@@ -22,8 +28,16 @@ public class PlayerHealth : BaseHealth{
     {
         Health = Mathf.Clamp(Health, 1, maxHealth);
         hpBar = playerHealthBar.m_playerHealthBar;
+        originalMoveSpeed = GetComponent<PlayerCharacterController>().moveSpeed;
+    }
 
-
+    private void Update()
+    {
+        //speeding up after taking damage
+        if (Time.time < damageTaken+ movementSpeedSlowTime)
+        {
+            GetComponent<PlayerCharacterController>().moveSpeed = Mathf.MoveTowards(GetComponent<PlayerCharacterController>().moveSpeed, originalMoveSpeed, 0.1f);
+        }
     }
     public override void takeDamage(float amount, GameObject caller)
     {
@@ -33,6 +47,11 @@ public class PlayerHealth : BaseHealth{
         }
         lastDamageTime = Time.time;
         Health = Health - amount;
+
+        //for slowing movement speed
+        damageTaken = Time.time;
+        originalMoveSpeed = GetComponent<PlayerCharacterController>().moveSpeed;
+        GetComponent<PlayerCharacterController>().moveSpeed = originalMoveSpeed / 3;
 
         if (hpBar != null)
             hpBar.UpdateHealthBar(maxHealth, Health);
