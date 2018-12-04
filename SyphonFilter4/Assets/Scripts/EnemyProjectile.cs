@@ -7,63 +7,60 @@ public class EnemyProjectile : MonoBehaviour {
     [SerializeField]
     protected LayerMask hitDetectionLayers;
 
+    //damage that projectile deals
     [SerializeField]
     private float damage;
 
-    Transform targetPoint;
-
+    //where projectile is headed
     Vector3 targetLocation;
-    Vector3 startingPoint;
+    //where projectile is
+    Vector3 position;
 
+    //time that it takes for the projectile to arrive
     private float projectileTime;
 
-    Coroutine COROU;
+    //speed of the projectile
+    [SerializeField]
+    public float projectileSpeed;
 
     bool hit = false;
 
-    public void Initialize(Vector3 targetLocation, float time, float damage)
+    private void Start()
     {
-        //mainCam = Camera.main;
-        //spriteTransform = transform.GetChild(0);
-
-        this.damage = damage;
-        startingPoint = transform.position;
-        this.targetLocation = targetLocation;
-        projectileTime = time;
-
-        if (COROU != null)
-        {
-            StopCoroutine(COROU);
-        }
-        COROU = StartCoroutine(moveAnimation());
+        Initialize(PlayerCharacterController.player.GetComponent<BaseHealth>().centerPoint, projectileSpeed, 50);
     }
-    IEnumerator moveAnimation()
+
+    private void Update()
     {
-        float lerp = 0;
+        position = Vector3.MoveTowards(position, targetLocation,projectileSpeed*Time.deltaTime );
+        transform.position = position;
 
-        while (lerp <= 1 && !hit)
+        if (transform.position == targetLocation)
         {
-            //spriteTransform.rotation = Quaternion.LookRotation(mainCam.transform.position - transform.position);
-            Vector3 pos = Vector3.Lerp(startingPoint, targetLocation, lerp);
-
-            lerp += Time.deltaTime / projectileTime;
-            transform.position = pos;
-            yield return null;
+            Destroy(gameObject);
         }
+    }
 
-        Destroy(gameObject);
-        SoundEngine.instance.PlaySound("grenade", transform.position, null);
-        COROU = null;
-        yield return null;
+    public void Initialize(Vector3 targetLocation,float speed, float damage)
+    {
+        this.damage = damage;
+        position = transform.position;
+        this.targetLocation = targetLocation;
+        projectileSpeed = speed;
     }
 
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("collide");
-        if (collision.GetComponent<BaseHealth>())
+        if (GetComponent<Deflectable>().isDeflected == false)
         {
-            collision.GetComponent<BaseHealth>().takeDamage(damage, gameObject);
+            Debug.Log("collide");
+            if (collision.GetComponent<BaseHealth>())
+            {
+                collision.GetComponent<BaseHealth>().takeDamage(damage, gameObject);
+                Destroy(gameObject);
+            }
+            //Set hit to true to exit the coroutine loop
+            hit = true;
         }
-        hit = true; //Set hit to true to exit the coroutine loop
     }
 }

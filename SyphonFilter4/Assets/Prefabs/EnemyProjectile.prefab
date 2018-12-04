@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1371644561562236}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 30.414, y: 13.843, z: -63.63}
+  m_LocalPosition: {x: 29.988646, y: 11.770412, z: -64.74063}
   m_LocalScale: {x: 0.26004, y: 0.26004, z: 0.26004}
   m_Children: []
   m_Father: {fileID: 0}
@@ -101,6 +101,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   damage: 50
+  projectileSpeed: 40
 --- !u!114 &114297913822346876
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -120,7 +121,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1371644561562236}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
