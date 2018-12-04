@@ -32,8 +32,9 @@ public class EnemyProjectile : MonoBehaviour {
 
     private void Update()
     {
-        position = Vector3.MoveTowards(position, targetLocation,projectileSpeed*Time.deltaTime );
-        transform.position = position;
+        transform.Translate(Vector3.forward * projectileSpeed * Time.deltaTime);
+        //position = Vector3.MoveTowards(position, targetLocation,projectileSpeed*Time.deltaTime );
+        //transform.position = position;
 
         if (transform.position == targetLocation)
         {
@@ -47,6 +48,7 @@ public class EnemyProjectile : MonoBehaviour {
         position = transform.position;
         this.targetLocation = targetLocation;
         projectileSpeed = speed;
+        transform.LookAt(PlayerCharacterController.player.GetComponent<BaseHealth>().centerPoint);
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -57,10 +59,11 @@ public class EnemyProjectile : MonoBehaviour {
             if (collision.GetComponent<BaseHealth>())
             {
                 collision.GetComponent<BaseHealth>().takeDamage(damage, gameObject);
-                Destroy(gameObject);
+
             }
             //Set hit to true to exit the coroutine loop
             hit = true;
         }
+        Destroy(gameObject);
     }
 }

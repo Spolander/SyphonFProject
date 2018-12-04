@@ -38,8 +38,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1371644561562236}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 29.988646, y: 11.770412, z: -64.74063}
-  m_LocalScale: {x: 0.26004, y: 0.26004, z: 0.26004}
+  m_LocalPosition: {x: 29.861954, y: 12.414, z: -64.51738}
+  m_LocalScale: {x: 0.19332153, y: 0.19332153, z: 0.19332153}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2af61984c69a6aa40b111a0b5edacb08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitDetectionLayers:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 1537
   damage: 50
   projectileSpeed: 40
 --- !u!114 &114297913822346876

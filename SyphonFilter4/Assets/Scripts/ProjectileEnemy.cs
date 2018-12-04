@@ -107,9 +107,6 @@ public class ProjectileEnemy : BaseAI {
     protected override bool CanAttack()
     {
         return Time.time > lastAttackTime + attackingInterval && anim.GetCurrentAnimatorStateInfo(0).IsName("Move");
-
     }
-
-
 }
 
