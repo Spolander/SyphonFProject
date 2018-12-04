@@ -6255,11 +6255,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4234352550017578, guid: 7c536d755f7ea88409f43271e69e9eef, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 30.414
+      value: 21.65
       objectReference: {fileID: 0}
     - target: {fileID: 4234352550017578, guid: 7c536d755f7ea88409f43271e69e9eef, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 13.843
+      value: 13.84
       objectReference: {fileID: 0}
     - target: {fileID: 4234352550017578, guid: 7c536d755f7ea88409f43271e69e9eef, type: 2}
       propertyPath: m_LocalPosition.z
@@ -6289,6 +6289,11 @@ Prefab:
         type: 2}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114153457411844926, guid: 7c536d755f7ea88409f43271e69e9eef,
+        type: 2}
+      propertyPath: projectileSpeed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c536d755f7ea88409f43271e69e9eef, type: 2}
@@ -76972,10 +76977,6 @@ Prefab:
     - target: {fileID: 4296648426696774, guid: 5f4739937ad02ce4186efa49a87d4ffb, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1416360615061964, guid: 5f4739937ad02ce4186efa49a87d4ffb, type: 2}
-      propertyPath: m_Name
-      value: CoolerPlayer (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f4739937ad02ce4186efa49a87d4ffb, type: 2}
