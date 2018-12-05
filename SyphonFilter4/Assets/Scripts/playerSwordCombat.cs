@@ -73,6 +73,8 @@ public class playerSwordCombat : MonoBehaviour {
 
     private int ammo;
 
+    [SerializeField]
+    private TrailRenderer trail;
     // Update is called once per frame
 
     private void Start()
@@ -83,6 +85,8 @@ public class playerSwordCombat : MonoBehaviour {
         health = GetComponent<PlayerHealth>();
         ammo = maxAmmo;
         ParentSwordToSpine();
+
+     
     }
 
     public void ParentSwordToHand()
@@ -145,6 +149,14 @@ public class playerSwordCombat : MonoBehaviour {
         }
     }
 
+    public void EnableSwordTrail()
+    {
+        trail.emitting = true;
+    }
+    public void DisableSwordTrail()
+    {
+        trail.emitting = false;
+    }
     public void DetectEnemySnap()
     {
         print("aaaa");

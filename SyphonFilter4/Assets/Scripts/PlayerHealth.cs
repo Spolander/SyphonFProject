@@ -36,7 +36,7 @@ public class PlayerHealth : BaseHealth{
         //speeding up after taking damage
         if (Time.time < damageTaken+ movementSpeedSlowTime)
         {
-            GetComponent<PlayerCharacterController>().moveSpeed = Mathf.MoveTowards(GetComponent<PlayerCharacterController>().moveSpeed, originalMoveSpeed, 0.1f);
+            GetComponent<PlayerCharacterController>().moveSpeed = Mathf.MoveTowards(GetComponent<PlayerCharacterController>().moveSpeed, originalMoveSpeed, 0.05f);
         }
     }
     public override void takeDamage(float amount, GameObject caller)
@@ -50,8 +50,8 @@ public class PlayerHealth : BaseHealth{
 
         //for slowing movement speed
         damageTaken = Time.time;
-        originalMoveSpeed = GetComponent<PlayerCharacterController>().moveSpeed;
-        GetComponent<PlayerCharacterController>().moveSpeed = originalMoveSpeed / 3;
+        //originalMoveSpeed = GetComponent<PlayerCharacterController>().moveSpeed;
+        GetComponent<PlayerCharacterController>().moveSpeed = originalMoveSpeed / 4;
 
         if (hpBar != null)
             hpBar.UpdateHealthBar(maxHealth, Health);
