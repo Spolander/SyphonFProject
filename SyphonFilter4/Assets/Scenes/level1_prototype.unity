@@ -12073,6 +12073,11 @@ Prefab:
       propertyPath: pistolShots.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
+        type: 2}
+      propertyPath: koiraFootSteps.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4316161352967360, guid: 6bb695f9cd8f9b542b8a5b08cff9d433, type: 2}
       propertyPath: m_LocalPosition.x
       value: -4.913191
@@ -12120,6 +12125,21 @@ Prefab:
       propertyPath: pistolShots.Array.data[1]
       value: 
       objectReference: {fileID: 8300000, guid: db7d179826d536e4db3d142be7d2ea7f, type: 3}
+    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
+        type: 2}
+      propertyPath: koiraFootSteps.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 422111a3cacd7ad40b05ab88e31a471d, type: 3}
+    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
+        type: 2}
+      propertyPath: koiraFootSteps.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6ac06a2d3818dc04385a16b6a0f9eecb, type: 3}
+    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
+        type: 2}
+      propertyPath: koiraFootSteps.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8a6633eaa1063e44991ad2f7c34f859f, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bb695f9cd8f9b542b8a5b08cff9d433, type: 2}
   m_IsPrefabAsset: 0

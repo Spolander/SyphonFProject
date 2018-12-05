@@ -42,6 +42,9 @@ public class SoundEngine : MonoBehaviour {
     [SerializeField]
     AudioClip[] mechaSteps;
 
+    [SerializeField]
+    AudioClip[] koiraFootSteps;
+
     public static SoundEngine instance;
 
    
@@ -115,6 +118,10 @@ public class SoundEngine : MonoBehaviour {
         else if (name == "HealthPickup")
         {
             AS.clip = HealthPickup;
+        }
+        else if (name == "KoiraFootStep")
+        {
+            AS.clip = koiraFootSteps[Random.Range(0, koiraFootSteps.Length)];
         }
 
         AS.outputAudioMixerGroup = mixer.FindMatchingGroups("FX")[0];
