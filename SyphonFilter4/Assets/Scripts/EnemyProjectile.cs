@@ -9,7 +9,7 @@ public class EnemyProjectile : MonoBehaviour {
 
     //damage that projectile deals
     [SerializeField]
-    private float damage;
+    public float damage;
 
     //where projectile is headed
     Vector3 targetLocation;
@@ -25,18 +25,21 @@ public class EnemyProjectile : MonoBehaviour {
 
     bool hit = false;
 
+    //backup to destroy projectiles if they dont hit anything
+    //time when projectile was initialized
+    float timeOfBirth;
+    //projectile lifetime in seconds
+    float maxLifeTime = 3;
+
     private void Start()
     {
-        Initialize(PlayerCharacterController.player.GetComponent<BaseHealth>().centerPoint, projectileSpeed, 50);
+        Initialize(PlayerCharacterController.player.GetComponent<BaseHealth>().centerPoint, projectileSpeed, damage);
     }
 
     private void Update()
     {
         transform.Translate(Vector3.forward * projectileSpeed * Time.deltaTime);
-        //position = Vector3.MoveTowards(position, targetLocation,projectileSpeed*Time.deltaTime );
-        //transform.position = position;
-
-        if (transform.position == targetLocation)
+        if (Time.time > timeOfBirth + maxLifeTime)
         {
             Destroy(gameObject);
         }
@@ -48,22 +51,25 @@ public class EnemyProjectile : MonoBehaviour {
         position = transform.position;
         this.targetLocation = targetLocation;
         projectileSpeed = speed;
-        transform.LookAt(PlayerCharacterController.player.GetComponent<BaseHealth>().centerPoint);
+        //transform.LookAt(PlayerCharacterController.player.GetComponent<BaseHealth>().centerPoint);
+        transform.LookAt(targetLocation);
+        timeOfBirth = Time.time;
     }
 
     private void OnTriggerEnter(Collider collision)
     {
         if (GetComponent<Deflectable>().isDeflected == false)
         {
-            Debug.Log("collide");
+            
             if (collision.GetComponent<BaseHealth>())
             {
                 collision.GetComponent<BaseHealth>().takeDamage(damage, gameObject);
-
-            }
-            //Set hit to true to exit the coroutine loop
-            hit = true;
+            }  
+            else
+                Debug.Log("collideWithWALL");
         }
         Destroy(gameObject);
+        //Set hit to true to exit the coroutine loop
+        hit = true;
     }
 }
