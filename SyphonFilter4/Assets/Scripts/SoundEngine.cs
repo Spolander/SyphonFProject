@@ -124,6 +124,7 @@ public class SoundEngine : MonoBehaviour {
             AS.clip = koiraFootSteps[Random.Range(0, koiraFootSteps.Length)];
         }
 
+        AS.priority = 180;
         AS.outputAudioMixerGroup = mixer.FindMatchingGroups("FX")[0];
         sound.transform.position = point;
         sound.transform.SetParent(parent);
