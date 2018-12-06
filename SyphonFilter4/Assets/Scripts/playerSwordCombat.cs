@@ -143,7 +143,7 @@ public class playerSwordCombat : MonoBehaviour {
 
                 //stun in enemy script
                 e.takeDamage(damage, gameObject);
-
+                SoundEngine.instance.PlaySound("swordImpact", e.transform.position, null);
               
             }
         }
@@ -151,6 +151,7 @@ public class playerSwordCombat : MonoBehaviour {
 
     public void EnableSwordTrail()
     {
+        SoundEngine.instance.PlaySound("sword", transform.position, transform);
         trail.emitting = true;
     }
     public void DisableSwordTrail()
@@ -190,7 +191,7 @@ public class playerSwordCombat : MonoBehaviour {
 
     public void throwShuriken()
     {
-
+       
         //check for enemies in front
         GameObject target = null;
 
@@ -224,6 +225,7 @@ public class playerSwordCombat : MonoBehaviour {
             spawnedShuriken.transform.SetParent(null);
             spawnedShuriken.GetComponent<Shuriken>().Initialize(throwDir);
             spawnedShuriken.GetComponent<Shuriken>().enabled = true;
+            SoundEngine.instance.PlaySound("shurikenThrow", transform.position, spawnedShuriken.transform);
             spawnedShuriken = null;
         }
         else
@@ -242,6 +244,7 @@ public class playerSwordCombat : MonoBehaviour {
 
             spawnedShuriken.GetComponent<Shuriken>().Initialize(throwDir);
             spawnedShuriken.GetComponent<Shuriken>().enabled = true;
+            SoundEngine.instance.PlaySound("shurikenThrow", transform.position, spawnedShuriken.transform);
             spawnedShuriken = null;
         }
     }

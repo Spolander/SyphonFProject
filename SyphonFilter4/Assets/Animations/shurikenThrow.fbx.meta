@@ -280,21 +280,21 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.8145912
+      - time: 0.73766816
         functionName: throwShuriken
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.8442824
+      - time: 0.81351316
         functionName: throwShuriken
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.89153504
+      - time: 0.91717607
         functionName: throwShuriken
         data: 
         objectReferenceParameter: {instanceID: 0}
