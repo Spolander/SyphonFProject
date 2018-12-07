@@ -52,7 +52,15 @@ public class SoundEngine : MonoBehaviour {
     AudioClip[] swordImpact;
 
     [SerializeField]
+    private AudioClip[] koiraHurt;
+
+    [SerializeField]
+    private AudioClip[] koiraDeath;
+
+    [SerializeField]
     AudioClip[] shurikenSounds;
+    [SerializeField]
+    private AudioClip fleshImpact;
     private float lastShurikenSoundTime;
 
     public static SoundEngine instance;
@@ -133,6 +141,14 @@ public class SoundEngine : MonoBehaviour {
         {
             AS.clip = koiraFootSteps[Random.Range(0, koiraFootSteps.Length)];
         }
+        else if (name == "koiraHurt")
+        {
+            AS.clip = koiraHurt[Random.Range(0, koiraHurt.Length)];
+        }
+        else if (name == "koiraDeath")
+        {
+            AS.clip = koiraDeath[Random.Range(0, koiraDeath.Length)];
+        }
         else if (name == "sword")
         {
             AS.clip = swordSounds[Random.Range(0, swordSounds.Length)];
@@ -157,6 +173,10 @@ public class SoundEngine : MonoBehaviour {
         else if (name == "swordImpact")
         {
             AS.clip = swordImpact[Random.Range(0, swordImpact.Length)];
+        }
+        else if (name == "fleshImpact")
+        {
+            AS.clip = fleshImpact;
         }
 
         AS.priority = 180;

@@ -231,4 +231,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 11265
   hitDetectionDistance: 0.2
-  damage: 15
+  damage: 35

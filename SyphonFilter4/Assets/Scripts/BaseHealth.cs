@@ -25,7 +25,7 @@ public class BaseHealth : MonoBehaviour {
     public virtual void death(GameObject caller)
         {
             
-     
+    
         Destroy(gameObject);
     }
 
