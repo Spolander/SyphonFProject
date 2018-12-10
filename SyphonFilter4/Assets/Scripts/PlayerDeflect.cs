@@ -77,7 +77,7 @@ public class PlayerDeflect : MonoBehaviour {
                     {
                         Debug.Log("particle deflected");
                         //set direction of deflectable object towards random deflectpoint
-                        deflectable[i].GetComponent<EnemyProjectile>().Initialize(transform.TransformPoint(new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), Random.Range(-5f, 5f))), deflectable[i].GetComponent<EnemyProjectile>().projectileSpeed, 50);
+                        deflectable[i].GetComponent<EnemyProjectile>().Initialize(transform.TransformPoint(new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), Random.Range(-5f, 5f)))); //, deflectable[i].GetComponent<EnemyProjectile>().projectileSpeed, 50);
                         //set deflected boolean to true, so that it cannot be deflected again
                         deflectable[i].GetComponent<Deflectable>().isDeflected = true;
                         //deflection particles

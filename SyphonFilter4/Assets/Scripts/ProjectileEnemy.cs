@@ -12,19 +12,14 @@ public class ProjectileEnemy : BaseAI {
     [SerializeField]
     private GameObject projectile;
 
-    private float speed;
-    private float ProjDamage;
+    //private float speed;
+    //private float ProjDamage;
 
 
     protected override void Start()
     {
         base.Start();
         lastAttackTime -= attackingInterval;
-
-        speed = GetComponent<EnemyProjectile>().projectileSpeed;
-        ProjDamage = GetComponent<EnemyProjectile>().damage;
-
-        Debug.Log(speed + "damage" + ProjDamage);
     }
 
     public void projectileAttack()
@@ -33,9 +28,7 @@ public class ProjectileEnemy : BaseAI {
             return;
 
         GameObject g = (GameObject)Instantiate(projectile, anim.GetBoneTransform(HumanBodyBones.RightHand).position, Quaternion.Euler(0,0,90));
-        g.GetComponent<EnemyProjectile>().Initialize(player.position, speed, ProjDamage);
-
-        //PlayerCharacterController.player.transform.position
+        g.GetComponent<EnemyProjectile>().Initialize(player.GetComponent<BaseHealth>().centerPoint);
     }
     protected override void Idle()
     {

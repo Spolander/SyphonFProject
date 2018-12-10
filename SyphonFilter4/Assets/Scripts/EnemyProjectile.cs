@@ -33,7 +33,7 @@ public class EnemyProjectile : MonoBehaviour {
 
     private void Start()
     {
-        Initialize(PlayerCharacterController.player.GetComponent<BaseHealth>().centerPoint, projectileSpeed, damage);
+
     }
 
     private void Update()
@@ -45,13 +45,10 @@ public class EnemyProjectile : MonoBehaviour {
         }
     }
 
-    public void Initialize(Vector3 targetLocation,float speed, float damage)
+    public void Initialize(Vector3 targetLocation)
     {
-        this.damage = damage;
         position = transform.position;
         this.targetLocation = targetLocation;
-        projectileSpeed = speed;
-        //transform.LookAt(PlayerCharacterController.player.GetComponent<BaseHealth>().centerPoint);
         transform.LookAt(targetLocation);
         timeOfBirth = Time.time;
     }
