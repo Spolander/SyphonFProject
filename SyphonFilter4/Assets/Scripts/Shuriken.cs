@@ -63,6 +63,7 @@ public class Shuriken : MonoBehaviour {
             this.enabled = false;
             transform.SetParent(hit.transform);
             StartCoroutine(fadeOut());
+            SoundEngine.instance.PlaySound("shurikenHit", transform.position, null);
         }
     }
 

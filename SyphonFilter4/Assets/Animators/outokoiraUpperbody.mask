@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: outokoiraUpperbody
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 1
+  - m_Path: Armature/armIKL
+    m_Weight: 1
+  - m_Path: Armature/armIKL/armIKL_end
+    m_Weight: 1
+  - m_Path: Armature/footLIK
+    m_Weight: 0
+  - m_Path: Armature/footLIK/footLIK_end
+    m_Weight: 0
+  - m_Path: Armature/footRIK
+    m_Weight: 0
+  - m_Path: Armature/footRIK/footRIK_end
+    m_Weight: 0
+  - m_Path: Armature/handRIK
+    m_Weight: 1
+  - m_Path: Armature/handRIK/handRIK_end
+    m_Weight: 1
+  - m_Path: Armature/Root
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.l
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.l/arm2.l
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.l/arm2.l/arm3.l
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.l/arm2.l/arm3.l/arm4.l
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.l/arm2.l/arm3.l/arm4.l/arm5.l
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.l/arm2.l/arm3.l/arm4.l/arm5.l/arm6.l
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.l/arm2.l/arm3.l/arm4.l/arm5.l/arm6.l/arm7.l
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.l/arm2.l/arm3.l/arm4.l/arm5.l/arm6.l/arm7.l/arm7.l_end
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.r.001
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.r.001/arm2.r.001
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.r.001/arm2.r.001/arm3.r.001
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.r.001/arm2.r.001/arm3.r.001/arm4.r.001
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.r.001/arm2.r.001/arm3.r.001/arm4.r.001/arm5.r.001
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.r.001/arm2.r.001/arm3.r.001/arm4.r.001/arm5.r.001/arm6.r.001
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.r.001/arm2.r.001/arm3.r.001/arm4.r.001/arm5.r.001/arm6.r.001/arm7.r.001
+    m_Weight: 1
+  - m_Path: Armature/Root/arm1.r.001/arm2.r.001/arm3.r.001/arm4.r.001/arm5.r.001/arm6.r.001/arm7.r.001/arm7.r.001_end
+    m_Weight: 1
+  - m_Path: Armature/Root/upperleg.l
+    m_Weight: 0
+  - m_Path: Armature/Root/upperleg.l/lowerleg.l
+    m_Weight: 0
+  - m_Path: Armature/Root/upperleg.l/lowerleg.l/ankle.l
+    m_Weight: 0
+  - m_Path: Armature/Root/upperleg.l/lowerleg.l/ankle.l/foot.l
+    m_Weight: 0
+  - m_Path: Armature/Root/upperleg.l/lowerleg.l/ankle.l/foot.l/foot.l_end
+    m_Weight: 0
+  - m_Path: Armature/Root/upperleg.r
+    m_Weight: 0
+  - m_Path: Armature/Root/upperleg.r/lowerleg.r
+    m_Weight: 0
+  - m_Path: Armature/Root/upperleg.r/lowerleg.r/ankle.r
+    m_Weight: 0
+  - m_Path: Armature/Root/upperleg.r/lowerleg.r/ankle.r/foot.r
+    m_Weight: 0
+  - m_Path: Armature/Root/upperleg.r/lowerleg.r/ankle.r/foot.r/foot.r_end
+    m_Weight: 0
+  - m_Path: Cube
+    m_Weight: 1
