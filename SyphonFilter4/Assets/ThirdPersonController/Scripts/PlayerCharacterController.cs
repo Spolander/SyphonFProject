@@ -15,7 +15,7 @@ public class PlayerCharacterController : MonoBehaviour
     private float airMoveSpeed = 6;
 
     [SerializeField]
-    private float moveSpeed = 6;
+    public float moveSpeed = 6;
 
     public bool IsInWater;
 
