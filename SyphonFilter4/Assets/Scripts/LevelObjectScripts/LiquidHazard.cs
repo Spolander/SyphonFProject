@@ -27,7 +27,10 @@ public class LiquidHazard : MonoBehaviour {
     }
     private void OnTriggerStay(Collider other)
     {
-        other.GetComponent<PlayerHealth>().takeDamage(damage, gameObject);
-
+        if (other.GetComponent<PlayerCharacterController>())
+        {
+            other.GetComponent<PlayerHealth>().takeDamage(damage, gameObject);
+        }
+        
     }
 }

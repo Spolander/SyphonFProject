@@ -1358,8 +1358,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1763646796920610}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 21.17073, y: 11.640394, z: -63.68702}
+  m_LocalRotation: {x: -0, y: -0.031883832, z: -0, w: 0.99949163}
+  m_LocalPosition: {x: 4.063506, y: 35.632595, z: -57.673843}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4625943305157060}
@@ -1367,7 +1367,7 @@ Transform:
   - {fileID: 4317906958726024}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -3.6540003, z: 0}
 --- !u!4 &4694334294546078
 Transform:
   m_ObjectHideFlags: 1
@@ -1678,7 +1678,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 20
   TargetPoint: {fileID: 4625943305157060}
-  bloodParticle: {fileID: 0}
+  bloodParticle: {fileID: 1058171438153982, guid: 74b430e1aadf09d4ebf4ded22f834a74,
+    type: 2}
   cogParticle: {fileID: 1974064769963706, guid: be4efa405d8e2ae4caa4c2186e9b9258,
     type: 2}
   chanceToSpawnBlood: 0.8
