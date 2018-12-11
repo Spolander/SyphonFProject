@@ -56,6 +56,8 @@ public class enemyHealth : BaseHealth {
         }
     }
 
+ 
+
     public override void death(GameObject caller)
     {
 
@@ -64,7 +66,12 @@ public class enemyHealth : BaseHealth {
         {
            // GetComponent<BaseAI>().enabled = false;
             GetComponent<Collider>().enabled = false;
+            if (GetComponent<Rigidbody>())
+                GetComponent<Rigidbody>().isKinematic = true;
             anim.Play("Death");
+
+            if (GetComponent<DogAI>())
+                GetComponent<DogAI>().enabled = false;
         }
         else
             Destroy(gameObject);

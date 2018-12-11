@@ -47,11 +47,13 @@ public class DogAI : MonoBehaviour {
         //Dog stops and start attacking
         else if (playerDistance <= biteDistance)
         {
-            GameObject.Find("CoolerPlayer").GetComponent<PlayerHealth>().takeDamage(5, player);
             anim.SetBool("Attack", true);
         }
     }
-
+    public void DamagePlayer()
+    {
+        PlayerCharacterController.player.GetComponent<PlayerHealth>().takeDamage(5, gameObject);
+    }
     void CanDogSee()
     {
         if (Physics.Raycast(this.transform.position, (player.transform.position - this.transform.position), out hit, sleepingDistance))
