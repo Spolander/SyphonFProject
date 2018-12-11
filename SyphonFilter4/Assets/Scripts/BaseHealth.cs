@@ -8,7 +8,10 @@ public class BaseHealth : MonoBehaviour {
     protected float Health = 100;
 
     [SerializeField]
-    public Transform TargetPoint;
+    private Transform TargetPoint;
+
+    //returns targetPoint if it's not null, else return position + up
+    public Vector3 centerPoint { get { if (TargetPoint) return TargetPoint.position; else return transform.position+Vector3.up;} }
 
     public virtual void takeDamage(float amount, GameObject caller) {
         Health = Health - amount;
@@ -22,10 +25,7 @@ public class BaseHealth : MonoBehaviour {
     public virtual void death(GameObject caller)
         {
             
-        if (caller.tag == "Player")
-        {
-            caller.GetComponent<playerCombat>().stopLockOn();
-        }
+    
         Destroy(gameObject);
     }
 

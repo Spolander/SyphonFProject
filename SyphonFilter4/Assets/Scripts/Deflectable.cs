@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class Deflectable : MonoBehaviour {
 
-	// Only to check if object is deflectable
+    public bool isDeflected = false;
 
 }

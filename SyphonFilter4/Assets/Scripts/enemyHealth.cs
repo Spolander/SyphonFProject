@@ -15,14 +15,25 @@ public class enemyHealth : BaseHealth {
 
     [SerializeField]
     protected float chanceToSpawnCogs = 0.5f;
+
+    Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
     public override void takeDamage(float amount, GameObject caller)
     {
         Health = Health - amount;
         Debug.Log(Health);
 
+        anim.Play("Hurt",0,0.0f);
+       
+        Quaternion lookRotation =Quaternion.LookRotation(-Vector3.Scale(caller.transform.position - transform.position, new Vector3(1, 0, 1)));
+
         if (bloodParticle && Random.value < chanceToSpawnBlood)
         {
-            GameObject g = (GameObject)Instantiate(bloodParticle, transform.position + Vector3.up, transform.rotation * Quaternion.AngleAxis(Random.Range(-45f, 45), Vector3.up));
+            GameObject g = (GameObject)Instantiate(bloodParticle, transform.position + Vector3.up,lookRotation);
             g.transform.SetParent(transform);
         }
 
@@ -37,7 +48,25 @@ public class enemyHealth : BaseHealth {
         }
         else
         {
+            SoundEngine.instance.PlaySound("koiraHurt", transform.position, transform);
+            SoundEngine.instance.PlaySound("fleshImpact", transform.position, transform);
+
+            if (GetComponent<BaseAI>())
             GetComponent<BaseAI>().LastAggroTime = Time.time;
         }
+    }
+
+    public override void death(GameObject caller)
+    {
+
+        SoundEngine.instance.PlaySound("koiraDeath", transform.position, transform);
+        if (anim)
+        {
+           // GetComponent<BaseAI>().enabled = false;
+            GetComponent<Collider>().enabled = false;
+            anim.Play("Death");
+        }
+        else
+            Destroy(gameObject);
     }
 }
