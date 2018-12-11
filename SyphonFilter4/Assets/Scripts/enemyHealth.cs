@@ -65,6 +65,7 @@ public class enemyHealth : BaseHealth {
            // GetComponent<BaseAI>().enabled = false;
             GetComponent<Collider>().enabled = false;
             anim.Play("Death");
+            Destroy(gameObject);
         }
         else
             Destroy(gameObject);

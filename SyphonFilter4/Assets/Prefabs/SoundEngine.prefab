@@ -166,8 +166,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7bb8a622facbcd2429804859c12fdb65, type: 3}
   - {fileID: 8300000, guid: f71a905122390a54180b3d5c056d5931, type: 3}
   pistolShots:
-  - {fileID: 8300000, guid: 6c3723730ea702645a0a4983165be526, type: 3}
-  - {fileID: 8300000, guid: 46cec41a5573be344a2dcc6a2bd992f3, type: 3}
+  - {fileID: 8300000, guid: 012ae6a12b64fbd4aa939155a2cdb4f6, type: 3}
+  - {fileID: 8300000, guid: db7d179826d536e4db3d142be7d2ea7f, type: 3}
+  - {fileID: 8300000, guid: 15bcbfa9bea67e54eb78f003a04df274, type: 3}
   grenadeSounds:
   - {fileID: 8300000, guid: 820858bdda8828c4585211ae490f02c4, type: 3}
   mechaWeapons:
@@ -176,3 +177,22 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 82fa28d9ec029e64fba3005235f7aeb8, type: 3}
   mechaSteps:
   - {fileID: 8300000, guid: 43d73f3734ddd2b4582f48356c8254f6, type: 3}
+  koiraFootSteps:
+  - {fileID: 8300000, guid: 422111a3cacd7ad40b05ab88e31a471d, type: 3}
+  - {fileID: 8300000, guid: 6ac06a2d3818dc04385a16b6a0f9eecb, type: 3}
+  - {fileID: 8300000, guid: 8a6633eaa1063e44991ad2f7c34f859f, type: 3}
+  swordSounds:
+  - {fileID: 8300000, guid: 3c2cd5d27c28dd44da2b601881eec111, type: 3}
+  swordImpact:
+  - {fileID: 8300000, guid: e7e5233d51fd28c48ae80fe755edf5e3, type: 3}
+  koiraHurt:
+  - {fileID: 8300000, guid: 6c28696c3b644ed448e28e2c779c6a40, type: 3}
+  - {fileID: 8300000, guid: bec62174d062b0949aa557f1d9dbbb23, type: 3}
+  - {fileID: 8300000, guid: a7e82f956e2081341aa79631eef9e68d, type: 3}
+  koiraDeath:
+  - {fileID: 8300000, guid: f36c869e4d0ca1b48a346790bdaf8050, type: 3}
+  - {fileID: 8300000, guid: 9d6712d6b29373547bc6ff8e84ce82be, type: 3}
+  shurikenSounds:
+  - {fileID: 8300000, guid: 323285a5a2e7b0e4bb3aec14508ba483, type: 3}
+  - {fileID: 8300000, guid: 37e12d03d05798441a373d92fd02b924, type: 3}
+  fleshImpact: {fileID: 8300000, guid: e764bcb025271b44db620530c957e98b, type: 3}

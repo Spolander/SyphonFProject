@@ -15,11 +15,12 @@ public class PlayerBehaviour : StateMachineBehaviour {
 
             animator.ResetTrigger("swordHit");
         }
+        if (stateInfo.IsName("deflect") || stateInfo.IsName("deflect2"))
+        {
+            animator.GetComponent<playerSwordCombat>().ParentSwordToHand();
+        }
 
-
-        
-
-    }
+        }
 
     // OnStateUpdate is called before OnStateUpdate is called on any state inside this state machine
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

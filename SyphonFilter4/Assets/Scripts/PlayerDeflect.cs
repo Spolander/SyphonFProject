@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerDeflect : MonoBehaviour {
 
+    Animator anim;
+
     [SerializeField]
     private GameObject DeflectionEffect;
 
@@ -41,13 +43,29 @@ public class PlayerDeflect : MonoBehaviour {
 
     void Start () {
         deflectStart = -deflectTimeWindow;
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
     {
         if (Input.GetButtonDown("deflect") && deflectFail == false)
         {
-            deflectStart = Time.time; 
+            //deflect animation
+            if(GetComponent<PlayerCharacterController>().isGrounded && !GetComponent<PlayerCharacterController>().HangingFromLedge)
+            {
+                if (Random.Range(1, 3) == 1)
+                {
+                    anim.SetTrigger("deflect");
+                    Debug.Log("def1");
+                }
+                else
+                {
+                    anim.SetTrigger("deflect2");
+                    Debug.Log("def2");
+                }
+                deflectStart = Time.time;
+            }
+
         }
         if (Time.time < deflectStart + deflectTimeWindow)
         {
@@ -57,6 +75,7 @@ public class PlayerDeflect : MonoBehaviour {
             //check the array
             for (int i = 0; i < deflectable.Length; i++)
             {
+
                 //if something was added to the array, deflect is success
                 if (deflectable[i] != null)
                 {

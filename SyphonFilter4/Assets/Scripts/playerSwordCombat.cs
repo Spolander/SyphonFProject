@@ -85,8 +85,6 @@ public class playerSwordCombat : MonoBehaviour {
         health = GetComponent<PlayerHealth>();
         ammo = maxAmmo;
         ParentSwordToSpine();
-
-     
     }
 
     public void ParentSwordToHand()

@@ -3472,17 +3472,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 22
       objectReference: {fileID: 0}
-    - target: {fileID: 114387405292813654, guid: 5f4739937ad02ce4186efa49a87d4ffb,
-        type: 2}
-      propertyPath: trail
-      value: 
-      objectReference: {fileID: 1018165561}
-    - target: {fileID: 114387405292813654, guid: 5f4739937ad02ce4186efa49a87d4ffb,
-        type: 2}
-      propertyPath: shuriken
-      value: 
-      objectReference: {fileID: 1587400718339536, guid: 62c75196a2b0aa84485b3add834824e3,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f4739937ad02ce4186efa49a87d4ffb, type: 2}
   m_IsPrefabAsset: 0
@@ -9686,11 +9675,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 0, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!96 &1018165561 stripped
-TrailRenderer:
-  m_CorrespondingSourceObject: {fileID: 96155135749035684, guid: 5f4739937ad02ce4186efa49a87d4ffb,
-    type: 2}
-  m_PrefabInternal: {fileID: 323231908}
 --- !u!4 &1022728386 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4508391248682386, guid: 637f9f268ae656148bb524b2aaadf813,
@@ -12265,41 +12249,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: koiraHurt.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: koiraDeath.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: pistolShots.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: swordSounds.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: swordImpact.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: koiraFootSteps.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: shurikenSounds.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4316161352967360, guid: 6bb695f9cd8f9b542b8a5b08cff9d433, type: 2}
       propertyPath: m_LocalPosition.x
       value: -4.913191
@@ -12332,91 +12281,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 25
       objectReference: {fileID: 0}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: pistolShots.Array.data[2]
-      value: 
-      objectReference: {fileID: 8300000, guid: 15bcbfa9bea67e54eb78f003a04df274, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: pistolShots.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 012ae6a12b64fbd4aa939155a2cdb4f6, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: pistolShots.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: db7d179826d536e4db3d142be7d2ea7f, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: koiraFootSteps.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 422111a3cacd7ad40b05ab88e31a471d, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: koiraFootSteps.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 6ac06a2d3818dc04385a16b6a0f9eecb, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: koiraFootSteps.Array.data[2]
-      value: 
-      objectReference: {fileID: 8300000, guid: 8a6633eaa1063e44991ad2f7c34f859f, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: swordSounds.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 3c2cd5d27c28dd44da2b601881eec111, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: swordSounds.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 3c2cd5d27c28dd44da2b601881eec111, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: shurikenSounds.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 323285a5a2e7b0e4bb3aec14508ba483, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: shurikenSounds.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 37e12d03d05798441a373d92fd02b924, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: swordImpact.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: e7e5233d51fd28c48ae80fe755edf5e3, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: koiraHurt.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 6c28696c3b644ed448e28e2c779c6a40, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: koiraHurt.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: bec62174d062b0949aa557f1d9dbbb23, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: koiraHurt.Array.data[2]
-      value: 
-      objectReference: {fileID: 8300000, guid: a7e82f956e2081341aa79631eef9e68d, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: fleshImpact
-      value: 
-      objectReference: {fileID: 8300000, guid: e764bcb025271b44db620530c957e98b, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: koiraDeath.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: f36c869e4d0ca1b48a346790bdaf8050, type: 3}
-    - target: {fileID: 114950075567225802, guid: 6bb695f9cd8f9b542b8a5b08cff9d433,
-        type: 2}
-      propertyPath: koiraDeath.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 9d6712d6b29373547bc6ff8e84ce82be, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bb695f9cd8f9b542b8a5b08cff9d433, type: 2}
   m_IsPrefabAsset: 0

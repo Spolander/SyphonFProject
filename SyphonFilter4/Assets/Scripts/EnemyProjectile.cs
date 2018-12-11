@@ -31,14 +31,12 @@ public class EnemyProjectile : MonoBehaviour {
     //projectile lifetime in seconds
     float maxLifeTime = 3;
 
-    private void Start()
-    {
-
-    }
-
     private void Update()
     {
+        //move projectile
         transform.Translate(Vector3.forward * projectileSpeed * Time.deltaTime);
+
+        //backup timer to destroy projectile after lifetime
         if (Time.time > timeOfBirth + maxLifeTime)
         {
             Destroy(gameObject);
@@ -55,18 +53,35 @@ public class EnemyProjectile : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (GetComponent<Deflectable>().isDeflected == false)
+
+        if (GetComponent<Deflectable>().isDeflected==false)
         {
-            
-            if (collision.GetComponent<BaseHealth>())
+            //if projectile is not deflected and hits player
+            if (collision.GetComponent<PlayerCharacterController>())
             {
-                collision.GetComponent<BaseHealth>().takeDamage(damage, gameObject);
-            }  
-            else
-                Debug.Log("collideWithWALL");
+                collision.GetComponent<BaseHealth>().takeDamage(damage, gameObject);  
+            }
+            //if projectile hits something else than enemy
+            if (!collision.GetComponent<enemyHealth>())
+            {
+                //Set hit to true to exit the coroutine loop
+                hit = true;
+                Destroy(gameObject);
+            }
         }
-        Destroy(gameObject);
-        //Set hit to true to exit the coroutine loop
-        hit = true;
+        else
+        {
+            hit = true;
+            Destroy(gameObject);
+            //if projectile is deflected and hits enemy
+            //if (!collision.GetComponent<PlayerCharacterController>())
+            //{
+            //    collision.GetComponent<BaseHealth>().takeDamage(damage, gameObject);
+            //    //Set hit to true to exit the coroutine loop
+            //    hit = true;
+            //    Destroy(gameObject);
+            //}
+        }
+
     }
 }
