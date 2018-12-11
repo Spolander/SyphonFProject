@@ -71,6 +71,7 @@ public class PlayerCharacterController : MonoBehaviour
     //state of being grounded
     private bool grounded = true;
     private float lastGroundedTime;
+    public bool isGrounded { get { return grounded; } }
 
     //are we currently in dashing animation 
     private bool dashing = false;

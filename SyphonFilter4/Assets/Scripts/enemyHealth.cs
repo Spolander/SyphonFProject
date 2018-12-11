@@ -69,6 +69,7 @@ public class enemyHealth : BaseHealth {
             if (GetComponent<Rigidbody>())
                 GetComponent<Rigidbody>().isKinematic = true;
             anim.Play("Death");
+            Destroy(gameObject);
 
             if (GetComponent<DogAI>())
                 GetComponent<DogAI>().enabled = false;
